@@ -1,28 +1,7 @@
-.knob {
+.dial {
     width: 30em;
     height: 30em;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.dial {
-    position: relative;
-    width: 20em;
-    height: 20em;
-}
-
-.face {
-    position: absolute;
-    background-color: blue;
-    top: 0; bottom: 0; right: 0; left: 0;
-    border-radius: 50%;
-}
-
-.line {
-    position: absolute;
-    height: 10em;
-    width: 1px;
-    left: calc(50% - 1px);
-    background-color: black;
 }

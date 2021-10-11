@@ -6,10 +6,10 @@ export function constrain(val : number, min: number, max: number) : number {
 
 export function mapToRange(
     x: number, 
-    in_min: number, 
-    in_max: number, 
-    out_min: number, 
-    out_max: number
+    inMin: number, 
+    inMax: number, 
+    outMin: number, 
+    outMax: number
 ) : number {
-    return ((x - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
+    return ((x - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
 }

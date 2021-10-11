@@ -1,18 +1,27 @@
 import React, { useState } from 'react'
 import { Knob } from "react-rotary-knob";
-import { constrain } from '../../functions/utils';
+import { constrain, mapToRange } from '../../functions/utils';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { setDialValue, getDialValue } from './dialSlice';
 import styles from './Dial.module.css';
 
 export function Dial() {
-    const [dialPosition, setDialPosition] = useState(0)
+    const [position, setPosition] = useState(0)
+    const dispatch = useAppDispatch()
+    const value = useAppSelector(getDialValue);
 
     const handleOnChange = (val: number) : void => {
-        let angle = val > 180 ? val - 360 : val;
-        angle = constrain(angle, -140, 140);
-        setDialPosition(angle < 0 ? 360 + angle : angle)
+        const angle = constrain(
+            val > 180 ? val - 360 : val, 
+            -140, 140
+        );
+        const value = Math.round(mapToRange(angle, -140, 140, -100, 100))
+        
+        setPosition(angle < 0 ? 360 + angle : angle)
+        dispatch(setDialValue(value))
     }
     return (
-        <div className={styles.knob}>
+        <div className={styles.dial}>
             <Knob 
                 style={{
                     width: '200px',
@@ -20,10 +29,11 @@ export function Dial() {
                 }}
                 min={0}
                 max={360}
-                value={dialPosition}
+                value={position}
                 unlockDistance={10}
                 onChange={handleOnChange} 
             />
+            <p>{ value }</p>
         </div>
     );
 }   

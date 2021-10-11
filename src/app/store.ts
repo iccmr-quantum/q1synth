@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
+import dialReducer from '../features/dial/dialSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    dial: dialReducer
   },
 });
 
