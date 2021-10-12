@@ -7,7 +7,7 @@ export interface DialState {
 }
 
 const initialState: DialState = {
-    value: 50
+    value: 0
 };
 
 export const dialSlice = createSlice({
