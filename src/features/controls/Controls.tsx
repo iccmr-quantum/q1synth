@@ -10,9 +10,10 @@ export function Controls() {
     const dispatch = useAppDispatch()
     const play = useAppSelector(getButtonValue('play'));
     const start = useAppSelector(getButtonValue('start'));
-    console.log(play, start)
+
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: 'play' | 'start') {
-        dispatch(setButtonValue({button, isActive: true}))
+        // TODO: emit event for tone
+        dispatch(setButtonValue({button}))
     }
     return (
         <>

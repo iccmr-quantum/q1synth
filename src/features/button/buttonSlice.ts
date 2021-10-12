@@ -15,10 +15,13 @@ export const buttonSlice = createSlice({
     name: 'buttons',
     initialState,
     reducers: {
-        setButtonValue: (state, action: PayloadAction<{button: 'start' | 'play', isActive: boolean}>) => {
-            const { button, isActive } = action.payload
-            state.start = button === 'play' ? false : state.start
-            state[button] = isActive;
+        setButtonValue: (state, action: PayloadAction<{button: 'start' | 'play'}>) => {
+            const { button } = action.payload
+            const { play: isPlaying, start: isStarted } = state
+
+            state.start = button === 'play' && !isPlaying ? false : state.start
+            state.play = button === 'start' && !isStarted ? false : state.play
+            state[button] = !state[button];
         }
     }
 });
