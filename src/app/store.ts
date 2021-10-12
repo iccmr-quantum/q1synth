@@ -2,20 +2,22 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
 import dialReducer from '../features/dial/dialSlice';
 import slidersReducer from '../features/sliders/slidersSlice';
+import buttonsReducer from '../features/button/buttonSlice';
 
 export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-    dial: dialReducer,
-    sliders: slidersReducer,
-  },
+    reducer: {
+        counter: counterReducer,
+        dial: dialReducer,
+        sliders: slidersReducer,
+        buttons: buttonsReducer
+    },
 });
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
+    ReturnType,
+    RootState,
+    unknown,
+    Action<string>
 >;

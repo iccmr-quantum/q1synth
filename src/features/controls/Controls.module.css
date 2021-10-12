@@ -1,7 +1,12 @@
 .container {
-    width: 60%;
-    padding: 2em;
+    padding: 4em 0;
     display: flex;
+}
+
+.buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .sliders, .dial {
@@ -12,9 +17,9 @@
 }
 
 .sliders {
-    width: 25%;
+    width: 30%;
 }
 .dial {
-    width: 50%;
+    width: 40%;
     position: relative;
 }

@@ -1,5 +1,25 @@
 html {
     background-color: black;
+    color: #FFF;
+}
+
+body {
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.section1 {
+    width: 60%;
+    padding: 2em;
+    border-right: 2px solid #FFF;
+    min-height: 100vh;
+}
+.appCredits {
+    font-size: 1em;
+}
+
+.appInstructions {
+    font-size: 0.75em;
 }
 
 #knob circle {

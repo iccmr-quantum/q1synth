@@ -1,0 +1,22 @@
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.slider {
+    width: 70%;
+}
+.label {
+    width: 30%;
+    color: #FFF;
+    font-size: 0.65em;
+    position: relative;
+    right: -2em;
+}
+.labelInvert {
+    text-align: right;
+    left: -2em;
+    order: -1;
+}
