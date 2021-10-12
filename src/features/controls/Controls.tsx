@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react'
+import React, { MouseEvent } from 'react'
 import { Dial } from '../dial/Dial';
 import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
@@ -19,13 +19,13 @@ export function Controls() {
         <>
             <div className={styles.container}>
                 <section className={styles.sliders}>
-                    <Sliders side="left"/>
+                    <Sliders group="left"/>
                 </section>
                 <section className={styles.dial}>
                     <Dial />
                 </section>
                 <section className={styles.sliders}>
-                    <Sliders side="right" invert={true}/>
+                    <Sliders group="right" invert={true}/>
                 </section>
             </div>
             <div className={styles.buttons}>

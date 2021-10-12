@@ -1,5 +1,6 @@
 import React from 'react';
 import { Controls } from './features/controls/Controls';
+import { Sliders } from './features/sliders/Sliders';
 import './App.css';
 
 function App() {
@@ -10,6 +11,9 @@ function App() {
                 <h2 className="appCredits">Credits</h2>
                 <p className="appInstructions">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
                 <Controls />
+            </div>
+            <div className="section2">
+                <Sliders group="env" />
             </div>
         </div>
     );

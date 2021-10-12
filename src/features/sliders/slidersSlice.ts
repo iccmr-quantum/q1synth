@@ -21,6 +21,18 @@ const initialState: SlidersState = {
         {value: 0, label: 'partials'},
         {value: 0, label: 'mod index'},
         {value: 0, label: 'harmonicity'},
+    ],
+    env: [
+        {value: 0, label: 'a'},
+        {value: 0, label: 'd'},
+        {value: 0, label: 's'},
+        {value: 0, label: 'r'},
+    ],
+    modEnv: [
+        {value: 0, label: 'a'},
+        {value: 0, label: 'd'},
+        {value: 0, label: 's'},
+        {value: 0, label: 'r'}
     ]
 };
 
@@ -28,15 +40,15 @@ export const slidersSlice = createSlice({
     name: 'sliders',
     initialState,
     reducers: {
-        setSliderValue: (state, action: PayloadAction<{side: string, index: number, value: number}>) => {
-            const { side, index, value } = action.payload
-            state[side][index].value = value;
+        setSliderValue: (state, action: PayloadAction<{group: string, index: number, value: number}>) => {
+            const { group, index, value } = action.payload
+            state[group][index].value = value;
         }
     }
 });
 
 export const { setSliderValue } = slidersSlice.actions;
 
-export const getSlidersValue = (side: string) => (state: RootState) => state.sliders[side];
+export const getSlidersValue = (group: string) => (state: RootState) => state.sliders[group];
 
 export default slidersSlice.reducer;

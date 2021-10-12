@@ -6,16 +6,16 @@ import 'rc-slider/assets/index.css';
 import styles from './Sliders.module.css';
 
 interface sliderProps {
-    side: string,
+    group: string,
     invert?: boolean | undefined
 }
 
-export function Sliders({side, invert} : sliderProps) {
+export function Sliders({group, invert} : sliderProps) {
     const dispatch = useAppDispatch()
-    const sliders = useAppSelector(getSlidersValue(side));
+    const sliders = useAppSelector(getSlidersValue(group));
 
     function handleOnChange(value: number, index: number) {
-        dispatch(setSliderValue({side, index, value}))
+        dispatch(setSliderValue({group, index, value}))
     }
 
     return (
