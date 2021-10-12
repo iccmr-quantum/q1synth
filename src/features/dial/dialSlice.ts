@@ -7,17 +7,17 @@ export interface DialState {
 }
 
 const initialState: DialState = {
-  value: 0
+    value: 0
 };
 
 export const dialSlice = createSlice({
-  name: 'dial',
-  initialState,
-  reducers: {
-    setDialValue: (state, action: PayloadAction<number>) => {
-        state.value = action.payload;
+    name: 'dial',
+    initialState,
+    reducers: {
+        setDialValue: (state, action: PayloadAction<number>) => {
+            state.value = action.payload;
+        }
     }
-  }
 });
 
 export const { setDialValue } = dialSlice.actions;

@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
 import dialReducer from '../features/dial/dialSlice';
+import slidersReducer from '../features/sliders/slidersSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
-    dial: dialReducer
+    dial: dialReducer,
+    sliders: slidersReducer,
   },
 });
 
