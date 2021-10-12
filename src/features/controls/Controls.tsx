@@ -11,7 +11,7 @@ export function Controls() {
     const play = useAppSelector(getButtonValue('play'));
     const start = useAppSelector(getButtonValue('start'));
 
-    function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: 'play' | 'start') {
+    function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: 'play' | 'start' | 'download') {
         // TODO: emit event for tone
         dispatch(setButtonValue({button}))
     }

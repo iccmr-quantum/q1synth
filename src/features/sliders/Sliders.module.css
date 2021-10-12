@@ -1,3 +1,8 @@
+.sliders {
+    width: 100%;
+    margin-bottom: 0.75em;
+}
+
 .container {
     width: 100%;
     display: flex;
@@ -19,4 +24,7 @@
     text-align: right;
     left: -2em;
     order: -1;
+}
+.textRight {
+    text-align: right;
 }

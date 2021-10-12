@@ -1,6 +1,7 @@
 import React from 'react';
 import { Controls } from './features/controls/Controls';
 import { Sliders } from './features/sliders/Sliders';
+import { Button } from './features/buttons/Button';
 import './App.css';
 
 function App() {
@@ -13,7 +14,11 @@ function App() {
                 <Controls />
             </div>
             <div className="section2">
-                <Sliders group="env" />
+                <Sliders group="env" title="Envelope"/>
+                <Sliders group="modEnv" title="Mod Envelope" invert={true}/>
+                <div className="download">
+                    <Button name="download" isActive={false} onClick={(...args) => console.log(args)} />
+                </div>
             </div>
         </div>
     );

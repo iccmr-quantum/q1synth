@@ -11,28 +11,28 @@ const initialState: SlidersState = {
     left: [
         {value: 0, label: 'freq'},
         {value: 0, label: 'amp'},
-        {value: 0, label: 'partials'},
+        {value: 0, label: 'reverb'},
         {value: 0, label: 'mod index'},
         {value: 0, label: 'harmonicity'},
     ],
     right: [
         {value: 0, label: 'freq'},
         {value: 0, label: 'amp'},
-        {value: 0, label: 'partials'},
+        {value: 0, label: 'reverb'},
         {value: 0, label: 'mod index'},
         {value: 0, label: 'harmonicity'},
     ],
     env: [
-        {value: 0, label: 'a'},
-        {value: 0, label: 'd'},
-        {value: 0, label: 's'},
-        {value: 0, label: 'r'},
+        {value: 0, label: 'attack'},
+        {value: 0, label: 'decay'},
+        {value: 0, label: 'sustain'},
+        {value: 0, label: 'release'}
     ],
     modEnv: [
-        {value: 0, label: 'a'},
-        {value: 0, label: 'd'},
-        {value: 0, label: 's'},
-        {value: 0, label: 'r'}
+        {value: 0, label: 'attack'},
+        {value: 0, label: 'decay'},
+        {value: 0, label: 'sustain'},
+        {value: 0, label: 'release'}
     ]
 };
 

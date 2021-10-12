@@ -4,18 +4,19 @@ import { Dictionary } from '../../types';
 
 export interface ButtonsState extends Dictionary {
     start: boolean,
-    play: boolean
+    play: boolean,
+    download: boolean
 }
 
 const initialState: ButtonsState = {
-    start: false, play: false
+    start: false, play: false, download: false
 };
 
 export const buttonsSlice = createSlice({
     name: 'buttons',
     initialState,
     reducers: {
-        setButtonValue: (state, action: PayloadAction<{button: 'start' | 'play'}>) => {
+        setButtonValue: (state, action: PayloadAction<{button: 'start' | 'play' | 'download'}>) => {
             const { button } = action.payload
             const { play: isPlaying, start: isStarted } = state
 

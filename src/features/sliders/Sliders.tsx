@@ -7,10 +7,11 @@ import styles from './Sliders.module.css';
 
 interface sliderProps {
     group: string,
+    title?: string,
     invert?: boolean | undefined
 }
 
-export function Sliders({group, invert} : sliderProps) {
+export function Sliders({group, title, invert} : sliderProps) {
     const dispatch = useAppDispatch()
     const sliders = useAppSelector(getSlidersValue(group));
 
@@ -19,7 +20,8 @@ export function Sliders({group, invert} : sliderProps) {
     }
 
     return (
-        <>
+        <div className={styles.sliders}>
+            { title && <h2 className={invert ? styles.textRight : ''}>{ title }</h2> }
             {sliders.map((
                 {value, label} : {value: number, label: string}, // TODO: how to import this type?
                 i: number
@@ -40,6 +42,6 @@ export function Sliders({group, invert} : sliderProps) {
                     `}>{ label }</p>
                 </div>
             ))}
-        </> 
+        </div> 
     );
 }   
