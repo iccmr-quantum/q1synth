@@ -1,23 +1,43 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Knob } from "react-rotary-knob";
 import { constrain, mapToRange } from '../../functions/utils';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setDialValue, getDialValue } from './dialSlice';
-import styles from './Dial.module.css';
+// import styles from './Dial.module.css';
 
 export function Dial() {
     const [position, setPosition] = useState(0)
     const dispatch = useAppDispatch()
     const value = useAppSelector(getDialValue);
+    const minAngle = -140
+    const maxAngle = 140
+
+    useEffect(() => {
+        const scaled = value > 100 ? 100 
+            : value < -100 ? -100 
+            : value
+        handleSetPosition(mapToRange(scaled, -100, 100, minAngle, maxAngle))
+    }, [minAngle, maxAngle, value])
+    
+
+    const handleSetPosition = (angle: number) => {
+        const value = angle < 0 ? 360 + angle : angle
+        setPosition(value)
+    }
+
+    const constrainAngle = (val: number) : number => {
+        return constrain(
+            val > 180 ? val - 360 : val, 
+            minAngle, 
+            maxAngle
+        );
+    }
 
     const handleOnChange = (val: number) : void => {
-        const angle = constrain(
-            val > 180 ? val - 360 : val, 
-            -140, 140
-        );
-        const value = Math.round(mapToRange(angle, -140, 140, -100, 100))
+        const angle = constrainAngle(val)
+        const value = Math.round(mapToRange(angle, minAngle, maxAngle, -100, 100))
         
-        setPosition(angle < 0 ? 360 + angle : angle)
+        handleSetPosition(angle)
         dispatch(setDialValue(value))
     }
     return (

@@ -1,0 +1,23 @@
+html {
+    background-color: black;
+}
+
+#knob circle {
+    fill: black;
+}
+
+#knob path {
+    fill: #FFF;
+}
+
+.rc-slider {
+    padding: 1em 0;
+}
+.rc-slider-rail {
+    background-color: #FFF;
+}
+
+.rc-slider-handle {
+    border-color: #FFF;
+    background-color: black;
+}
