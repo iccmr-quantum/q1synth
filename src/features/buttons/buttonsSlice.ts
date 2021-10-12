@@ -11,7 +11,7 @@ const initialState: ButtonsState = {
     start: false, play: false
 };
 
-export const buttonSlice = createSlice({
+export const buttonsSlice = createSlice({
     name: 'buttons',
     initialState,
     reducers: {
@@ -26,8 +26,8 @@ export const buttonSlice = createSlice({
     }
 });
 
-export const { setButtonValue } = buttonSlice.actions;
+export const { setButtonValue } = buttonsSlice.actions;
 
 export const getButtonValue = (button: 'start' | 'play') => (state: RootState) => state.buttons[button];
 
-export default buttonSlice.reducer;
+export default buttonsSlice.reducer;

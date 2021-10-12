@@ -1,9 +1,9 @@
 import React, { useState, MouseEvent } from 'react'
 import { Dial } from '../dial/Dial';
 import { Sliders } from '../sliders/Sliders';
-import { Button } from '../button/Button';
+import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { setButtonValue, getButtonValue } from '../button/buttonSlice';
+import { setButtonValue, getButtonValue } from '../buttons/buttonsSlice';
 import styles from './Controls.module.css';
 
 export function Controls() {
