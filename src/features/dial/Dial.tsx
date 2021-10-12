@@ -21,19 +21,16 @@ export function Dial() {
         dispatch(setDialValue(value))
     }
     return (
-        <div className={styles.dial}>
-            <Knob 
-                style={{
-                    width: '200px',
-                    height: '200px',
-                }}
-                min={0}
-                max={360}
-                value={position}
-                unlockDistance={10}
-                onChange={handleOnChange} 
-            />
-            <p>{ value }</p>
-        </div>
+        <Knob 
+            style={{
+                width: '200px',
+                height: '200px',
+            }}
+            min={0}
+            max={360}
+            value={position}
+            unlockDistance={10}
+            onChange={handleOnChange} 
+        />
     );
 }   

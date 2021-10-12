@@ -1,0 +1,20 @@
+.container {
+    width: 60%;
+    padding: 2em;
+    display: flex;
+}
+
+.sliders, .dial {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sliders {
+    width: 25%;
+}
+.dial {
+    width: 50%;
+    position: relative;
+}
