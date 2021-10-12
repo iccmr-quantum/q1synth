@@ -16,6 +16,7 @@ function App() {
             <div className="section2">
                 <Sliders group="env" title="Envelope"/>
                 <Sliders group="modEnv" title="Mod Envelope" invert={true}/>
+                <Sliders group="path" title="Start / End"/>
                 <div className="download">
                     <Button name="download" isActive={false} onClick={(...args) => console.log(args)} />
                 </div>

@@ -33,6 +33,10 @@ const initialState: SlidersState = {
         {value: 0, label: 'decay'},
         {value: 0, label: 'sustain'},
         {value: 0, label: 'release'}
+    ],
+    path: [
+        {value: 0, label: 'start'},
+        {value: 1, label: 'end'},
     ]
 };
 
