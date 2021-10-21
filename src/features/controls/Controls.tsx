@@ -5,6 +5,7 @@ import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setButtonValue, getButtonValue } from '../buttons/buttonsSlice';
 import styles from './Controls.module.css';
+import * as Tone from 'tone'
 
 export function Controls() {
     const dispatch = useAppDispatch()
