@@ -42,15 +42,16 @@ export const slidersSlice = createSlice({
     name: 'sliders',
     initialState,
     reducers: {
-        setSliderValue: (state, action: PayloadAction<{group: string, index: number, value: number}>) => {
-            const { group, index, value } = action.payload
+        setSliderAndSynthValues: (state, action: PayloadAction<{group: string, index: number, value: number, dial: number}>) => {
+            const { group, index, value, dial } = action.payload
             state[group][index].value = value;
             synth.set(calculateParams(state))
+            console.log(dial)
         }
     }
 });
 
-export const { setSliderValue } = slidersSlice.actions;
+export const { setSliderAndSynthValues } = slidersSlice.actions;
 
 export const getSlidersValue = (group: string) => (state: RootState) => state.sliders[group];
 
@@ -58,6 +59,7 @@ export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(
 
 const calculateParams = (sliders: SlidersState) => {
     const { left, right } = sliders
+    // How can you get the dial state
     const freq = mapToRange(average(left[0].value, right[0].value), 0, 1, 50, 1000)
     const volume = mapToRange(average(left[1].value, right[1].value), 0, 1, -50, -3)
     const reverb = mapToRange(average(left[2].value, right[2].value), 0, 1, 0, 0.8)

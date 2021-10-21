@@ -1,7 +1,8 @@
 import React, {  } from 'react'
 import Slider from 'rc-slider';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { setSliderValue, getSlidersValue } from './slidersSlice';
+import { setSliderAndSynthValues, getSlidersValue } from './slidersSlice';
+import { getDialValue } from '../dial/dialSlice'
 import 'rc-slider/assets/index.css';
 import styles from './Sliders.module.css';
 
@@ -14,9 +15,10 @@ interface sliderProps {
 export function Sliders({group, title, invert} : sliderProps) {
     const dispatch = useAppDispatch()
     const sliders = useAppSelector(getSlidersValue(group));
+    const dial = useAppSelector(getDialValue);
 
     function handleOnChange(value: number, index: number) {
-        dispatch(setSliderValue({group, index, value}))
+        dispatch(setSliderAndSynthValues({group, index, value, dial}))
     }
 
     return (

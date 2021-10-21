@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-// import { fetchCount } from './counterAPI';
 
 export interface DialState {
     value: number;

@@ -9,14 +9,14 @@ export function Dial() {
     const [position, setPosition] = useState(0)
     const dispatch = useAppDispatch()
     const value = useAppSelector(getDialValue);
-    const minAngle = -140
-    const maxAngle = 140
+    const minAngle = -180
+    const maxAngle = 180
 
     useEffect(() => {
-        const scaled = value > 100 ? 100 
-            : value < -100 ? -100 
+        const scaled = value > 1 ? 1 
+            : value < -1 ? -1 
             : value
-        handleSetPosition(mapToRange(scaled, -100, 100, minAngle, maxAngle))
+        handleSetPosition(mapToRange(scaled, -1, 1, minAngle, maxAngle))
     }, [minAngle, maxAngle, value])
     
 
@@ -35,7 +35,7 @@ export function Dial() {
 
     const handleOnChange = (val: number) : void => {
         const angle = constrainAngle(val)
-        const value = Math.round(mapToRange(angle, minAngle, maxAngle, -100, 100))
+        const value = mapToRange(angle, minAngle, maxAngle, -1, 1)
         
         handleSetPosition(angle)
         dispatch(setDialValue(value))
