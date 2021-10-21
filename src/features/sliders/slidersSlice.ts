@@ -57,7 +57,7 @@ export const getSlidersValue = (group: string) => (state: RootState) => state.sl
 export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.sliders)
 
 const calculateParams = (sliders: SlidersState) => {
-    const { left, right, env, modEnv } = sliders
+    const { left, right } = sliders
     const freq = mapToRange(average(left[0].value, right[0].value), 0, 1, 50, 1000)
     const volume = mapToRange(average(left[1].value, right[1].value), 0, 1, -50, -3)
     const reverb = mapToRange(average(left[2].value, right[2].value), 0, 1, 0, 0.8)
