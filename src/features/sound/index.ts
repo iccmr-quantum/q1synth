@@ -1,5 +1,13 @@
 import * as Tone from 'tone'
 
+export interface SynthArgs {
+    freq: number
+    amp: number
+    reverb: number
+    modIndex: number
+    harmonicity: number
+}
+
 async function startAudio() : Promise<void> {
     console.log('starting audio')
     await Tone.start()

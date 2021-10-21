@@ -1,19 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { SynthArgs } from '.';
 import { makeSynth } from './synths';
 
 const initialState: any = {
-    synth: makeSynth({freq: 100, amp: 0.5})
+    synth: makeSynth()
 };
 
 export const soundSlice = createSlice({
     name: 'sound',
     initialState,
     reducers: {
-        startSynth: (state) => {
-            state.synth = state.synth.on()
+        startSynth: (state, action: PayloadAction<SynthArgs>) => {
+            state.synth = state.synth.on(action.payload)
         },
-        stopSynth: (state) => {
-            state.synth = state.synth.off()
+        stopSynth: (state, action: PayloadAction<SynthArgs>) => {
+            state.synth = state.synth.off(action.payload)
         }
     }
 });

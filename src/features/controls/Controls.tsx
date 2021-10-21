@@ -4,6 +4,7 @@ import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setButtonValue, getButtonValue } from '../buttons/buttonsSlice';
+import { getSynthParams } from '../sliders/slidersSlice';
 import { startSynth, stopSynth } from '../sound/soundSlice';
 import styles from './Controls.module.css';
 
@@ -11,11 +12,12 @@ export function Controls() {
     const dispatch = useAppDispatch()
     const play = useAppSelector(getButtonValue('play'));
     const start = useAppSelector(getButtonValue('start'));
+    const synthParams = useAppSelector(getSynthParams)
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: 'play' | 'start' | 'download') {
         dispatch(setButtonValue({button}))
-        button === 'start' && !start && dispatch(startSynth());
-        button === 'start' && start && dispatch(stopSynth());
+        button === 'start' && !start && dispatch(startSynth(synthParams));
+        button === 'start' && start && dispatch(stopSynth(synthParams));
     }
 
     return (
