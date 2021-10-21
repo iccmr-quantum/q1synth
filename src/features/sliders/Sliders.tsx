@@ -5,7 +5,6 @@ import { setSliderValue, getSlidersValue, getSynthParams } from './slidersSlice'
 import { setSynth } from '../sound/soundSlice';
 import 'rc-slider/assets/index.css';
 import styles from './Sliders.module.css';
-import _, { debounce } from 'underscore';
 
 interface sliderProps {
     group: string,
