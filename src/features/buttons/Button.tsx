@@ -3,11 +3,12 @@ import styles from './Button.module.css';
 
 interface ButtonProps {
     name: 'play' | 'start' | 'download',
+    activeName?: string,
     isActive: boolean,
     onClick: (e: MouseEvent<HTMLButtonElement>, name: 'play' | 'start' | 'download') => void
 }
 
-export function Button({name, isActive, onClick} : ButtonProps) {
+export function Button({name, activeName, isActive, onClick} : ButtonProps) {
     return (
         <button 
             className={`
@@ -16,7 +17,7 @@ export function Button({name, isActive, onClick} : ButtonProps) {
             `}
             onClick={(e) => onClick(e, name)}
         >
-            { name }
+            { isActive && activeName ? activeName : name }
         </button>
     )
 }

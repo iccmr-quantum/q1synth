@@ -5,7 +5,8 @@ async function startAudio() : Promise<void> {
     await Tone.start()
     console.log('audio is running')
     Tone.setContext(new Tone.Context({ latencyHint: 'playback' }))
-    window.removeEventListener('keydown', startAudio)
+    window.removeEventListener('click', startAudio)
 }
 
 window.addEventListener('click', startAudio)
+

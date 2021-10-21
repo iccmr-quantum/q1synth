@@ -4,8 +4,8 @@ import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setButtonValue, getButtonValue } from '../buttons/buttonsSlice';
+import { startSynth, stopSynth } from '../sound/soundSlice';
 import styles from './Controls.module.css';
-import * as Tone from 'tone'
 
 export function Controls() {
     const dispatch = useAppDispatch()
@@ -13,9 +13,11 @@ export function Controls() {
     const start = useAppSelector(getButtonValue('start'));
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: 'play' | 'start' | 'download') {
-        // TODO: emit event for tone
         dispatch(setButtonValue({button}))
+        button === 'start' && !start && dispatch(startSynth());
+        button === 'start' && start && dispatch(stopSynth());
     }
+
     return (
         <>
             <div className={styles.container}>
@@ -32,6 +34,7 @@ export function Controls() {
             <div className={styles.buttons}>
                 <Button 
                     name="start" 
+                    activeName="stop"
                     onClick={handleButtonOnClick}
                     isActive={start}
                 />

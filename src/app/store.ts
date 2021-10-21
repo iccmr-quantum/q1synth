@@ -2,12 +2,14 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import dialReducer from '../features/dial/dialSlice';
 import slidersReducer from '../features/sliders/slidersSlice';
 import buttonsReducer from '../features/buttons/buttonsSlice';
+import soundReducer from '../features/sound/soundSlice';
 
 export const store = configureStore({
     reducer: {
         dial: dialReducer,
         sliders: slidersReducer,
-        buttons: buttonsReducer
+        buttons: buttonsReducer,
+        sound: soundReducer
     },
 });
 
