@@ -56,11 +56,12 @@ export const getSlidersValue = (group: string) => (state: RootState) => state.sl
 export const getSynthParams = (state: RootState) : SynthArgs => {
     const { left, right, env, modEnv } = state.sliders
     const freq = mapToRange(average(left[0].value, right[0].value), 0, 1, 50, 1000)
-    const amp = mapToRange(average(left[1].value, right[1].value), 0, 1, 0, 0.5)
+    const volume = mapToRange(average(left[1].value, right[1].value), 0, 1, -50, -3)
     const reverb = mapToRange(average(left[2].value, right[2].value), 0, 1, 0, 0.8)
-    const modIndex = mapToRange(average(left[3].value, right[3].value), 0, 1, 0, 20)
+    const modulationIndex = mapToRange(average(left[3].value, right[3].value), 0, 1, 0, 20)
     const harmonicity = Math.round(mapToRange(average(left[4].value, right[4].value), 0, 1, 1, 20))
-    return { freq, amp, reverb, modIndex, harmonicity }
+    
+    return { freq, volume, reverb, modulationIndex, harmonicity }
 }
 
 export default slidersSlice.reducer;

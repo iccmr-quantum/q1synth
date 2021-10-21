@@ -15,10 +15,13 @@ export const soundSlice = createSlice({
         },
         stopSynth: (state, action: PayloadAction<SynthArgs>) => {
             state.synth = state.synth.off(action.payload)
-        }
+        },
+        setSynth: (state, action: PayloadAction<SynthArgs>) => {
+            state.synth = state.synth.set(action.payload)
+        },
     }
 });
 
-export const { startSynth, stopSynth } = soundSlice.actions;
+export const { startSynth, stopSynth, setSynth } = soundSlice.actions;
 
 export default soundSlice.reducer;

@@ -16,6 +16,7 @@ export function Controls() {
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: 'play' | 'start' | 'download') {
         dispatch(setButtonValue({button}))
+        
         button === 'start' && !start && dispatch(startSynth(synthParams));
         button === 'start' && start && dispatch(stopSynth(synthParams));
     }

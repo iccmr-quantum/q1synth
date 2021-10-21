@@ -1,9 +1,11 @@
 import React, {  } from 'react'
 import Slider from 'rc-slider';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { setSliderValue, getSlidersValue } from './slidersSlice';
+import { setSliderValue, getSlidersValue, getSynthParams } from './slidersSlice';
+import { setSynth } from '../sound/soundSlice';
 import 'rc-slider/assets/index.css';
 import styles from './Sliders.module.css';
+import _, { debounce } from 'underscore';
 
 interface sliderProps {
     group: string,
@@ -14,9 +16,11 @@ interface sliderProps {
 export function Sliders({group, title, invert} : sliderProps) {
     const dispatch = useAppDispatch()
     const sliders = useAppSelector(getSlidersValue(group));
+    const synthParams = useAppSelector(getSynthParams)
 
     function handleOnChange(value: number, index: number) {
         dispatch(setSliderValue({group, index, value}))
+        dispatch(setSynth(synthParams))
     }
 
     return (

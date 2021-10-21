@@ -1,10 +1,11 @@
 import * as Tone from 'tone'
+import { Dictionary } from '../../types'
 
-export interface SynthArgs {
+export interface SynthArgs extends Dictionary {
     freq: number
-    amp: number
+    volume: number
     reverb: number
-    modIndex: number
+    modulationIndex: number
     harmonicity: number
 }
 
