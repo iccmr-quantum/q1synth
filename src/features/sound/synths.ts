@@ -11,7 +11,8 @@ export const makeSynth = () => {
     const setParams = (args: SynthArgs) => {
         const { freq, volume, modulationIndex, harmonicity, reverb: wet } = args
         synth.setNote(freq)
-        synth.set({ harmonicity, modulationIndex, volume })
+        synth.volume.rampTo(volume, 0.25)
+        synth.set({ harmonicity, modulationIndex })
         reverb.set({ wet });
     }
 
