@@ -1,5 +1,6 @@
 import * as Tone from 'tone'
 import { Dictionary } from '../../types'
+import { makeSynth } from './synths'
 
 export interface SynthArgs extends Dictionary {
     freq: number
@@ -16,6 +17,8 @@ async function startAudio() : Promise<void> {
     Tone.setContext(new Tone.Context({ latencyHint: 'playback' }))
     window.removeEventListener('click', startAudio)
 }
+
+export const synth = makeSynth()
 
 window.addEventListener('click', startAudio)
 

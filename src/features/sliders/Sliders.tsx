@@ -2,9 +2,9 @@ import React, {  } from 'react'
 import Slider from 'rc-slider';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setSliderValue, getSlidersValue, getSynthParams } from './slidersSlice';
-import { setSynth } from '../sound/soundSlice';
 import 'rc-slider/assets/index.css';
 import styles from './Sliders.module.css';
+import { synth } from '../sound';
 
 interface sliderProps {
     group: string,
@@ -19,14 +19,14 @@ export function Sliders({group, title, invert} : sliderProps) {
 
     function handleOnChange(value: number, index: number) {
         dispatch(setSliderValue({group, index, value}))
-        dispatch(setSynth(synthParams))
+        // synth.set(synthParams)
     }
 
     return (
         <div className={styles.sliders}>
             { title && <h2 className={invert ? styles.textRight : ''}>{ title }</h2> }
             {sliders.map((
-                {value, label} : {value: number, label: string}, // TODO: how to import this type?
+                {value, label} : {value: number, label: string},
                 i: number
             ) => (
                 <div className={styles.container} key={i}>

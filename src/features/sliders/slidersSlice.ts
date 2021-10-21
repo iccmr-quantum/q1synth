@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { Slider, Dictionary } from '../../types';
 import { mapToRange, average } from '../../functions/utils';
-import { SynthArgs } from '../sound';
+import { synth, SynthArgs } from '../sound';
 
 export interface SlidersState extends Dictionary {
     left: Slider[];
@@ -45,6 +45,7 @@ export const slidersSlice = createSlice({
         setSliderValue: (state, action: PayloadAction<{group: string, index: number, value: number}>) => {
             const { group, index, value } = action.payload
             state[group][index].value = value;
+            synth.set(calculateParams(state))
         }
     }
 });
@@ -53,8 +54,10 @@ export const { setSliderValue } = slidersSlice.actions;
 
 export const getSlidersValue = (group: string) => (state: RootState) => state.sliders[group];
 
-export const getSynthParams = (state: RootState) : SynthArgs => {
-    const { left, right, env, modEnv } = state.sliders
+export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.sliders)
+
+const calculateParams = (sliders: SlidersState) => {
+    const { left, right, env, modEnv } = sliders
     const freq = mapToRange(average(left[0].value, right[0].value), 0, 1, 50, 1000)
     const volume = mapToRange(average(left[1].value, right[1].value), 0, 1, -50, -3)
     const reverb = mapToRange(average(left[2].value, right[2].value), 0, 1, 0, 0.8)

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { Dictionary } from '../../types';
+import { synth } from '../sound';
 
 export interface ButtonsState extends Dictionary {
     start: boolean,
@@ -23,6 +24,7 @@ export const buttonsSlice = createSlice({
             state.start = button === 'play' && !isPlaying ? false : state.start
             state.play = button === 'start' && !isStarted ? false : state.play
             state[button] = !state[button];
+
         }
     }
 });
