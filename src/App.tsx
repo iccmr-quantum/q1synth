@@ -1,7 +1,6 @@
 import React from 'react';
 import { Controls } from './features/controls/Controls';
 import { Sliders } from './features/sliders/Sliders';
-import { Button } from './features/buttons/Button';
 import './App.css';
 
 function App() {
