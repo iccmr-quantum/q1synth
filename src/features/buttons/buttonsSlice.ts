@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { Dictionary } from '../../types';
-import { synth } from '../sound';
 
 export interface ButtonsState extends Dictionary {
     start: boolean,

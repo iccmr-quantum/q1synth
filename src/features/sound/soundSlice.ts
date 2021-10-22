@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Slider, Dictionary } from '../../types';
 import { RootState } from '../../app/store';
-import { mapToRange, average, shortestAngle, blendBetweenValues } from '../../functions/utils';
+import { mapToRange, blendBetweenValues } from '../../functions/utils';
 import { synth, SynthArgs } from '.';
 
 interface SynthSliders {

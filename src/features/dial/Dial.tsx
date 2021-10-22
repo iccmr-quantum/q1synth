@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Knob } from "react-rotary-knob";
-import { constrain, mapToRange } from '../../functions/utils';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setDialValue, getDialValue } from '../sound/soundSlice';
-// import styles from './Dial.module.css';
 
 export function Dial() {
     const dispatch = useAppDispatch()
