@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Slider, Dictionary } from '../../types';
 import { RootState } from '../../app/store';
-import { mapToRange, average } from '../../functions/utils';
+import { mapToRange, average, shortestAngle, blendBetweenValues } from '../../functions/utils';
 import { synth, SynthArgs } from '.';
 
 interface SynthSliders {
@@ -23,17 +23,17 @@ export interface SoundState extends Dictionary {
 const initialState: SoundState = {
     dial: 0,
     left: {
-        freq: {value: 0.05, label: 'freq'},
+        freq: {value: 0, label: 'freq'},
         amp: {value: 1, label: 'amp'},
         reverb: {value: 0, label: 'reverb'},
-        modIndex: {value: 0.5, label: 'mod index'},
-        harmonicity: {value: 1, label: 'harmonicity'},
+        modIndex: {value: 0, label: 'mod index'},
+        harmonicity: {value: 0, label: 'harmonicity'},
     },
     right: {
-        freq: {value: 0.05, label: 'freq'},
-        amp: {value: 1, label: 'amp'},
-        reverb: {value: 0, label: 'reverb'},
-        modIndex: {value: 0.5, label: 'mod index'},
+        freq: {value: 0.5, label: 'freq'},
+        amp: {value: 0.5, label: 'amp'},
+        reverb: {value: 1, label: 'reverb'},
+        modIndex: {value: 1, label: 'mod index'},
         harmonicity: {value: 1, label: 'harmonicity'},
     },
     env: [
@@ -56,7 +56,7 @@ export const soundSlice = createSlice({
     reducers: {
         setDialValue: (state, action: PayloadAction<number>) => {
             state.dial = action.payload;
-            console.log(action.payload)
+            synth.set(calculateParams(state))
         },
         setSliderAndSynthValues: (state, action: PayloadAction<{group: string, key: string, value: number, dial: number}>) => {
             const { group, key, value } = action.payload
@@ -74,13 +74,27 @@ export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(
 
 const calculateParams = (state: SoundState) => {
     const { dial, left, right } = state
-    // How can you get the dial state
-    // const freq = left.freq.value - ((left.freq.value - right.freq.value) * dial)
-    const freq = mapToRange(average(left.freq.value, right.freq.value), 0, 1, 50, 1000)
-    const volume = mapToRange(average(left.amp.value, right.amp.value), 0, 1, -50, -3)
-    const reverb = mapToRange(average(left.reverb.value, right.reverb.value), 0, 1, 0, 0.8)
-    const modulationIndex = mapToRange(average(left.modIndex.value, right.modIndex.value), 0, 1, 0, 20)
-    const harmonicity = Math.round(mapToRange(average(left.harmonicity.value, right.harmonicity.value), 0, 1, 1, 20))
+    const freq = mapToRange(
+        blendBetweenValues(dial, [left.freq.value, right.freq.value], [90, 270]), 
+        0, 1, 70, 1000
+    )
+    const volume = mapToRange(
+        blendBetweenValues(dial, [left.amp.value, right.amp.value], [90, 270]), 
+        0, 1, -50, -3
+    )
+    const reverb = mapToRange(
+        blendBetweenValues(dial, [left.reverb.value, right.reverb.value], [90, 270]), 
+        0, 1, 0, 0.8
+    )
+    const modulationIndex = mapToRange(
+        blendBetweenValues(dial, [left.modIndex.value, right.modIndex.value], [90, 270]), 
+        0, 1, 0, 20
+    )
+    const harmonicity = 
+    mapToRange(
+        blendBetweenValues(dial, [left.harmonicity.value, right.harmonicity.value], [90, 270]), 
+        0, 1, 1, 20
+    )
     
     return { freq, volume, reverb, modulationIndex, harmonicity }
 }

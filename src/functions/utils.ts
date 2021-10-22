@@ -19,3 +19,22 @@ export function mapToRange(
 export function average(...args: number[]) {
     return args.reduce(sum, 0) / args.length
 }
+
+export function shortestAngle(a: number, b: number) {
+    const diff = a > b 
+        ? a - b
+        : b - a
+    return Math.abs((diff + 180) % 360 - 180)
+} 
+
+export function blendBetweenValues(
+    dial: number,
+    values: number[],
+    angles: number[]
+) {
+    return values.reduce((total, val, i) => {
+        const angle = shortestAngle(dial, angles[i])
+        const multiplier = mapToRange(angle, 0, 180, 0, 1)
+        return total + (val * multiplier)
+    }, 0)
+}
