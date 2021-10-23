@@ -58,7 +58,7 @@ const initialState: SoundState = {
 };
 
 export const synthSlice = createSlice({
-    name: 'sound',
+    name: 'synth',
     initialState,
     reducers: {
         setDialValue: (state, action: PayloadAction<number>) => {
@@ -75,9 +75,9 @@ export const synthSlice = createSlice({
 
 export const { setDialValue, setSliderAndSynthValues } = synthSlice.actions;
 
-export const getDialValue = (state: RootState) => state.sound.dial;
-export const getSlidersValue = (group: string) => (state: RootState) => state.sound[group];
-export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.sound)
+export const getDialValue = (state: RootState) => state.synth.dial;
+export const getSlidersValue = (group: string) => (state: RootState) => state.synth[group];
+export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.synth)
 
 const calculateParams = (state: SoundState) => {
     const { dial, left, right, env, modEnv } = state
