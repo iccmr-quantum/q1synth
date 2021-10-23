@@ -4,7 +4,7 @@ import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setButtonValue, getButtonValue } from '../buttons/buttonsSlice';
-import { getSynthParams } from '../sound/soundSlice';
+import { getSynthParams } from '../sound/synthSlice';
 import styles from './Controls.module.css';
 import { synth } from '../sound';
 

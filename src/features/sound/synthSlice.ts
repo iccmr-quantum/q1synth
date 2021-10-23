@@ -57,7 +57,7 @@ const initialState: SoundState = {
     }
 };
 
-export const soundSlice = createSlice({
+export const synthSlice = createSlice({
     name: 'sound',
     initialState,
     reducers: {
@@ -73,7 +73,7 @@ export const soundSlice = createSlice({
     }
 });
 
-export const { setDialValue, setSliderAndSynthValues } = soundSlice.actions;
+export const { setDialValue, setSliderAndSynthValues } = synthSlice.actions;
 
 export const getDialValue = (state: RootState) => state.sound.dial;
 export const getSlidersValue = (group: string) => (state: RootState) => state.sound[group];
@@ -124,4 +124,4 @@ const calculateParams = (state: SoundState) => {
 }
 
 
-export default soundSlice.reducer;
+export default synthSlice.reducer;
