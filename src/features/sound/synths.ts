@@ -9,10 +9,10 @@ export const makeSynth = () => {
     synth.set({portamento: 0.1})
 
     const setParams = (args: SynthArgs) => {
-        const { freq, volume, modulationIndex, harmonicity, reverb: wet, envelope } = args
+        const { freq, volume, modulationIndex, harmonicity, reverb: wet, envelope, modulationEnvelope } = args
         synth.setNote(freq)
         synth.volume.rampTo(volume, 0.25)
-        synth.set({ harmonicity, modulationIndex, envelope })
+        synth.set({ harmonicity, modulationIndex, envelope, modulationEnvelope })
         reverb.set({ wet });
     }
 

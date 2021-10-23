@@ -80,7 +80,7 @@ export const getSlidersValue = (group: string) => (state: RootState) => state.so
 export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.sound)
 
 const calculateParams = (state: SoundState) => {
-    const { dial, left, right, env } = state
+    const { dial, left, right, env, modEnv } = state
     const freq = mapToRange(
         blendBetweenValues(dial, [left.freq.value, right.freq.value], [90, 270]), 
         0, 1, 70, 1000
@@ -101,10 +101,6 @@ const calculateParams = (state: SoundState) => {
         blendBetweenValues(dial, [left.harmonicity.value, right.harmonicity.value], [90, 270]), 
         0, 1, 1, 20
     )
-
-    // const envelope = {
-    //     attack: envelope.attack.value
-    // }
     
     return { 
         freq, 
@@ -117,7 +113,13 @@ const calculateParams = (state: SoundState) => {
             decay: env.decay.value,
             sustain: env.sustain.value,
             release: mapToRange(env.release.value, 0, 1, 0, 4)
-        } 
+        },
+        modulationEnvelope: {
+            attack: modEnv.attack.value,
+            decay: modEnv.decay.value,
+            sustain: modEnv.sustain.value,
+            release: mapToRange(modEnv.release.value, 0, 1, 0, 4)
+        }
     }
 }
 

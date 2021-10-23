@@ -13,6 +13,12 @@ export interface SynthArgs extends Dictionary {
         decay: number
         sustain: number
         release: number
+    },
+    modulationEnvelope: {
+        attack: number
+        decay: number
+        sustain: number
+        release: number
     }
 }
 
