@@ -44,13 +44,13 @@ const initialState: SoundState = {
         harmonicity: {value: 1, label: 'harmonicity'},
     },
     env: {
-        attack: {value: 0.01, label: 'attack'},
+        attack: {value: 0.25, label: 'attack'},
         decay: {value: 0.1, label: 'decay'},
         sustain: {value: 0.5, label: 'sustain'},
         release: {value: 0.5, label: 'release'}
     },
     modEnv: {
-        attack: {value: 0.01, label: 'attack'},
+        attack: {value: 0.1, label: 'attack'},
         decay: {value: 1, label: 'decay'},
         sustain: {value: 1, label: 'sustain'},
         release: {value: 0.5, label: 'release'}
@@ -65,7 +65,11 @@ export const synthSlice = createSlice({
             state.dial = action.payload;
             synth.set(calculateParams(state))
         },
-        setSliderAndSynthValues: (state, action: PayloadAction<{group: string, key: string, value: number, dial: number}>) => {
+        incrementDialValue: (state, action: PayloadAction<number>) => {
+            state.dial = (state.dial + action.payload) % 360;
+            synth.set(calculateParams(state))
+        },
+        setSlider: (state, action: PayloadAction<{group: string, key: string, value: number, dial: number}>) => {
             const { group, key, value } = action.payload
             state[group][key].value = value;
             synth.set(calculateParams(state))
@@ -73,7 +77,7 @@ export const synthSlice = createSlice({
     }
 });
 
-export const { setDialValue, setSliderAndSynthValues } = synthSlice.actions;
+export const { setDialValue, incrementDialValue, setSlider } = synthSlice.actions;
 
 export const getDialValue = (state: RootState) => state.synth.dial;
 export const getSlidersValue = (group: string) => (state: RootState) => state.synth[group];

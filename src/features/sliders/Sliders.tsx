@@ -1,7 +1,7 @@
 import React, {  } from 'react'
 import Slider from 'rc-slider';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getDialValue, getSlidersValue, setSliderAndSynthValues,  } from '../sound/synthSlice';
+import { getDialValue, getSlidersValue, setSlider,  } from '../sound/synthSlice';
 import 'rc-slider/assets/index.css';
 import styles from './Sliders.module.css';
 
@@ -17,7 +17,7 @@ export function Sliders({group, title, invert} : sliderProps) {
     const dial = useAppSelector(getDialValue);
     
     function handleOnChange(value: number, key: string) {
-        dispatch(setSliderAndSynthValues({group, key, value, dial}))
+        dispatch(setSlider({group, key, value, dial}))
     }
 
     return (

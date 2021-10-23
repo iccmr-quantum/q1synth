@@ -23,7 +23,6 @@ export const buttonsSlice = createSlice({
             state.start = button === 'play' && !isPlaying ? false : state.start
             state.play = button === 'start' && !isStarted ? false : state.play
             state[button] = !state[button];
-
         }
     }
 });

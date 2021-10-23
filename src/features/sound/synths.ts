@@ -31,6 +31,12 @@ export const makeSynth = () => {
             off: (args: SynthArgs) => { 
                 synth.triggerRelease()  
                 return methods()
+            },
+            play: (args: SynthArgs, duration: Tone.Unit.Time) => {
+                const { freq } = args
+                setParams(args)
+                synth.triggerAttackRelease(freq, duration)
+                return methods()
             }
         }
     }()
