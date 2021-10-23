@@ -9,10 +9,10 @@ export const makeSynth = () => {
     synth.set({portamento: 0.1})
 
     const setParams = (args: SynthArgs) => {
-        const { freq, volume, modulationIndex, harmonicity, reverb: wet } = args
+        const { freq, volume, modulationIndex, harmonicity, reverb: wet, envelope } = args
         synth.setNote(freq)
         synth.volume.rampTo(volume, 0.25)
-        synth.set({ harmonicity, modulationIndex })
+        synth.set({ harmonicity, modulationIndex, envelope })
         reverb.set({ wet });
     }
 
@@ -25,7 +25,7 @@ export const makeSynth = () => {
             on: (args: SynthArgs) => {
                 const { freq } = args
                 setParams(args)
-                synth.triggerAttack(freq, Tone.now())
+                synth.triggerAttack(freq, "+0.1")
                 return methods()
             },
             off: (args: SynthArgs) => { 

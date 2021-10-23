@@ -4,7 +4,7 @@ import { RootState } from '../../app/store';
 import { mapToRange, blendBetweenValues } from '../../functions/utils';
 import { synth, SynthArgs } from '.';
 
-interface SynthSliders {
+interface SynthSlider {
     freq: Slider
     amp: Slider
     reverb: Slider
@@ -12,12 +12,19 @@ interface SynthSliders {
     harmonicity: Slider
 }
 
+interface EnvSlider {
+    attack: Slider
+    decay: Slider
+    sustain: Slider
+    release: Slider
+}
+
 export interface SoundState extends Dictionary {
     dial: number
-    left: SynthSliders
-    right: SynthSliders
-    env: Slider[]
-    modEnv: Slider[]
+    left: SynthSlider
+    right: SynthSlider
+    env: EnvSlider
+    modEnv: EnvSlider
 }
 
 const initialState: SoundState = {
@@ -36,18 +43,18 @@ const initialState: SoundState = {
         modIndex: {value: 1, label: 'mod index'},
         harmonicity: {value: 1, label: 'harmonicity'},
     },
-    env: [
-        {value: 0.01, label: 'attack'},
-        {value: 0.1, label: 'decay'},
-        {value: 0.5, label: 'sustain'},
-        {value: 0.5, label: 'release'}
-    ],
-    modEnv: [
-        {value: 0.01, label: 'attack'},
-        {value: 1, label: 'decay'},
-        {value: 1, label: 'sustain'},
-        {value: 0.5, label: 'release'}
-    ]
+    env: {
+        attack: {value: 0.01, label: 'attack'},
+        decay: {value: 0.1, label: 'decay'},
+        sustain: {value: 0.5, label: 'sustain'},
+        release: {value: 0.5, label: 'release'}
+    },
+    modEnv: {
+        attack: {value: 0.01, label: 'attack'},
+        decay: {value: 1, label: 'decay'},
+        sustain: {value: 1, label: 'sustain'},
+        release: {value: 0.5, label: 'release'}
+    }
 };
 
 export const soundSlice = createSlice({
@@ -73,7 +80,7 @@ export const getSlidersValue = (group: string) => (state: RootState) => state.so
 export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.sound)
 
 const calculateParams = (state: SoundState) => {
-    const { dial, left, right } = state
+    const { dial, left, right, env } = state
     const freq = mapToRange(
         blendBetweenValues(dial, [left.freq.value, right.freq.value], [90, 270]), 
         0, 1, 70, 1000
@@ -90,13 +97,28 @@ const calculateParams = (state: SoundState) => {
         blendBetweenValues(dial, [left.modIndex.value, right.modIndex.value], [90, 270]), 
         0, 1, 0, 20
     )
-    const harmonicity = 
-    mapToRange(
+    const harmonicity = mapToRange(
         blendBetweenValues(dial, [left.harmonicity.value, right.harmonicity.value], [90, 270]), 
         0, 1, 1, 20
     )
+
+    // const envelope = {
+    //     attack: envelope.attack.value
+    // }
     
-    return { freq, volume, reverb, modulationIndex, harmonicity }
+    return { 
+        freq, 
+        volume, 
+        reverb, 
+        modulationIndex, 
+        harmonicity, 
+        envelope: {
+            attack: env.attack.value,
+            decay: env.decay.value,
+            sustain: env.sustain.value,
+            release: mapToRange(env.release.value, 0, 1, 0, 4)
+        } 
+    }
 }
 
 

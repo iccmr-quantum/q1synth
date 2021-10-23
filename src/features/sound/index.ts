@@ -8,6 +8,12 @@ export interface SynthArgs extends Dictionary {
     reverb: number
     modulationIndex: number
     harmonicity: number
+    envelope: {
+        attack: number
+        decay: number
+        sustain: number
+        release: number
+    }
 }
 
 async function startAudio() : Promise<void> {
