@@ -20,9 +20,9 @@ export function Controls() {
         Tone.Transport.scheduleOnce(time => {
             synth.play(synthParams, "1m");
         }, 0)
-        new Tone.Loop((time) => {
+        Tone.Transport.scheduleRepeat((time) => {
             dispatch(incrementDialValue(step))
-        }, "128n").start(0);
+        }, "128n", 0);
         Tone.Transport.start().stop("+1m");
     }
 
