@@ -38,3 +38,5 @@ export function blendBetweenValues(
         return total + (val * multiplier)
     }, 0)
 }
+
+export const tossCoin = () => Math.floor(Math.random() * 2) === 0
