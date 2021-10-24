@@ -8,7 +8,7 @@ import { setButtonValue, getButtonValue } from '../buttons/buttonsSlice';
 import { getSynthParams, incrementDialValue , getDialValue } from '../sound/synthSlice';
 import styles from './Controls.module.css';
 import { synth } from '../sound';
-import { shortestAngle, tossCoin } from '../../functions/utils';
+import { shortestAngle, tossWeightedCoin, mapToRange } from '../../functions/utils';
 
 export function Controls() {
     const dispatch = useAppDispatch()
@@ -20,23 +20,24 @@ export function Controls() {
     function handlePlay() {
         Tone.Transport.cancel(0)
 
-        const destination = tossCoin() 
+        const weight = dial > 180 
+            ? 360 - dial
+            : dial
+
+        const destination = tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) 
             ? dial > 180
-                ? 360
-                : 0
+                ? 360 
+                : 0 
                 : 180
+        
         const angle = shortestAngle(dial, destination)
         const step = (angle / 128) * (dial < destination ? +1 : -1)
 
-        console.log(destination, dial, angle, step)
-        
         Tone.Transport.scheduleOnce(() => synth.play(synthParams, "1m"), 0)
         
         Tone.Transport.scheduleRepeat(() => {
             dispatch(incrementDialValue(step))
         }, "128n", 0);
-
-        // setPlayEventID(id)
 
         Tone.Transport.start().stop("+1m");
     }
