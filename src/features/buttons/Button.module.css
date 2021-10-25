@@ -10,6 +10,11 @@
     min-width: 8em;
 }
 
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .active {
     background-color: white;
     color: black;

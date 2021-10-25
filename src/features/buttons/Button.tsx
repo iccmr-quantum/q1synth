@@ -5,10 +5,11 @@ interface ButtonProps {
     name: 'play' | 'start' | 'download',
     activeName?: string,
     isActive: boolean,
+    disabled: boolean,
     onClick: (e: MouseEvent<HTMLButtonElement>, name: 'play' | 'start' | 'download') => void
 }
 
-export function Button({name, activeName, isActive, onClick} : ButtonProps) {
+export function Button({name, activeName, isActive, disabled, onClick} : ButtonProps) {
     return (
         <button 
             className={`
@@ -16,6 +17,7 @@ export function Button({name, activeName, isActive, onClick} : ButtonProps) {
                 ${isActive ? styles.active : ''}
             `}
             onClick={(e) => onClick(e, name)}
+            disabled={disabled}
         >
             { isActive && activeName ? activeName : name }
         </button>

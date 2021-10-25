@@ -4,7 +4,7 @@ import { Dial } from '../dial/Dial';
 import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { setButtonValue, getButtonValue } from '../buttons/buttonsSlice';
+import { setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive } from '../buttons/buttonsSlice';
 import { getSynthParams, incrementDialValue , getDialValue, randomiseSliderGroup } from '../sound/synthSlice';
 import styles from './Controls.module.css';
 import { synth } from '../sound';
@@ -16,10 +16,11 @@ export function Controls() {
     const start = useAppSelector(getButtonValue('start'));
     const synthParams = useAppSelector(getSynthParams)
     const dial = useAppSelector(getDialValue)
+    const disabled = useAppSelector(getDisabledStatus)
 
     function handlePlay() {
         Tone.Transport.cancel(0)
-
+        dispatch(setButtonsDisabled())
         dispatch(randomiseSliderGroup('leftB'))
         dispatch(randomiseSliderGroup('rightB'))
 
@@ -43,6 +44,7 @@ export function Controls() {
         }, "128n", 0);
 
         Tone.Transport.start().stop("+4m");
+        Tone.Transport.once('stop', () => dispatch(setButtonsActive()) && dispatch(setButtonValue({button: 'play'})))
     }
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: 'play' | 'start' | 'download') {
@@ -73,12 +75,14 @@ export function Controls() {
                     activeName="stop"
                     onClick={handleButtonOnClick}
                     isActive={start}
+                    disabled={disabled}
                 />
                 <Button 
                     name="play" 
                     activeName="stop"
                     onClick={handleButtonOnClick}
                     isActive={play}
+                    disabled={disabled}
                 />
             </div>
         </>
