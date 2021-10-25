@@ -50,7 +50,8 @@ export function Controls() {
         
         button === 'start' && !start && synth.on(synthParams);
         button === 'start' && start && synth.off(synthParams);
-        button === 'play' && handlePlay()
+        button === 'play' && !play && handlePlay()
+        button === 'play' && play && Tone.Transport.cancel() && synth.off(synthParams)
     }
 
     return (
