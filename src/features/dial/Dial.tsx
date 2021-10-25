@@ -11,16 +11,20 @@ export function Dial() {
         dispatch(setDialValue(val))
     }
     return (
-        <Knob 
-            style={{
-                width: '200px',
-                height: '200px',
-            }}
-            min={0}
-            max={360}
-            value={value}
-            unlockDistance={10}
-            onChange={handleOnChange} 
-        />
+        <>
+            <span>1</span>
+            <Knob 
+                style={{
+                    width: '200px',
+                    height: '200px',
+                }}
+                min={0}
+                max={360}
+                value={value}
+                unlockDistance={10}
+                onChange={handleOnChange} 
+            />
+            <span>0</span>
+        </>
     );
 }   

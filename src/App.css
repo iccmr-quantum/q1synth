@@ -71,10 +71,20 @@ h2 {
     padding: 1em 0 0 0;
 }
 
+.dial {
+    margin: 0 auto;
+}
+
 @media (max-width: 1100px) {
     .section2 { display: none;}
     .section1 { 
         width: 100%;
         border-right: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .sliders {
+        display: none;
     }
 }

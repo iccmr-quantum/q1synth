@@ -59,13 +59,13 @@ export function Controls() {
     return (
         <>
             <div className={styles.container}>
-                <section className={styles.sliders}>
+                <section className={`${styles.sliders} sliders`}>
                     <Sliders group="leftA"/>
                 </section>
-                <section className={styles.dial}>
+                <section className={`${styles.dial} dial`}>
                     <Dial />
                 </section>
-                <section className={styles.sliders}>
+                <section className={`${styles.sliders} sliders`}>
                     <Sliders group="rightA" invert={true}/>
                 </section>
             </div>
