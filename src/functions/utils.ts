@@ -36,7 +36,7 @@ export function blendBetweenValues(
         const angle = shortestAngle(dial, angles[i])
         const multiplier = mapToRange(angle, 0, 180, 0, 1)
         return total + (val * multiplier)
-    }, 0)
+    }, 0) / (values.length / 2)
 }
 
 export const tossCoin = () => Math.floor(Math.random() * 2) === 0

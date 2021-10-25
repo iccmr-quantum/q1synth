@@ -22,7 +22,7 @@ export function Sliders({group, title, invert} : sliderProps) {
 
     return (
         <div className={styles.sliders}>
-            { title && <h2 className={invert ? styles.textRight : ''}>{ title }</h2> }
+            { title && <h2 className={invert ? styles.textrightA : ''}>{ title }</h2> }
             {Object.values(sliders).map((
                 {value, label} : any,
                 i: number

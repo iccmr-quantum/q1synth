@@ -5,7 +5,7 @@ import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setButtonValue, getButtonValue } from '../buttons/buttonsSlice';
-import { getSynthParams, incrementDialValue , getDialValue } from '../sound/synthSlice';
+import { getSynthParams, incrementDialValue , getDialValue, randomiseSliderGroup } from '../sound/synthSlice';
 import styles from './Controls.module.css';
 import { synth } from '../sound';
 import { shortestAngle, tossWeightedCoin, mapToRange } from '../../functions/utils';
@@ -20,6 +20,9 @@ export function Controls() {
     function handlePlay() {
         Tone.Transport.cancel(0)
 
+        dispatch(randomiseSliderGroup('leftB'))
+        dispatch(randomiseSliderGroup('rightB'))
+
         const weight = dial > 180 
             ? 360 - dial
             : dial
@@ -31,15 +34,15 @@ export function Controls() {
                 : 180
         
         const angle = shortestAngle(dial, destination)
-        const step = (angle / 128) * (dial < destination ? +1 : -1)
+        const step = (angle / 512) * (dial < destination ? +1 : -1)
 
-        Tone.Transport.scheduleOnce(() => synth.play(synthParams, "1m"), 0)
+        Tone.Transport.scheduleOnce(() => synth.play(synthParams, "4m"), 0)
         
         Tone.Transport.scheduleRepeat(() => {
             dispatch(incrementDialValue(step))
         }, "128n", 0);
 
-        Tone.Transport.start().stop("+1m");
+        Tone.Transport.start().stop("+4m");
     }
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: 'play' | 'start' | 'download') {
@@ -54,13 +57,13 @@ export function Controls() {
         <>
             <div className={styles.container}>
                 <section className={styles.sliders}>
-                    <Sliders group="left"/>
+                    <Sliders group="leftA"/>
                 </section>
                 <section className={styles.dial}>
                     <Dial />
                 </section>
                 <section className={styles.sliders}>
-                    <Sliders group="right" invert={true}/>
+                    <Sliders group="rightA" invert={true}/>
                 </section>
             </div>
             <div className={styles.buttons}>
