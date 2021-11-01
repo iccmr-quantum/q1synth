@@ -4,25 +4,25 @@ import { Dictionary } from '../../types';
 
 export interface ButtonsState extends Dictionary {
     start: boolean,
-    play: boolean,
+    measure: boolean,
     download: boolean,
     disabled: boolean
 }
 
 const initialState: ButtonsState = {
-    start: false, play: false, download: false, disabled: false
+    start: false, measure: false, download: false, disabled: false
 };
 
 export const buttonsSlice = createSlice({
     name: 'buttons',
     initialState,
     reducers: {
-        setButtonValue: (state, action: PayloadAction<{button: 'start' | 'play' | 'download'}>) => {
+        setButtonValue: (state, action: PayloadAction<{button: 'start' | 'measure' | 'download'}>) => {
             const { button } = action.payload
-            const { play: isPlaying, start: isStarted } = state
+            const { measure: isMeasuring, start: isStarted } = state
 
-            state.start = button === 'play' && !isPlaying ? false : state.start
-            state.play = button === 'start' && !isStarted ? false : state.play
+            state.start = button === 'measure' && !isMeasuring ? false : state.start
+            state.measure = button === 'start' && !isStarted ? false : state.measure
             state[button] = !state[button];
         },
         setButtonsDisabled: (state) => {
@@ -36,7 +36,7 @@ export const buttonsSlice = createSlice({
 
 export const { setButtonValue, setButtonsDisabled, setButtonsActive } = buttonsSlice.actions;
 
-export const getButtonValue = (button: 'start' | 'play') => (state: RootState) => state.buttons[button];
+export const getButtonValue = (button: 'start' | 'measure') => (state: RootState) => state.buttons[button];
 export const getDisabledStatus = (state: RootState) => state.buttons.disabled
 
 export default buttonsSlice.reducer;

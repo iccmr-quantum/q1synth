@@ -12,13 +12,13 @@ import { shortestAngle, tossWeightedCoin, mapToRange } from '../../functions/uti
 
 export function Controls() {
     const dispatch = useAppDispatch()
-    const play = useAppSelector(getButtonValue('play'));
+    const measure = useAppSelector(getButtonValue('measure'));
     const start = useAppSelector(getButtonValue('start'));
     const synthParams = useAppSelector(getSynthParams)
     const dial = useAppSelector(getDialValue)
     const disabled = useAppSelector(getDisabledStatus)
 
-    function handlePlay() {
+    function handleMeasure() {
         Tone.Transport.cancel(0)
         dispatch(setButtonsDisabled())
         dispatch(randomiseSliderGroup('leftB'))
@@ -44,16 +44,16 @@ export function Controls() {
         }, "128n", 0);
 
         Tone.Transport.start().stop("+4m");
-        Tone.Transport.once('stop', () => dispatch(setButtonsActive()) && dispatch(setButtonValue({button: 'play'})))
+        Tone.Transport.once('stop', () => dispatch(setButtonsActive()) && dispatch(setButtonValue({button: 'measure'})))
     }
 
-    function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: 'play' | 'start' | 'download') {
+    function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: 'measure' | 'start' | 'download') {
         dispatch(setButtonValue({button}))
         
         button === 'start' && !start && synth.on(synthParams);
         button === 'start' && start && synth.off(synthParams);
-        button === 'play' && !play && handlePlay()
-        button === 'play' && play && Tone.Transport.cancel() && synth.off(synthParams)
+        button === 'measure' && !measure && handleMeasure()
+        button === 'measure' && measure && Tone.Transport.cancel() && synth.off(synthParams)
     }
 
     return (
@@ -78,10 +78,10 @@ export function Controls() {
                     disabled={disabled}
                 />
                 <Button 
-                    name="play" 
+                    name="measure" 
                     activeName="stop"
                     onClick={handleButtonOnClick}
-                    isActive={play}
+                    isActive={measure}
                     disabled={disabled}
                 />
             </div>
