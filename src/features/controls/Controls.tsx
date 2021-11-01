@@ -13,7 +13,7 @@ import { shortestAngle, tossWeightedCoin, mapToRange } from '../../functions/uti
 export function Controls() {
     const dispatch = useAppDispatch()
     const measure = useAppSelector(getButtonValue('measure'));
-    const start = useAppSelector(getButtonValue('start'));
+    const rotate = useAppSelector(getButtonValue('rotate'));
     const synthParams = useAppSelector(getSynthParams)
     const dial = useAppSelector(getDialValue)
     const disabled = useAppSelector(getDisabledStatus)
@@ -47,11 +47,11 @@ export function Controls() {
         Tone.Transport.once('stop', () => dispatch(setButtonsActive()) && dispatch(setButtonValue({button: 'measure'})))
     }
 
-    function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: 'measure' | 'start' | 'download') {
+    function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: 'measure' | 'rotate' | 'download') {
         dispatch(setButtonValue({button}))
         
-        button === 'start' && !start && synth.on(synthParams);
-        button === 'start' && start && synth.off(synthParams);
+        button === 'rotate' && !rotate && synth.on(synthParams);
+        button === 'rotate' && rotate && synth.off(synthParams);
         button === 'measure' && !measure && handleMeasure()
         button === 'measure' && measure && Tone.Transport.cancel() && synth.off(synthParams)
     }
@@ -71,10 +71,10 @@ export function Controls() {
             </div>
             <div className={styles.buttons}>
                 <Button 
-                    name="start" 
+                    name="rotate" 
                     activeName="stop"
                     onClick={handleButtonOnClick}
-                    isActive={start}
+                    isActive={rotate}
                     disabled={disabled}
                 />
                 <Button 
