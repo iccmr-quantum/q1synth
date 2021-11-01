@@ -127,6 +127,8 @@ const calculateParams = (state: SoundState) => {
         blendBetweenValues(dial, [leftA.harmonicity.value, rightA.harmonicity.value], [90, 270]), 
         0, 1, 1, 20
     )
+
+    const blend = blendBetweenValues(dial, [0, 1], [90, 270])
     
     return { 
         freq, 
@@ -145,7 +147,8 @@ const calculateParams = (state: SoundState) => {
             decay: modEnv.decay.value,
             sustain: modEnv.sustain.value,
             release: mapToRange(modEnv.release.value, 0, 1, 0, 4)
-        }
+        },
+        blend
     }
 }
 
@@ -172,6 +175,8 @@ const calculatePartRandomParams = (state: SoundState) => {
         blendBetweenValues(dial, [leftA.harmonicity.value, rightA.harmonicity.value, leftB.freq.value, rightB.freq.value], points), 
         0, 1, 1, 20
     )
+
+    const blend = blendBetweenValues(dial, [0, 1], [90, 270])
     
     return { 
         freq, 
@@ -190,7 +195,8 @@ const calculatePartRandomParams = (state: SoundState) => {
             decay: modEnv.decay.value,
             sustain: modEnv.sustain.value,
             release: mapToRange(modEnv.release.value, 0, 1, 0, 4)
-        }
+        },
+        blend
     }
 }
 
