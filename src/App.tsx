@@ -7,9 +7,9 @@ function App() {
     return (
         <div className="App">
             <div className="section1">
-                <h1 className="appTitle">Title</h1>
-                <h2 className="appCredits">Credits</h2>
-                <p className="appInstructions">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                <h1 className="appTitle">QuSynth</h1>
+                <h2 className="appCredits">Designed by E. Miranda. Built by P. Thomas</h2>
+                <p className="appInstructions">Rotate and measure the qubit to quantum-design a sound.</p>
                 <Controls />
             </div>
             <div className="section2">

@@ -11,6 +11,10 @@ body {
     justify-content: center;
 }
 
+#root {
+    width: 100%;
+}
+
 .App {
     max-width: 1800px;
     margin: auto;
