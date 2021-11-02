@@ -1,16 +1,11 @@
-import React from 'react'
+import React, {  } from 'react'
 import { Knob } from "react-rotary-knob";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setDialValue, getDialValue } from '../sound/synthSlice';
-import styles from './Dial.module.css'
 
 const knobStyles = {
     width: '200px',
     height: '200px'
-}
-
-const circleStyles = {
-    position: 'absolute',
 }
 
 export function Dial() {
@@ -23,21 +18,28 @@ export function Dial() {
     return (
         <>
             <span>1</span>
-            <svg className="dial-svg">
-                {/* <circle 
+            <svg 
+                className="dial-svg"
+                style={{
+                    transform: `rotateZ(${value}deg)`
+                }}
+            >
+                <circle 
                     cx="100" 
                     cy="100" 
                     r="95" 
                     stroke="#FFF" 
                     strokeWidth="2"
-                ></circle> */}
+                    fill="transparent"
+                ></circle>
                 <circle 
                 className="dial-svg__circle-x"
                     cx="100" 
-                    cy="100" 
+                    cy="300" 
                     r="95" 
                     stroke="#FFF" 
                     strokeWidth="2"
+                    fill="transparent"
                 ></circle>
             </svg>
             <Knob 

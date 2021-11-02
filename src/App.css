@@ -1,5 +1,5 @@
 html {
-    background-color: black;
+    background-color: #111;
     color: #FFF;
     
 }
@@ -59,6 +59,10 @@ h2 {
     fill: #FFF;
 }
 
+svg linearGradient {
+    fill: #FFF!important;
+}
+
 .rc-slider {
     padding: 1em 0;
 }
@@ -90,8 +94,11 @@ h2 {
     position: absolute;
 }
 
+.dial-svg__circle-y {
+}
+
 .dial-svg__circle-x {
-    transform: translateZ(10px);
+    transform: rotateX(70deg);
 }
 
 @media (max-width: 1100px) {
