@@ -79,6 +79,21 @@ h2 {
     margin: 0 auto;
 }
 
+.dial g {
+    display: none;
+}
+
+.dial-svg {
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+}
+
+.dial-svg__circle-x {
+    transform: translateZ(10px);
+}
+
 @media (max-width: 1100px) {
     .section2 { display: none;}
     .section1 { 

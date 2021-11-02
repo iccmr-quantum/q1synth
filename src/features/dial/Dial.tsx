@@ -2,22 +2,46 @@ import React from 'react'
 import { Knob } from "react-rotary-knob";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setDialValue, getDialValue } from '../sound/synthSlice';
+import styles from './Dial.module.css'
+
+const knobStyles = {
+    width: '200px',
+    height: '200px'
+}
+
+const circleStyles = {
+    position: 'absolute',
+}
 
 export function Dial() {
     const dispatch = useAppDispatch()
     const value = useAppSelector(getDialValue);
 
-    const handleOnChange = (val: number) : void => {    
+    const handleOnChange = (val: number) : void => {
         dispatch(setDialValue(val))
     }
     return (
         <>
             <span>1</span>
+            <svg className="dial-svg">
+                {/* <circle 
+                    cx="100" 
+                    cy="100" 
+                    r="95" 
+                    stroke="#FFF" 
+                    strokeWidth="2"
+                ></circle> */}
+                <circle 
+                className="dial-svg__circle-x"
+                    cx="100" 
+                    cy="100" 
+                    r="95" 
+                    stroke="#FFF" 
+                    strokeWidth="2"
+                ></circle>
+            </svg>
             <Knob 
-                style={{
-                    width: '200px',
-                    height: '200px',
-                }}
+                style={knobStyles}
                 min={0}
                 max={360}
                 value={value}
