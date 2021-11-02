@@ -11,7 +11,7 @@ export const makeSynth = () => {
     synthL.set({portamento: 0.1, oscillator: {type: 'sine'}})
 
     const synthR = new Tone.FMSynth().connect(reverb)
-    synthR.set({portamento: 0.1, oscillator: {type: 'sawtooth'}})
+    synthR.set({portamento: 0.1, oscillator: {type: 'square'}})
 
     const setParams = (args: SynthArgs) => {
         const { freq, volume, modulationIndex, harmonicity, reverb: wet, envelope, modulationEnvelope, blend } = args

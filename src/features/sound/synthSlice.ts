@@ -34,7 +34,7 @@ const initialState: SoundState = {
         amp: {value: 1, label: 'amp'},
         reverb: {value: 0, label: 'reverb'},
         modIndex: {value: 0, label: 'mod index'},
-        harmonicity: {value: 0, label: 'harmonicity'},
+        harmonicity: {value: 0.05, label: 'harmonicity'},
     },
     rightA: {
         freq: {value: 0.5, label: 'freq'},
