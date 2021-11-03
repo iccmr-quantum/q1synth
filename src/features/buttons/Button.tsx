@@ -2,11 +2,11 @@ import React, { MouseEvent } from 'react'
 import styles from './Button.module.css';
 
 interface ButtonProps {
-    name: 'measure' | 'rotate' | 'download',
+    name: 'measure' | 'rotate',
     activeName?: string,
     isActive: boolean,
     disabled: boolean,
-    onClick: (e: MouseEvent<HTMLButtonElement>, name: 'measure' | 'rotate' | 'download') => void
+    onClick: (e: MouseEvent<HTMLButtonElement>, name: 'measure' | 'rotate') => void
 }
 
 export function Button({name, activeName, isActive, disabled, onClick} : ButtonProps) {

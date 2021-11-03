@@ -5,19 +5,18 @@ import { Dictionary } from '../../types';
 export interface ButtonsState extends Dictionary {
     rotate: boolean,
     measure: boolean,
-    download: boolean,
     disabled: boolean
 }
 
 const initialState: ButtonsState = {
-    rotate: false, measure: false, download: false, disabled: false
+    rotate: false, measure: false, disabled: false
 };
 
 export const buttonsSlice = createSlice({
     name: 'buttons',
     initialState,
     reducers: {
-        setButtonValue: (state, action: PayloadAction<{button: 'rotate' | 'measure' | 'download'}>) => {
+        setButtonValue: (state, action: PayloadAction<{button: 'rotate' | 'measure' }>) => {
             const { button } = action.payload
             const { measure: isMeasuring, rotate: isRotating } = state
 
