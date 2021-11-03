@@ -3,7 +3,6 @@ import { Slider, Dictionary } from '../../types';
 import { RootState } from '../../app/store';
 import { mapToRange, blendBetweenValues } from '../../functions/utils';
 import { synth, SynthArgs } from '.';
-import { Synth } from 'tone';
 
 interface SynthSlider extends Dictionary{
     freq: Slider
@@ -80,19 +79,19 @@ export const synthSlice = createSlice({
     reducers: {
         setDialValue: (state, action: PayloadAction<number>) => {
             state.dial = action.payload;
-            synth.set(calculateParams(state))
+            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
         },
         setTime: (state, action: PayloadAction<string>) => {
             state.time = action.payload;
         },
         incrementDialValue: (state, action: PayloadAction<number>) => {
             state.dial = (state.dial + action.payload) % 360;
-            synth.set(calculatePartRandomParams(state))
+            synth.set(calculateParams(state, [state.leftA, state.rightA, state.leftB, state.rightB], [45, 135, 225, 315]))
         },
         setSlider: (state, action: PayloadAction<{group: string, key: string, value: number, dial: number}>) => {
             const { group, key, value } = action.payload
             state[group][key].value = value;
-            synth.set(calculateParams(state))
+            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
         },
         randomiseSliderGroup: (state, action: PayloadAction<string>) => {
             state[action.payload].freq.value = Math.random()
@@ -109,7 +108,7 @@ export const { setDialValue, incrementDialValue, setSlider, randomiseSliderGroup
 export const getDialValue = (state: RootState) => state.synth.dial;
 export const getSlidersValue = (group: string) => (state: RootState) => state.synth[group];
 export const getTime = (state: RootState) => state.synth.time;
-export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.synth)
+export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.synth, [state.synth.leftA, state.synth.rightA], [90, 270])
 
 const calculateParam = (
     dial: number, 
@@ -132,29 +131,8 @@ const calculateEnvelope = (
     release: mapToRange(env.release.value, 0, 1, 0, 4)
 })
 
-const calculateParams = (state: SoundState) : SynthArgs => {
-    const { dial, leftA, rightA, env, modEnv } = state
-    
-    const sliders = [leftA, rightA]
-    const points = [90, 270]
-
-    return { 
-        freq: calculateParam(dial, 'freq', sliders, points), 
-        volume: calculateParam(dial, 'volume', sliders, points), 
-        reverb: calculateParam(dial, 'reverb', sliders, points), 
-        modulationIndex: calculateParam(dial, 'modulationIndex', sliders, points), 
-        harmonicity: calculateParam(dial, 'harmonicity', sliders, points), 
-        envelope: calculateEnvelope(env),
-        modulationEnvelope: calculateEnvelope(modEnv),
-        blend: blendBetweenValues(dial, [0, 1], [90, 270])
-    }
-}
-
-const calculatePartRandomParams = (state: SoundState) => {
-    const { dial, leftA, rightA, leftB, rightB, env, modEnv } = state
-
-    const sliders = [leftA, rightA, leftB, rightB]
-    const points = [45, 135, 225, 315]
+const calculateParams = (state: SoundState, sliders: SynthSlider[], points: number[]) : SynthArgs => {
+    const { dial, env, modEnv } = state
 
     return { 
         freq: calculateParam(dial, 'freq', sliders, points), 
