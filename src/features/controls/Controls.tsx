@@ -5,7 +5,7 @@ import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive } from '../buttons/buttonsSlice';
-import { getSynthParams, incrementDialValue , getDialValue, randomiseSliderGroup } from '../sound/synthSlice';
+import { getSynthParams, incrementDialValue , getDialValue, randomiseSliderGroup, getTime } from '../sound/synthSlice';
 import styles from './Controls.module.css';
 import { synth } from '../sound';
 import { shortestAngle, tossWeightedCoin, mapToRange } from '../../functions/utils';
@@ -17,6 +17,7 @@ export function Controls() {
     const synthParams = useAppSelector(getSynthParams)
     const dial = useAppSelector(getDialValue)
     const disabled = useAppSelector(getDisabledStatus)
+    const time = useAppSelector(getTime)
 
     function handleMeasure() {
         Tone.Transport.cancel(0)
@@ -37,13 +38,13 @@ export function Controls() {
         const angle = shortestAngle(dial, destination)
         const step = (angle / 512) * (dial < destination ? +1 : -1)
 
-        Tone.Transport.scheduleOnce(() => synth.play(synthParams, "4m"), 0)
+        Tone.Transport.scheduleOnce(() => synth.play(synthParams, time), 0)
         
         Tone.Transport.scheduleRepeat(() => {
             dispatch(incrementDialValue(step))
         }, "128n", 0);
 
-        Tone.Transport.start().stop("+4m");
+        Tone.Transport.start().stop(`+${time}`);
         Tone.Transport.once('stop', () => dispatch(setButtonsActive()) && dispatch(setButtonValue({button: 'measure'})))
     }
 

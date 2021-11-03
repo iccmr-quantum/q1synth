@@ -21,6 +21,7 @@ interface EnvSlider {
 
 export interface SoundState extends Dictionary {
     dial: number
+    time: string
     leftA: SynthSlider
     rightA: SynthSlider
     env: EnvSlider
@@ -29,6 +30,7 @@ export interface SoundState extends Dictionary {
 
 const initialState: SoundState = {
     dial: 0,
+    time: '4m',
     leftA: {
         freq: {value: 0, label: 'freq'},
         amp: {value: 1, label: 'amp'},
@@ -79,6 +81,9 @@ export const synthSlice = createSlice({
             state.dial = action.payload;
             synth.set(calculateParams(state))
         },
+        setTime: (state, action: PayloadAction<string>) => {
+            state.time = action.payload;
+        },
         incrementDialValue: (state, action: PayloadAction<number>) => {
             state.dial = (state.dial + action.payload) % 360;
             synth.set(calculatePartRandomParams(state))
@@ -98,10 +103,11 @@ export const synthSlice = createSlice({
     }
 });
 
-export const { setDialValue, incrementDialValue, setSlider, randomiseSliderGroup } = synthSlice.actions;
+export const { setDialValue, incrementDialValue, setSlider, randomiseSliderGroup, setTime } = synthSlice.actions;
 
 export const getDialValue = (state: RootState) => state.synth.dial;
 export const getSlidersValue = (group: string) => (state: RootState) => state.synth[group];
+export const getTime = (state: RootState) => state.synth.time;
 export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.synth)
 
 // REFACTOR
