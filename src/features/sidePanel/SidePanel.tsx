@@ -13,7 +13,6 @@ export function SidePanel() {
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
         (button === 'one' || button === 'five' || button === 'ten') && dispatch(setTime({button}))
-    
     }
 
     return (
