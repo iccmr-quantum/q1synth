@@ -67,19 +67,19 @@ const preset: Preset = {
 	},
 	env: {
 		attack: {
-			value: 0.25,
+			value: 0.01,
 			label: "attack",
 			min: 0,
 			max: 1
 		},
 		decay: {
-			value: 0.1,
+			value: 0,
 			label: "decay",
 			min: 0,
 			max: 1
 		},
 		sustain: {
-			value: 0.5,
+			value: 1,
 			label: "sustain",
 			min: 0,
 			max: 1
@@ -93,7 +93,7 @@ const preset: Preset = {
 	},
 	modEnv: {
 		attack: {
-			value: 0.1,
+			value: 1,
 			label: "attack",
 			min: 0,
 			max: 1
@@ -105,7 +105,7 @@ const preset: Preset = {
 			max: 1
 		},
 		sustain: {
-			value: 1,
+			value: 0,
 			label: "sustain",
 			min: 0,
 			max: 1

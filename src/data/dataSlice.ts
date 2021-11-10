@@ -103,7 +103,7 @@ const initialState: DataState = {
         rotate: false, measure: false, disabled: false
     },
     times: {
-        one: true, five: false, ten: false
+        one: false, five: true, ten: false
     },
     preset: 0
 };

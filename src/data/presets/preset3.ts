@@ -93,13 +93,13 @@ const preset: Preset = {
 	},
 	modEnv: {
 		attack: {
-			value: 0.1,
+			value: 1,
 			label: "attack",
 			min: 0,
 			max: 1
 		},
 		decay: {
-			value: 1,
+			value: 0.5,
 			label: "decay",
 			min: 0,
 			max: 1
