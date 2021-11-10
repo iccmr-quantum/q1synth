@@ -4,7 +4,7 @@ import { Dial } from '../dial/Dial';
 import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive } from '../buttons/buttonsSlice';
+import { setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive } from '../../data/dataSlice';
 import { getSynthParams, incrementDialValue , getDialValue, randomiseSliderGroup, getTime } from '../../data/dataSlice';
 import styles from './Controls.module.css';
 import { synth } from '../sound';
@@ -20,6 +20,7 @@ export function Controls() {
     const time = useAppSelector(getTime)
 
     function handleMeasure() {
+        // TODO: this should all go in an async reducer action - rather than it sitting in a template...
         Tone.Transport.cancel(0)
         dispatch(setButtonsDisabled())
         dispatch(randomiseSliderGroup('leftB'))

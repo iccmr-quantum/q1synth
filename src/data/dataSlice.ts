@@ -19,27 +19,34 @@ interface EnvSlider {
     release: Slider
 }
 
-export interface MainState extends Dictionary {
+export interface Buttons extends Dictionary {
+    rotate: boolean,
+    measure: boolean,
+    disabled: boolean
+}
+
+export interface DataState extends Dictionary {
     dial: number
     time: string
     leftA: SynthSlider
     rightA: SynthSlider
     env: EnvSlider
     modEnv: EnvSlider
+    buttons: Buttons
 }
 
-const initialState: MainState = {
+const initialState: DataState = {
     dial: 0,
     time: '4m',
     leftA: {
         freq: {value: 0, label: 'freq', min: 70, max: 1000},
         volume: {value: 1, label: 'amp', min: -50, max: -3},
-        reverb: {value: 0, label: 'reverb', min: 0, max: 0.8},
+        reverb: {value: 0.8, label: 'reverb', min: 0, max: 0.8},
         modulationIndex: {value: 0, label: 'mod index', min: 0, max: 20},
         harmonicity: {value: 0.05, label: 'harmonicity', min: 1, max: 20},
     },
     rightA: {
-        freq: {value: 0.5, label: 'freq', min: 70, max: 1000},
+        freq: {value: 0.2, label: 'freq', min: 70, max: 1000},
         volume: {value: 0.5, label: 'amp', min: -50, max: -3},
         reverb: {value: 1, label: 'reverb', min: 0, max: 0.8},
         modulationIndex: {value: 1, label: 'mod index', min: 0, max: 20},
@@ -70,6 +77,9 @@ const initialState: MainState = {
         decay: {value: 1, label: 'decay', min: 0, max: 1},
         sustain: {value: 1, label: 'sustain', min: 0, max: 1},
         release: {value: 0.5, label: 'release', min: 0, max: 4}
+    },
+    buttons: {
+        rotate: false, measure: false, disabled: false
     }
 };
 
@@ -99,16 +109,32 @@ export const dataSlice = createSlice({
             state[action.payload].reverb.value = Math.random()
             state[action.payload].modulationIndex.value = Math.random()
             state[action.payload].harmonicity.value = Math.random()
+        },
+        setButtonValue: (state, action: PayloadAction<{button: 'rotate' | 'measure' }>) => {
+            const { button } = action.payload
+            const { measure: isMeasuring, rotate: isRotating } = state.buttons
+
+            state.buttons.rotate = button === 'measure' && !isMeasuring ? false : state.buttons.rotate
+            state.buttons.measure = button === 'rotate' && !isRotating ? false : state.buttons.measure
+            state.buttons[button] = !state.buttons[button];
+        },
+        setButtonsDisabled: (state) => {
+            state.buttons.disabled = true
+        },
+        setButtonsActive: (state) => {
+            state.buttons.disabled = false
         }
     }
 });
 
-export const { setDialValue, incrementDialValue, setSlider, randomiseSliderGroup, setTime } = dataSlice.actions;
+export const { setDialValue, incrementDialValue, setSlider, randomiseSliderGroup, setTime, setButtonValue, setButtonsDisabled, setButtonsActive } = dataSlice.actions;
 
 export const getDialValue = (state: RootState) => state.data.dial;
 export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];
 export const getTime = (state: RootState) => state.data.time;
 export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.data, [state.data.leftA, state.data.rightA], [90, 270])
+export const getButtonValue = (button: 'rotate' | 'measure') => (state: RootState) => state.data.buttons[button];
+export const getDisabledStatus = (state: RootState) => state.data.buttons.disabled
 
 const calculateParam = (
     dial: number, 
@@ -131,7 +157,7 @@ const calculateEnvelope = (
     release: mapToRange(env.release.value, 0, 1, 0, 4)
 })
 
-const calculateParams = (state: MainState, sliders: SynthSlider[], points: number[]) : SynthArgs => {
+const calculateParams = (state: DataState, sliders: SynthSlider[], points: number[]) : SynthArgs => {
     const { dial, env, modEnv } = state
 
     return { 

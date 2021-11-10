@@ -1,10 +1,8 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import buttonsReducer from '../features/buttons/buttonsSlice';
 import dataReducer from '../data/dataSlice';
 
 export const store = configureStore({
     reducer: {
-        buttons: buttonsReducer,
         data: dataReducer
     },
 });
