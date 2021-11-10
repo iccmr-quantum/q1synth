@@ -165,7 +165,7 @@ export const dataSlice = createSlice({
             //     env: JSON.parse(JSON.stringify(state.env)),
             //     modEnv: JSON.parse(JSON.stringify(state.modEnv))
             // })
-
+            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
             state.preset = action.payload
         }
     }
