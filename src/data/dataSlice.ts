@@ -39,6 +39,7 @@ export interface DataState extends Dictionary {
     modEnv: EnvSlider
     buttons: Buttons
     times: Times
+    preset: number
 }
 
 const initialState: DataState = {
@@ -88,7 +89,8 @@ const initialState: DataState = {
     },
     times: {
         one: true, five: false, ten: false
-    }
+    },
+    preset: 0
 };
 
 export const dataSlice = createSlice({
@@ -133,17 +135,21 @@ export const dataSlice = createSlice({
             const { button } = action.payload
             const reset = {one: false, five: false, ten: false}
             state.times = {...reset, [button]: true}
+        },
+        setPreset: (state, action: PayloadAction<number>) => {
+            state.preset = action.payload
         }
     }
 });
 
-export const { setDialValue, incrementDialValue, setSlider, randomiseSliderGroup, setTime, setButtonValue, setButtonsDisabled, setButtonsActive } = dataSlice.actions;
+export const { setPreset, setDialValue, incrementDialValue, setSlider, randomiseSliderGroup, setTime, setButtonValue, setButtonsDisabled, setButtonsActive } = dataSlice.actions;
 
 export const getDialValue = (state: RootState) => state.data.dial;
 export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];
 export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.data, [state.data.leftA, state.data.rightA], [90, 270])
 export const getButtonValue = (button: 'rotate' | 'measure') => (state: RootState) => state.data.buttons[button];
 export const getDisabledStatus = (state: RootState) => state.data.buttons.disabled
+export const getPresetNumber = (state: RootState) => state.data.preset
 export const getTimes = (state: RootState) => state.data.times
 export const getTime = (state: RootState) => {
     return state.data.times.one 

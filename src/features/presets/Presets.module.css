@@ -1,0 +1,31 @@
+.container {
+
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.button {
+    flex-basis: 20%;
+    color: white;
+    background-color: transparent;
+    padding: 1em;
+    border: 2px solid white;
+    border-radius: 5px;
+    font-family: 'Source Code Pro', monospace;
+    cursor: pointer;
+    margin: 0 1em 1em 0;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.active {
+    background-color: white;
+    color: black;
+}

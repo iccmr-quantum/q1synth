@@ -2,8 +2,8 @@ import React, { MouseEvent} from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
-import { getTimes, setTime } from '../../data/dataSlice';
-import { getDisabledStatus } from '../../data/dataSlice';
+import { Presets } from '../presets/Presets';
+import { getTimes, setTime, getDisabledStatus } from '../../data/dataSlice';
 import styles from './SidePanel.module.css'
 
 export function SidePanel() {
@@ -17,6 +17,7 @@ export function SidePanel() {
 
     return (
         <div className="side-panel">
+            <Presets />
             <div className={styles.buttons}>
                 <h2>Duration of Measurement</h2>
                 {Object.entries(times).map(([time, isActive]) => (
