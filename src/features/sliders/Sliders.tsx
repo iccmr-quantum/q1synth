@@ -1,7 +1,7 @@
 import React, {  } from 'react'
 import Slider from 'rc-slider';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getDialValue, getSlidersValue, setSlider,  } from '../../data/dataSlice';
+import { getDialValue, getSlidersValue, setSlider, getDisabledStatus } from '../../data/dataSlice';
 import 'rc-slider/assets/index.css';
 import styles from './Sliders.module.css';
 
@@ -15,6 +15,7 @@ export function Sliders({group, title, invert} : sliderProps) {
     const dispatch = useAppDispatch()
     const sliders = useAppSelector(getSlidersValue(group));
     const dial = useAppSelector(getDialValue);
+    const disabled = useAppSelector(getDisabledStatus)
     
     function handleOnChange(value: number, key: string) {
         dispatch(setSlider({group, key, value, dial}))
@@ -36,6 +37,7 @@ export function Sliders({group, title, invert} : sliderProps) {
                         onChange={(e) => handleOnChange(e, Object.keys(sliders)[i])}
                         step={0.01}
                         key={i}
+                        disabled={disabled}
                     />
                     <p className={`
                         ${styles.label} 

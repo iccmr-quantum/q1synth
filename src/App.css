@@ -57,6 +57,11 @@ svg linearGradient {
 .rc-slider {
     padding: 1em 0;
 }
+
+.rc-slider-disabled {
+    background-color: transparent;
+    opacity: 0.5;
+}
 .rc-slider-rail {
     background-color: #FFF;
 }
