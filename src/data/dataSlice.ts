@@ -25,6 +25,12 @@ export interface Buttons extends Dictionary {
     disabled: boolean
 }
 
+export interface Times extends Dictionary {
+    one: boolean
+    five: boolean
+    ten: boolean
+}
+
 export interface DataState extends Dictionary {
     dial: number
     time: string
@@ -33,6 +39,7 @@ export interface DataState extends Dictionary {
     env: EnvSlider
     modEnv: EnvSlider
     buttons: Buttons
+    times: Times
 }
 
 const initialState: DataState = {
@@ -80,6 +87,9 @@ const initialState: DataState = {
     },
     buttons: {
         rotate: false, measure: false, disabled: false
+    },
+    times: {
+        one: false, five: false, ten: true
     }
 };
 
@@ -90,9 +100,6 @@ export const dataSlice = createSlice({
         setDialValue: (state, action: PayloadAction<number>) => {
             state.dial = action.payload;
             synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
-        },
-        setTime: (state, action: PayloadAction<string>) => {
-            state.time = action.payload;
         },
         incrementDialValue: (state, action: PayloadAction<number>) => {
             state.dial = (state.dial + action.payload) % 360;
@@ -123,6 +130,11 @@ export const dataSlice = createSlice({
         },
         setButtonsActive: (state) => {
             state.buttons.disabled = false
+        },
+        setTime: (state, action: PayloadAction<{button: 'one' | 'five' | 'ten' }>) => {
+            const { button } = action.payload
+            const reset = {one: false, five: false, ten: false}
+            state.times = {...reset, [button]: true}
         }
     }
 });
@@ -135,6 +147,7 @@ export const getTime = (state: RootState) => state.data.time;
 export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.data, [state.data.leftA, state.data.rightA], [90, 270])
 export const getButtonValue = (button: 'rotate' | 'measure') => (state: RootState) => state.data.buttons[button];
 export const getDisabledStatus = (state: RootState) => state.data.buttons.disabled
+export const getTimes = (state: RootState) => state.data.times
 
 const calculateParam = (
     dial: number, 

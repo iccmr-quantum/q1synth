@@ -49,8 +49,8 @@ export function Controls() {
         Tone.Transport.once('stop', () => dispatch(setButtonsActive()) && dispatch(setButtonValue({button: 'measure'})))
     }
 
-    function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: 'measure' | 'rotate') {
-        dispatch(setButtonValue({button}))
+    function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
+        (button === 'measure' || button === 'rotate') && dispatch(setButtonValue({button}))
         
         button === 'rotate' && !rotate && synth.on(synthParams);
         button === 'rotate' && rotate && synth.off(synthParams);
