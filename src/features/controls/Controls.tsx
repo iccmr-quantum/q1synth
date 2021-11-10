@@ -18,9 +18,6 @@ export function Controls() {
     const dial = useAppSelector(getDialValue)
     const disabled = useAppSelector(getDisabledStatus)
     const time = useAppSelector(getTime)
-    // const time = '2m'
-
-    console.log(time)
 
     function handleMeasure() {
         // TODO: this should all go in an async reducer action - rather than it sitting in a template...

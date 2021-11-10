@@ -19,7 +19,7 @@ export function SidePanel() {
     return (
         <div className="side-panel">
             <div className={styles.buttons}>
-                <h2>Measuring Duration</h2>
+                <h2>Duration of Measurement</h2>
                 {Object.entries(times).map(([time, isActive]) => (
                     <Button 
                         name={time} 
@@ -31,7 +31,7 @@ export function SidePanel() {
                 ))}
             </div>
             <Sliders group="env" title="Envelope"/>
-            <Sliders group="modEnv" title="Mod Envelope"/>
+            <Sliders group="modEnv" title="Modulation Envelope"/>
         </div>
     );
 }
