@@ -33,7 +33,6 @@ export interface Times extends Dictionary {
 
 export interface DataState extends Dictionary {
     dial: number
-    time: string
     leftA: SynthSlider
     rightA: SynthSlider
     env: EnvSlider
@@ -44,7 +43,6 @@ export interface DataState extends Dictionary {
 
 const initialState: DataState = {
     dial: 0,
-    time: '4m',
     leftA: {
         freq: {value: 0, label: 'freq', min: 70, max: 1000},
         volume: {value: 1, label: 'amp', min: -50, max: -3},
@@ -89,7 +87,7 @@ const initialState: DataState = {
         rotate: false, measure: false, disabled: false
     },
     times: {
-        one: false, five: false, ten: true
+        one: true, five: false, ten: false
     }
 };
 
@@ -143,11 +141,17 @@ export const { setDialValue, incrementDialValue, setSlider, randomiseSliderGroup
 
 export const getDialValue = (state: RootState) => state.data.dial;
 export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];
-export const getTime = (state: RootState) => state.data.time;
 export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.data, [state.data.leftA, state.data.rightA], [90, 270])
 export const getButtonValue = (button: 'rotate' | 'measure') => (state: RootState) => state.data.buttons[button];
 export const getDisabledStatus = (state: RootState) => state.data.buttons.disabled
 export const getTimes = (state: RootState) => state.data.times
+export const getTime = (state: RootState) => {
+    return state.data.times.one 
+        ? '1'
+        : state.data.times.five
+            ? '5'
+            : '10'
+}
 
 const calculateParam = (
     dial: number, 

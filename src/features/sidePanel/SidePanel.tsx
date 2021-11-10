@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { MouseEvent} from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
-import { getTimes } from '../../data/dataSlice';
+import { getTimes, setTime } from '../../data/dataSlice';
 import { getDisabledStatus } from '../../data/dataSlice';
 
 export function SidePanel() {
+    const dispatch = useAppDispatch()
     const times = useAppSelector(getTimes)
     const disabled = useAppSelector(getDisabledStatus)
-    // console.log(times)
+
+    function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
+        (button === 'one' || button === 'five' || button === 'ten') && dispatch(setTime({button}))
+    
+    }
+
     return (
         <div className="side-panel">
             {Object.entries(times).map(([time, isActive]) => (
@@ -16,7 +22,7 @@ export function SidePanel() {
                     name={time} 
                     isActive={isActive}
                     disabled={disabled}  
-                    onClick={() => console.log('hello')}
+                    onClick={handleButtonOnClick}
                     key={time}
                 />
             ))}
