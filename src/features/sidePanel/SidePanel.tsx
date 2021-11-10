@@ -4,6 +4,7 @@ import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
 import { getTimes, setTime } from '../../data/dataSlice';
 import { getDisabledStatus } from '../../data/dataSlice';
+import styles from './SidePanel.module.css'
 
 export function SidePanel() {
     const dispatch = useAppDispatch()
@@ -17,15 +18,17 @@ export function SidePanel() {
 
     return (
         <div className="side-panel">
-            {Object.entries(times).map(([time, isActive]) => (
-                <Button 
-                    name={time} 
-                    isActive={isActive}
-                    disabled={disabled}  
-                    onClick={handleButtonOnClick}
-                    key={time}
-                />
-            ))}
+            <div className={styles.buttons}>
+                {Object.entries(times).map(([time, isActive]) => (
+                    <Button 
+                        name={time} 
+                        isActive={isActive}
+                        disabled={disabled}  
+                        onClick={handleButtonOnClick}
+                        key={time}
+                    />
+                ))}
+            </div>
             <Sliders group="env" title="Envelope"/>
             <Sliders group="modEnv" title="Mod Envelope"/>
         </div>
