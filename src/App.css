@@ -1,5 +1,5 @@
 html {
-    background-color: #111;
+    background-color: #323232;
     color: #FFF;
     
 }
@@ -7,7 +7,6 @@ body {
     height: 100vh;
     width: 100vw;
     display: flex;
-    /* align-items: center; */
     justify-content: center;
 }
 
@@ -72,6 +71,10 @@ svg linearGradient {
 
 .rc-slider-handle {
     border-color: #FFF;
+    background-color: black;
+}
+
+.rc-slider-track {
     background-color: black;
 }
 

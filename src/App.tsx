@@ -8,7 +8,7 @@ function App() {
         <div className="App">
             <div className="main">
                 <h1 className="appTitle">QuSynth</h1>
-                <h2 className="appCredits">Interdisciplinary Centre For Computer Music Research (ICCRM).</h2>
+                <h2 className="appCredits">Interdisciplinary Centre For Computer Music Research (ICCMR).</h2>
                 <p className="appInstructions">Rotate and measure the qubit to quantum-design a sound.</p>
                 <Controls />
             </div>
