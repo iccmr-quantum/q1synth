@@ -147,10 +147,10 @@ export const getDisabledStatus = (state: RootState) => state.data.buttons.disabl
 export const getTimes = (state: RootState) => state.data.times
 export const getTime = (state: RootState) => {
     return state.data.times.one 
-        ? '1'
+        ? 1
         : state.data.times.five
-            ? '5'
-            : '10'
+            ? 5
+            : 10
 }
 
 const calculateParam = (

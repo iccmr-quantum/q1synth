@@ -19,6 +19,7 @@ export function SidePanel() {
     return (
         <div className="side-panel">
             <div className={styles.buttons}>
+                <h2>Measuring Duration</h2>
                 {Object.entries(times).map(([time, isActive]) => (
                     <Button 
                         name={time} 
