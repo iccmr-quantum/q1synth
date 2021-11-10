@@ -16,10 +16,11 @@ export function SidePanel() {
     }
 
     return (
-        <div className="side-panel">
+        <div className={styles.sidePanel}>
             <Presets />
+            <div className={styles.buttonsContainer}></div>
+            <h2>Duration of Measurement</h2>
             <div className={styles.buttons}>
-                <h2>Duration of Measurement</h2>
                 {Object.entries(times).map(([time, isActive]) => (
                     <Button 
                         name={time} 

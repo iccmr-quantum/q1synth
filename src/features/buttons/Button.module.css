@@ -6,8 +6,13 @@
     border-radius: 5px;
     font-family: 'Source Code Pro', monospace;
     cursor: pointer;
-    margin: 0 1em 1em 0;
-    min-width: 8em;
+    margin-bottom: 1em;
+    margin-right: 1em;
+    width: 100%;
+}
+
+.button:last-of-type {
+    margin-right: 0;
 }
 
 .button:disabled {

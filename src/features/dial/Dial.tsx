@@ -28,7 +28,7 @@ export function Dial() {
                     cx="100" 
                     cy="100" 
                     r="95" 
-                    stroke="#FFF" 
+                    stroke="#000" 
                     strokeWidth="2"
                     fill="transparent"
                 ></circle>
@@ -37,7 +37,7 @@ export function Dial() {
                     cx="100" 
                     cy="300" 
                     r="95" 
-                    stroke="#FFF" 
+                    stroke="#000" 
                     strokeWidth="2"
                     fill="transparent"
                 ></circle>
