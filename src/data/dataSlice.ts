@@ -3,6 +3,14 @@ import { Slider, Dictionary } from '../types';
 import { RootState } from '../app/store';
 import { mapToRange, blendBetweenValues } from '../functions/utils';
 import { synth, SynthArgs } from '../features/sound';
+import preset0 from './presets/preset0'
+import preset1 from './presets/preset1'
+import preset2 from './presets/preset2'
+import preset3 from './presets/preset3'
+import preset4 from './presets/preset4'
+import preset5 from './presets/preset5'
+import preset6 from './presets/preset6'
+import preset7 from './presets/preset7'
 
 interface SynthSlider extends Dictionary{
     freq: Slider
@@ -29,6 +37,13 @@ export interface Times extends Dictionary {
     one: boolean
     five: boolean
     ten: boolean
+}
+
+export interface Preset {
+    leftA: SynthSlider
+    rightA: SynthSlider
+    env: EnvSlider
+    modEnv: EnvSlider
 }
 
 export interface DataState extends Dictionary {
@@ -137,6 +152,20 @@ export const dataSlice = createSlice({
             state.times = {...reset, [button]: true}
         },
         setPreset: (state, action: PayloadAction<number>) => {
+            const presets = [preset0, preset1, preset2, preset3, preset4, preset5, preset6, preset7]
+            const preset = presets[action.payload]
+            state.leftA = preset.leftA
+            state.rightA = preset.rightA
+            state.env = preset.env
+            state.modEnv = preset.modEnv
+            
+            // console.log({
+            //     leftA: JSON.parse(JSON.stringify(state.leftA)),
+            //     rightA: JSON.parse(JSON.stringify(state.rightA)),
+            //     env: JSON.parse(JSON.stringify(state.env)),
+            //     modEnv: JSON.parse(JSON.stringify(state.modEnv))
+            // })
+
             state.preset = action.payload
         }
     }

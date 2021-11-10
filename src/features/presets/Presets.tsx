@@ -19,6 +19,7 @@ export function Presets() {
                         `}
                         onClick={() => dispatch(setPreset(i))}
                         disabled={disabled}
+                        key={i}
                     >
                         { i + 1 }
                     </button>
