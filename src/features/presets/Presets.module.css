@@ -1,15 +1,12 @@
-.container {
-
-}
-
 .buttons {
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
     flex: 1;
 }
 
 .button {
-    flex-basis: 20%;
+    flex-basis: calc(25% - (3em/4));
     color: white;
     background-color: transparent;
     padding: 1em;
@@ -17,7 +14,7 @@
     border-radius: 5px;
     font-family: 'Source Code Pro', monospace;
     cursor: pointer;
-    margin: 0 1em 1em 0;
+    margin-bottom: 1em;
 }
 
 .button:disabled {

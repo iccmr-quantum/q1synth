@@ -11,10 +11,10 @@
     position: relative;
 }
 .slider {
-    width: 70%;
+    width: 80%;
 }
 .label {
-    width: 30%;
+    width: 20%;
     color: #FFF;
     font-size: 0.65em;
     position: relative;
@@ -27,4 +27,9 @@
 }
 .textRight {
     text-align: right;
+}
+
+@media (max-width: 1400px) {
+    .slider { width: 70%;}
+    .label { width: 30%;}
 }
