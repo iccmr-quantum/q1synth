@@ -1,7 +1,7 @@
 import React, {  } from 'react'
 import { Knob } from "react-rotary-knob";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { setDialValue, getDialValue } from '../sound/synthSlice';
+import { setDialValue, getDialValue } from '../../data/dataSlice';
 
 const knobStyles = {
     width: '200px',

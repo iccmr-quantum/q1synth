@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Slider, Dictionary } from '../../types';
-import { RootState } from '../../app/store';
-import { mapToRange, blendBetweenValues } from '../../functions/utils';
-import { synth, SynthArgs } from '.';
+import { Slider, Dictionary } from '../types';
+import { RootState } from '../app/store';
+import { mapToRange, blendBetweenValues } from '../functions/utils';
+import { synth, SynthArgs } from '../features/sound';
 
 interface SynthSlider extends Dictionary{
     freq: Slider
@@ -19,7 +19,7 @@ interface EnvSlider {
     release: Slider
 }
 
-export interface SoundState extends Dictionary {
+export interface MainState extends Dictionary {
     dial: number
     time: string
     leftA: SynthSlider
@@ -28,7 +28,7 @@ export interface SoundState extends Dictionary {
     modEnv: EnvSlider
 }
 
-const initialState: SoundState = {
+const initialState: MainState = {
     dial: 0,
     time: '4m',
     leftA: {
@@ -73,8 +73,8 @@ const initialState: SoundState = {
     }
 };
 
-export const synthSlice = createSlice({
-    name: 'synth',
+export const dataSlice = createSlice({
+    name: 'data',
     initialState,
     reducers: {
         setDialValue: (state, action: PayloadAction<number>) => {
@@ -103,12 +103,12 @@ export const synthSlice = createSlice({
     }
 });
 
-export const { setDialValue, incrementDialValue, setSlider, randomiseSliderGroup, setTime } = synthSlice.actions;
+export const { setDialValue, incrementDialValue, setSlider, randomiseSliderGroup, setTime } = dataSlice.actions;
 
-export const getDialValue = (state: RootState) => state.synth.dial;
-export const getSlidersValue = (group: string) => (state: RootState) => state.synth[group];
-export const getTime = (state: RootState) => state.synth.time;
-export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.synth, [state.synth.leftA, state.synth.rightA], [90, 270])
+export const getDialValue = (state: RootState) => state.data.dial;
+export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];
+export const getTime = (state: RootState) => state.data.time;
+export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.data, [state.data.leftA, state.data.rightA], [90, 270])
 
 const calculateParam = (
     dial: number, 
@@ -131,7 +131,7 @@ const calculateEnvelope = (
     release: mapToRange(env.release.value, 0, 1, 0, 4)
 })
 
-const calculateParams = (state: SoundState, sliders: SynthSlider[], points: number[]) : SynthArgs => {
+const calculateParams = (state: MainState, sliders: SynthSlider[], points: number[]) : SynthArgs => {
     const { dial, env, modEnv } = state
 
     return { 
@@ -146,4 +146,4 @@ const calculateParams = (state: SoundState, sliders: SynthSlider[], points: numb
     }
 }
 
-export default synthSlice.reducer;
+export default dataSlice.reducer;

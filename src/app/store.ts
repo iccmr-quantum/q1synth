@@ -1,11 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import buttonsReducer from '../features/buttons/buttonsSlice';
-import synthReducer from '../features/sound/synthSlice';
+import dataReducer from '../data/dataSlice';
 
 export const store = configureStore({
     reducer: {
         buttons: buttonsReducer,
-        synth: synthReducer
+        data: dataReducer
     },
 });
 

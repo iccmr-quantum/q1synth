@@ -1,7 +1,7 @@
 import React, {  } from 'react'
 import Slider from 'rc-slider';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getDialValue, getSlidersValue, setSlider,  } from '../sound/synthSlice';
+import { getDialValue, getSlidersValue, setSlider,  } from '../../data/dataSlice';
 import 'rc-slider/assets/index.css';
 import styles from './Sliders.module.css';
 

@@ -5,7 +5,7 @@ import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive } from '../buttons/buttonsSlice';
-import { getSynthParams, incrementDialValue , getDialValue, randomiseSliderGroup, getTime } from '../sound/synthSlice';
+import { getSynthParams, incrementDialValue , getDialValue, randomiseSliderGroup, getTime } from '../../data/dataSlice';
 import styles from './Controls.module.css';
 import { synth } from '../sound';
 import { shortestAngle, tossWeightedCoin, mapToRange } from '../../functions/utils';
