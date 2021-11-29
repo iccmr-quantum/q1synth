@@ -3,7 +3,11 @@ import { mapToRange } from '../../functions/utils';
 import { SynthArgs } from './'
 
 export const makeSynth = () => {
-    const limiter = new Tone.Limiter(-20).toDestination();
+    const recorder = new Tone.Recorder({mimeType: 'audio/webm'});
+    const limiter = new Tone.Limiter(-20)
+    limiter.toDestination();
+    limiter.connect(recorder);
+
     const reverb = new Tone.Reverb().connect(limiter);
     reverb.set({ decay: 5 });
     
@@ -27,6 +31,19 @@ export const makeSynth = () => {
         synthR.volume.rampTo(volume * blend, 0.25)
     }
 
+    const record = () => recorder.start()
+
+    const downloadRecording = async () => {
+        const recording = await recorder.stop();
+        
+        // download the recording by creating an anchor element and blob url
+        const url = URL.createObjectURL(recording);
+        const anchor = document.createElement("a");
+        anchor.download = "recording.webm";
+        anchor.href = url;
+        anchor.click();
+    }
+
     return function methods() {
         return {
             set: (args: SynthArgs) => {
@@ -48,10 +65,16 @@ export const makeSynth = () => {
             play: (args: SynthArgs, duration: Tone.Unit.Time) => {
                 const { freq } = args
                 setParams(args)
+
+                record()
+                
                 synthL.triggerAttackRelease(freq, duration)
                 synthR.triggerAttackRelease(freq, duration)
+                
+                setTimeout(downloadRecording, (+duration + 3) * 1000)
+                
                 return methods()
-            }
+            },
         }
     }()
 }
