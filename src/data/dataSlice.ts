@@ -119,7 +119,7 @@ export const dataSlice = createSlice({
         },
         incrementDialValue: (state, action: PayloadAction<number>) => {
             state.dial = (state.dial + action.payload) % 360;
-            synth.set(calculateParams(state, [state.leftA, state.rightA, state.leftB, state.rightB], [45, 135, 225, 315]))
+            synth.set(calculateParams(state, [state.leftA, state.rightA, state.rightB, state.leftB], [45, 135, 225, 315]))
         },
         setSlider: (state, action: PayloadAction<{group: string, key: string, value: number, dial: number}>) => {
             const { group, key, value } = action.payload
