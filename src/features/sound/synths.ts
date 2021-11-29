@@ -3,9 +3,10 @@ import { mapToRange } from '../../functions/utils';
 import { SynthArgs } from './'
 
 export const makeSynth = () => {
-    const recorder = new Tone.Recorder({mimeType: 'audio/webm'});
     const limiter = new Tone.Limiter(-20)
     limiter.toDestination();
+    
+    const recorder = new Tone.Recorder();
     limiter.connect(recorder);
 
     const reverb = new Tone.Reverb().connect(limiter);
