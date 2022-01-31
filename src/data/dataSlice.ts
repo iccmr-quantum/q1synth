@@ -160,12 +160,6 @@ export const dataSlice = createSlice({
             state.env = preset.env
             state.modEnv = preset.modEnv
             
-            // console.log({
-            //     leftA: JSON.parse(JSON.stringify(state.leftA)),
-            //     rightA: JSON.parse(JSON.stringify(state.rightA)),
-            //     env: JSON.parse(JSON.stringify(state.env)),
-            //     modEnv: JSON.parse(JSON.stringify(state.modEnv))
-            // })
             synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
             state.preset = action.payload
         }

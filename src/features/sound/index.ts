@@ -1,6 +1,7 @@
 import * as Tone from 'tone'
 import { Dictionary } from '../../types'
 import { makeSynth } from './synths'
+import {WebMidi} from 'webmidi';
 
 export interface SynthArgs extends Dictionary {
     freq: number
@@ -35,3 +36,9 @@ export const synth = makeSynth()
 
 window.addEventListener('click', startAudio)
 
+async function startMidi() : Promise<void> {
+    await WebMidi.enable()
+    console.log(WebMidi.inputs)
+}
+
+startMidi()
