@@ -11,14 +11,22 @@ export function SidePanel() {
     const times = useAppSelector(getTimes)
     const disabled = useAppSelector(getDisabledStatus)
 
-    const [show, setShow] = useState(true)
+    const [show, setShow] = useState(false)
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
         (button === 'one' || button === 'five' || button === 'ten') && dispatch(setTime({button}))
     }
 
+    function handleHideShow() {
+        setShow(!show)
+    }
+
     return (
         <div className={`${styles.sidePanel} ${show ? styles.sidePanelOpen : styles.sidePanelClosed}`}>
+            <span 
+                className={styles.toggle}
+                onClick={() => handleHideShow()}
+            >Config</span>
             <Presets />
             <div className={styles.buttonsContainer}></div>
             <h2>Duration of Measurement</h2>
