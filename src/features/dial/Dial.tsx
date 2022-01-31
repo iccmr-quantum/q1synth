@@ -33,7 +33,7 @@ export function Dial() {
                     fill="transparent"
                 ></circle>
                 <circle 
-                className="dial-svg__circle-x"
+                    className="dial-svg__circle-x"
                     cx="100" 
                     cy="300" 
                     r="95" 

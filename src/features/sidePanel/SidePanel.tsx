@@ -1,4 +1,4 @@
-import React, { MouseEvent} from 'react';
+import React, { MouseEvent, useState} from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
@@ -11,12 +11,14 @@ export function SidePanel() {
     const times = useAppSelector(getTimes)
     const disabled = useAppSelector(getDisabledStatus)
 
+    const [show, setShow] = useState(true)
+
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
         (button === 'one' || button === 'five' || button === 'ten') && dispatch(setTime({button}))
     }
 
     return (
-        <div className={styles.sidePanel}>
+        <div className={`${styles.sidePanel} ${show ? styles.sidePanelOpen : styles.sidePanelClosed}`}>
             <Presets />
             <div className={styles.buttonsContainer}></div>
             <h2>Duration of Measurement</h2>
