@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import dataReducer from '../data/dataSlice';
+import midiReducer from '../midi/midiSlice';
 
 export const store = configureStore({
     reducer: {
-        data: dataReducer
+        data: dataReducer,
+        midi: midiReducer
     },
 });
 

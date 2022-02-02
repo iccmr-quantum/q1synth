@@ -1,16 +1,18 @@
 import React, { MouseEvent, useState} from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Sliders } from '../sliders/Sliders';
+import { Select } from '../select/Select';
 import { Button } from '../buttons/Button';
 import { Presets } from '../presets/Presets';
 import { getTimes, setTime, getDisabledStatus } from '../../data/dataSlice';
+import { getMidiInputs } from '../../midi/midiSlice';
 import styles from './SidePanel.module.css'
 
 export function SidePanel() {
     const dispatch = useAppDispatch()
     const times = useAppSelector(getTimes)
     const disabled = useAppSelector(getDisabledStatus)
-
+    const midiInputs = useAppSelector(getMidiInputs)
     const [show, setShow] = useState(false)
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
@@ -44,6 +46,7 @@ export function SidePanel() {
                 </div>
                 <Sliders group="env" title="Envelope"/>
                 <Sliders group="modEnv" title="Modulation Envelope"/>
+                <Select title="MIDI" options={midiInputs} />
             </div>
         </aside>
     );

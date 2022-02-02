@@ -19,7 +19,7 @@ const initialState: MidiState = {
     inputs: []
 };
 
-export const dataSlice = createSlice({
+export const midiSlice = createSlice({
     name: 'midi',
     initialState,
     reducers: {
@@ -32,9 +32,10 @@ export const dataSlice = createSlice({
     }
 });
 
-export const { setMidiStatus, setMidiInputs } = dataSlice.actions;
+export const { setMidiStatus, setMidiInputs } = midiSlice.actions;
 
-export const getMidiStatus = (state: RootState) => state.data.isEnabled;
+export const getMidiStatus = (state: RootState) => state.midi.isEnabled;
+export const getMidiInputs = (state: RootState) => state.midi.inputs;
 
 export const enableMidi = (): AppThunk => async dispatch => {
     await WebMidi.enable()
@@ -42,4 +43,4 @@ export const enableMidi = (): AppThunk => async dispatch => {
     WebMidi.enabled && dispatch(setMidiInputs(WebMidi.inputs.map(({id, name}) => ({id, name}))));
 }
 
-export default dataSlice.reducer;
+export default midiSlice.reducer;
