@@ -37,16 +37,13 @@
     transition: 0.5s all ease-out;
 }
 
-/* @media (max-width: 600px) {
+@media (max-width: 1200px) {
     .sidePanel {
-        max-width: calc(90vw - 4em);
-        padding: 2em;
-        overflow: hidden;
+        position: absolute;
+        right: 0;
+        max-width: calc(100vw - 38px);
     }
-    .sidePanelClosed {
-        transform: translateX(20em);
-    }
-} */
+}
 
 .buttons {
     width: 100%;

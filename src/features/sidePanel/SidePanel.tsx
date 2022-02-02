@@ -11,7 +11,7 @@ export function SidePanel() {
     const times = useAppSelector(getTimes)
     const disabled = useAppSelector(getDisabledStatus)
 
-    const [show, setShow] = useState(true)
+    const [show, setShow] = useState(false)
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
         (button === 'one' || button === 'five' || button === 'ten') && dispatch(setTime({button}))
