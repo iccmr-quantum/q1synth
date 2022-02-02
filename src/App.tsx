@@ -1,9 +1,14 @@
 import React from 'react';
 import { Controls } from './features/controls/Controls';
 import { SidePanel } from './features/sidePanel/SidePanel';
+import { enableMidi } from './midi/midiSlice';
+import { useAppDispatch } from './app/hooks';
 import './App.css';
 
 function App() {
+    const dispatch = useAppDispatch()
+    dispatch(enableMidi())
+
     return (
         <div className="App">
             <div className="main">
