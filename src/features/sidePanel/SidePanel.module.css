@@ -12,37 +12,32 @@
     border-left: 2px solid white;
     background-color: #323232;
     cursor: pointer;
+    border-radius: 0 0 5px 5px;
 }
 
 .sidePanel {
-    width: 20em;
-    max-width: calc(100vw - 8em);
-    padding: 4em;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    position: relative;
     background-color: #323232;
     border-left: 2px solid white;
-    /* overflow-y: scroll; */
-    overflow-x: visible;
+    min-height: 100vh;
 }
 
+.sidePanel__content {
+    min-width: 20em;
+    padding: 4em;
+}
 
 .sidePanelOpen {
-    transform: translateX(0);
+    width: 28em;
     transition: 0.5s all ease-out;
 }
 
 .sidePanelClosed {
-    transform: translateX(28.2em);
+    width: 0;
     transition: 0.5s all ease-out;
 }
 
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
     .sidePanel {
         max-width: calc(90vw - 4em);
         padding: 2em;
@@ -51,7 +46,7 @@
     .sidePanelClosed {
         transform: translateX(20em);
     }
-}
+} */
 
 .buttons {
     width: 100%;

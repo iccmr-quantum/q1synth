@@ -11,7 +11,7 @@ export function SidePanel() {
     const times = useAppSelector(getTimes)
     const disabled = useAppSelector(getDisabledStatus)
 
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(true)
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
         (button === 'one' || button === 'five' || button === 'ten') && dispatch(setTime({button}))
@@ -22,27 +22,29 @@ export function SidePanel() {
     }
 
     return (
-        <div className={`${styles.sidePanel} ${show ? styles.sidePanelOpen : styles.sidePanelClosed}`}>
-            <span 
-                className={styles.toggle}
-                onClick={() => handleHideShow()}
-            >Config</span>
-            <Presets />
-            <div className={styles.buttonsContainer}></div>
-            <h2>Duration of Measurement</h2>
-            <div className={styles.buttons}>
-                {Object.entries(times).map(([time, isActive]) => (
-                    <Button 
-                        name={time} 
-                        isActive={isActive}
-                        disabled={disabled}  
-                        onClick={handleButtonOnClick}
-                        key={time}
-                    />
-                ))}
+        <aside className={`${styles.sidePanel} ${show ? styles.sidePanelOpen : styles.sidePanelClosed}`}>
+            <div className={styles.sidePanel__content}>
+                <span 
+                    className={styles.toggle}
+                    onClick={() => handleHideShow()}
+                >Config</span>
+                <Presets />
+                <div className={styles.buttonsContainer}></div>
+                <h2>Duration of Measurement</h2>
+                <div className={styles.buttons}>
+                    {Object.entries(times).map(([time, isActive]) => (
+                        <Button 
+                            name={time} 
+                            isActive={isActive}
+                            disabled={disabled}  
+                            onClick={handleButtonOnClick}
+                            key={time}
+                        />
+                    ))}
+                </div>
+                <Sliders group="env" title="Envelope"/>
+                <Sliders group="modEnv" title="Modulation Envelope"/>
             </div>
-            <Sliders group="env" title="Envelope"/>
-            <Sliders group="modEnv" title="Modulation Envelope"/>
-        </div>
+        </aside>
     );
 }
