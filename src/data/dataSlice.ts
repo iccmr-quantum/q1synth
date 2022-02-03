@@ -45,8 +45,18 @@ export interface Preset {
     modEnv: EnvSlider
 }
 
+interface xyzPosition {
+    value: number 
+    midicc: number
+}
+
 export interface DataState extends Dictionary {
     dial: number
+    dialPosition: {
+        x: xyzPosition
+        y: xyzPosition
+        z: xyzPosition
+    }
     leftA: SynthSlider
     rightA: SynthSlider
     env: EnvSlider
@@ -59,19 +69,24 @@ export interface DataState extends Dictionary {
 
 const initialState: DataState = {
     dial: 0,
+    dialPosition: {
+        x: {value: 0, midicc: 1},
+        y: {value: 0, midicc: 2},
+        z: {value: 0, midicc: 3},
+    },
     leftA: {
-        freq: {value: 0, label: 'freq', min: 70, max: 1000},
-        volume: {value: 1, label: 'amp', min: -50, max: -3},
-        reverb: {value: 0.8, label: 'reverb', min: 0, max: 0.8},
-        modulationIndex: {value: 0, label: 'mod index', min: 0, max: 20},
-        harmonicity: {value: 0.05, label: 'harmonicity', min: 1, max: 20},
+        freq: {value: 0, label: 'freq', min: 70, max: 1000, midicc: 4},
+        volume: {value: 1, label: 'amp', min: -50, max: -3, midicc: 5},
+        reverb: {value: 0.8, label: 'reverb', min: 0, max: 0.8, midicc: 6},
+        modulationIndex: {value: 0, label: 'mod index', min: 0, max: 20, midicc: 7},
+        harmonicity: {value: 0.05, label: 'harmonicity', min: 1, max: 20, midicc: 8},
     },
     rightA: {
-        freq: {value: 0.2, label: 'freq', min: 70, max: 1000},
-        volume: {value: 0.5, label: 'amp', min: -50, max: -3},
-        reverb: {value: 1, label: 'reverb', min: 0, max: 0.8},
-        modulationIndex: {value: 1, label: 'mod index', min: 0, max: 20},
-        harmonicity: {value: 1, label: 'harmonicity', min: 1, max: 20},
+        freq: {value: 0.2, label: 'freq', min: 70, max: 1000, midicc: 9},
+        volume: {value: 0.5, label: 'amp', min: -50, max: -3, midicc: 10},
+        reverb: {value: 1, label: 'reverb', min: 0, max: 0.8, midicc: 11},
+        modulationIndex: {value: 1, label: 'mod index', min: 0, max: 20, midicc: 12},
+        harmonicity: {value: 1, label: 'harmonicity', min: 1, max: 20, midicc: 13},
     },
     leftB: {
         freq: {value: 0, label: 'freq', min: 70, max: 1000},
@@ -88,16 +103,16 @@ const initialState: DataState = {
         harmonicity: {value: 0.05, label: 'harmonicity', min: 1, max: 20},
     },    
     env: {
-        attack: {value: 0.25, label: 'attack', min: 0, max: 1},
-        decay: {value: 0.1, label: 'decay', min: 0, max: 1},
-        sustain: {value: 0.5, label: 'sustain', min: 0, max: 1},
-        release: {value: 0.5, label: 'release', min: 0, max: 4}
+        attack: {value: 0.25, label: 'attack', min: 0, max: 1, midicc: 14},
+        decay: {value: 0.1, label: 'decay', min: 0, max: 1, midicc: 15},
+        sustain: {value: 0.5, label: 'sustain', min: 0, max: 1, midicc: 16},
+        release: {value: 0.5, label: 'release', min: 0, max: 4, midicc: 17}
     },
     modEnv: {
-        attack: {value: 0.1, label: 'attack', min: 0, max: 1},
-        decay: {value: 1, label: 'decay', min: 0, max: 1},
-        sustain: {value: 1, label: 'sustain', min: 0, max: 1},
-        release: {value: 0.5, label: 'release', min: 0, max: 4}
+        attack: {value: 0.1, label: 'attack', min: 0, max: 1, midicc: 18},
+        decay: {value: 1, label: 'decay', min: 0, max: 1, midicc: 19},
+        sustain: {value: 1, label: 'sustain', min: 0, max: 1, midicc: 20},
+        release: {value: 0.5, label: 'release', min: 0, max: 4, midicc: 21}
     },
     buttons: {
         rotate: false, measure: false, disabled: false
