@@ -1,22 +1,29 @@
 import React, {  } from 'react'
 import styles from './Select.module.css';
 
+interface onChangeSelectHandler {
+    (event: React.ChangeEvent<HTMLSelectElement>) : void
+}
 interface selectProps {
     title: string
-    options: {id: string, name: string}[]
+    options: {id: string, label: string}[]
+    onChange: onChangeSelectHandler
 }
 
-export function Select({options, title} : selectProps) {
+export function Select({options, title, onChange} : selectProps) {
     return (
         <div>
             { title && <h2>{ title }</h2> }
-            <select className={styles.select}>
-                { options && options.map(({id, name}) => (
+            <select 
+                className={styles.select}
+                onChange={e => onChange(e)}
+            >
+                { options && options.map(({id, label}) => (
                     <option 
                         key={id} 
                         className={styles.option}
                         value={id}
-                    >{name}</option>
+                    >{label}</option>
                 )) }
             </select>
         </div> 

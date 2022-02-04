@@ -47,7 +47,6 @@ export interface Preset {
 
 interface xyzPosition {
     value: number 
-    midicc: number
 }
 
 export interface DataState extends Dictionary {
@@ -70,23 +69,23 @@ export interface DataState extends Dictionary {
 const initialState: DataState = {
     dial: 0,
     dialPosition: {
-        x: {value: 0, midicc: 1},
-        y: {value: 0, midicc: 2},
-        z: {value: 0, midicc: 3},
+        x: {value: 0},
+        y: {value: 0},
+        z: {value: 0},
     },
     leftA: {
-        freq: {value: 0, label: 'freq', min: 70, max: 1000, midicc: 4},
-        volume: {value: 1, label: 'amp', min: -50, max: -3, midicc: 5},
-        reverb: {value: 0.8, label: 'reverb', min: 0, max: 0.8, midicc: 6},
-        modulationIndex: {value: 0, label: 'mod index', min: 0, max: 20, midicc: 7},
-        harmonicity: {value: 0.05, label: 'harmonicity', min: 1, max: 20, midicc: 8},
+        freq: {value: 0, label: 'freq', min: 70, max: 1000},
+        volume: {value: 1, label: 'amp', min: -50, max: -3},
+        reverb: {value: 0.8, label: 'reverb', min: 0, max: 0.8},
+        modulationIndex: {value: 0, label: 'mod index', min: 0, max: 20},
+        harmonicity: {value: 0.05, label: 'harmonicity', min: 1, max: 20},
     },
     rightA: {
-        freq: {value: 0.2, label: 'freq', min: 70, max: 1000, midicc: 9},
-        volume: {value: 0.5, label: 'amp', min: -50, max: -3, midicc: 10},
-        reverb: {value: 1, label: 'reverb', min: 0, max: 0.8, midicc: 11},
-        modulationIndex: {value: 1, label: 'mod index', min: 0, max: 20, midicc: 12},
-        harmonicity: {value: 1, label: 'harmonicity', min: 1, max: 20, midicc: 13},
+        freq: {value: 0.2, label: 'freq', min: 70, max: 1000},
+        volume: {value: 0.5, label: 'amp', min: -50, max: -3},
+        reverb: {value: 1, label: 'reverb', min: 0, max: 0.8},
+        modulationIndex: {value: 1, label: 'mod index', min: 0, max: 20},
+        harmonicity: {value: 1, label: 'harmonicity', min: 1, max: 20},
     },
     leftB: {
         freq: {value: 0, label: 'freq', min: 70, max: 1000},
@@ -103,16 +102,16 @@ const initialState: DataState = {
         harmonicity: {value: 0.05, label: 'harmonicity', min: 1, max: 20},
     },    
     env: {
-        attack: {value: 0.25, label: 'attack', min: 0, max: 1, midicc: 14},
-        decay: {value: 0.1, label: 'decay', min: 0, max: 1, midicc: 15},
-        sustain: {value: 0.5, label: 'sustain', min: 0, max: 1, midicc: 16},
-        release: {value: 0.5, label: 'release', min: 0, max: 4, midicc: 17}
+        attack: {value: 0.25, label: 'attack', min: 0, max: 1},
+        decay: {value: 0.1, label: 'decay', min: 0, max: 1},
+        sustain: {value: 0.5, label: 'sustain', min: 0, max: 1},
+        release: {value: 0.5, label: 'release', min: 0, max: 4}
     },
     modEnv: {
-        attack: {value: 0.1, label: 'attack', min: 0, max: 1, midicc: 18},
-        decay: {value: 1, label: 'decay', min: 0, max: 1, midicc: 19},
-        sustain: {value: 1, label: 'sustain', min: 0, max: 1, midicc: 20},
-        release: {value: 0.5, label: 'release', min: 0, max: 4, midicc: 21}
+        attack: {value: 0.1, label: 'attack', min: 0, max: 1},
+        decay: {value: 1, label: 'decay', min: 0, max: 1},
+        sustain: {value: 1, label: 'sustain', min: 0, max: 1},
+        release: {value: 0.5, label: 'release', min: 0, max: 4}
     },
     buttons: {
         rotate: false, measure: false, disabled: false
@@ -136,7 +135,7 @@ export const dataSlice = createSlice({
             state.dial = (state.dial + action.payload) % 360;
             synth.set(calculateParams(state, [state.leftA, state.rightA, state.rightB, state.leftB], [45, 135, 225, 315]))
         },
-        setSlider: (state, action: PayloadAction<{group: string, key: string, value: number, dial: number}>) => {
+        setData: (state, action: PayloadAction<{group: string, key: string, value: number}>) => {
             const { group, key, value } = action.payload
             state[group][key].value = value;
             synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
@@ -181,7 +180,7 @@ export const dataSlice = createSlice({
     }
 });
 
-export const { setPreset, setDialValue, incrementDialValue, setSlider, randomiseSliderGroup, setTime, setButtonValue, setButtonsDisabled, setButtonsActive } = dataSlice.actions;
+export const { setPreset, setDialValue, incrementDialValue, setData, randomiseSliderGroup, setTime, setButtonValue, setButtonsDisabled, setButtonsActive } = dataSlice.actions;
 
 export const getDialValue = (state: RootState) => state.data.dial;
 export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];

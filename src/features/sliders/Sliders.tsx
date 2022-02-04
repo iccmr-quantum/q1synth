@@ -1,7 +1,7 @@
 import React, {  } from 'react'
 import Slider from 'rc-slider';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getDialValue, getSlidersValue, setSlider, getDisabledStatus } from '../../data/dataSlice';
+import { getSlidersValue, setData, getDisabledStatus } from '../../data/dataSlice';
 import 'rc-slider/assets/index.css';
 import styles from './Sliders.module.css';
 
@@ -14,30 +14,30 @@ interface sliderProps {
 export function Sliders({group, title, invert} : sliderProps) {
     const dispatch = useAppDispatch()
     const sliders = useAppSelector(getSlidersValue(group));
-    const dial = useAppSelector(getDialValue);
+
     const disabled = useAppSelector(getDisabledStatus)
     
     function handleOnChange(value: number, key: string) {
-        dispatch(setSlider({group, key, value, dial}))
+        dispatch(setData({group, key, value}))
     }
 
     return (
         <div className={styles.sliders}>
             { title && <h2 className={invert ? styles.textrightA : ''}>{ title }</h2> }
             {Object.values(sliders).map((
-                {value, label} : any,
+                {label, value} : any,
                 i: number
             ) => (
                 <div className={styles.container} key={i}>
                     <Slider
                         className={styles.slider}
-                        value={value}
                         min={0} 
                         max={1}
-                        onChange={(e) => handleOnChange(e, Object.keys(sliders)[i])}
+                        onChange={val => handleOnChange(val, Object.keys(sliders)[i])}
                         step={0.01}
                         key={i}
                         disabled={disabled}
+                        value={value}
                     />
                     <p className={`
                         ${styles.label} 

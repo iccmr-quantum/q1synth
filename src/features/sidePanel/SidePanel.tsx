@@ -5,7 +5,7 @@ import { Select } from '../select/Select';
 import { Button } from '../buttons/Button';
 import { Presets } from '../presets/Presets';
 import { getTimes, setTime, getDisabledStatus } from '../../data/dataSlice';
-import { getMidiInputs } from '../../midi/midiSlice';
+import { getMidiInputs, setActiveInput } from '../../midi/midiSlice';
 import styles from './SidePanel.module.css'
 
 export function SidePanel() {
@@ -21,6 +21,11 @@ export function SidePanel() {
 
     function handleHideShow() {
         setShow(!show)
+    }
+
+    function handleMidiSelect(e: React.ChangeEvent<HTMLSelectElement>) {
+        dispatch(setActiveInput(e.target.value))
+        // console.log(e.target.value)
     }
 
     return (
@@ -46,7 +51,11 @@ export function SidePanel() {
                 </div>
                 <Sliders group="env" title="Envelope"/>
                 <Sliders group="modEnv" title="Modulation Envelope"/>
-                <Select title="MIDI" options={midiInputs} />
+                <Select 
+                    title="MIDI" 
+                    options={midiInputs.map(({id, name}) => ({id, label: name}))} 
+                    onChange={handleMidiSelect}
+                />
             </div>
         </aside>
     );

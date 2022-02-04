@@ -2,12 +2,17 @@ import React from 'react';
 import { Controls } from './features/controls/Controls';
 import { SidePanel } from './features/sidePanel/SidePanel';
 import { enableMidi } from './midi/midiSlice';
-import { useAppDispatch } from './app/hooks';
+import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
+// import { midiMap } from './data/midiMap'
 
 function App() {
     const dispatch = useAppDispatch()
     dispatch(enableMidi())
+
+    // Webmidi on message
+    // use midimap to get group and key
+    // setData(group, key)
 
     return (
         <div className="App">
