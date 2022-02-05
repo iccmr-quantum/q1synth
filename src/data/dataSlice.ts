@@ -136,12 +136,14 @@ export const dataSlice = createSlice({
         },
         setControl: (state, action: PayloadAction<{group: string, key: string, value: number}>) => {
             const { group, key, value } = action.payload
-            state[group][key].value = value;
-            
-            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
+
+            state[group][key].value = key === 'degrees' ? value * 360 : value;
             
             group === 'qubit' 
+                && key !== 'degrees'
                 && (state.qubit.degrees.value = calculateDial(state.qubit.x.value, state.qubit.y.value))
+            
+            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
         },
         randomiseSliderGroup: (state, action: PayloadAction<string>) => {
             state[action.payload].freq.value = Math.random()
