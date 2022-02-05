@@ -45,17 +45,19 @@ export interface Preset {
     modEnv: EnvSlider
 }
 
-interface xyzPosition {
+interface value {
     value: number 
 }
 
+interface Qubit {
+    degrees: value
+    x: value
+    y: value
+    z: value
+}
+
 export interface DataState extends Dictionary {
-    dial: number
-    qubit: {
-        x: xyzPosition
-        y: xyzPosition
-        z: xyzPosition
-    }
+    qubit: Qubit
     leftA: SynthSlider
     rightA: SynthSlider
     env: EnvSlider
@@ -67,8 +69,8 @@ export interface DataState extends Dictionary {
 }
 
 const initialState: DataState = {
-    dial: 0,
     qubit: {
+        degrees: {value: 0},
         x: {value: 20},
         y: {value: 20},
         z: {value: 20},
@@ -128,11 +130,12 @@ export const dataSlice = createSlice({
     initialState,
     reducers: {
         setDialValue: (state, action: PayloadAction<number>) => {
-            state.dial = action.payload;
+            state.qubit.degrees.value = action.payload;
             synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
         },
         incrementDialValue: (state, action: PayloadAction<number>) => {
-            state.dial = (state.dial + action.payload) % 360;
+            const { value } = state.qubit.degrees
+            state.qubit.degrees.value = (value + action.payload) % 360;
             synth.set(calculateParams(state, [state.leftA, state.rightA, state.rightB, state.leftB], [45, 135, 225, 315]))
         },
         setControl: (state, action: PayloadAction<{group: string, key: string, value: number}>) => {
@@ -142,7 +145,7 @@ export const dataSlice = createSlice({
             synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
             
             group === 'qubit' 
-                && (state.dial = calculateDial(state.qubit.x.value, state.qubit.y.value))
+                && (state.qubit.degrees.value = calculateDial(state.qubit.x.value, state.qubit.y.value))
         },
         randomiseSliderGroup: (state, action: PayloadAction<string>) => {
             state[action.payload].freq.value = Math.random()
@@ -186,7 +189,7 @@ export const dataSlice = createSlice({
 
 export const { setPreset, setDialValue, incrementDialValue, setControl, randomiseSliderGroup, setTime, setButtonValue, setButtonsDisabled, setButtonsActive } = dataSlice.actions;
 
-export const getDialValue = (state: RootState) => state.data.dial;
+export const getDialValue = (state: RootState) => state.data.qubit.degrees.value;
 export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];
 export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.data, [state.data.leftA, state.data.rightA], [90, 270])
 export const getButtonValue = (button: 'rotate' | 'measure') => (state: RootState) => state.data.buttons[button];
@@ -223,7 +226,8 @@ const calculateEnvelope = (
 })
 
 const calculateParams = (state: DataState, sliders: SynthSlider[], points: number[]) : SynthArgs => {
-    const { dial, env, modEnv } = state
+    const { env, modEnv } = state
+    const dial = state.qubit.degrees.value
 
     return { 
         freq: calculateParam(dial, 'freq', sliders, points), 

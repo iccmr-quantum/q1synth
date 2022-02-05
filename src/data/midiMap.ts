@@ -4,6 +4,7 @@ interface Map {
 
 export const midiMap = (cc: number) : {group: string, key: string} => {
     const map: Map = {
+        0: {group: 'qubit', key: 'degrees'},
         1: {group: 'qubit', key: 'x'},
         2: {group: 'qubit', key: 'y'},
         3: {group: 'qubit', key: 'z'},
