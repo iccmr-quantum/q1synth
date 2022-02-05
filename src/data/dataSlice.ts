@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Slider, Dictionary } from '../types';
+import { Value, Slider, Dictionary } from '../types';
 import { RootState } from '../app/store';
 import { mapToRange, blendBetweenValues, xyToDegrees } from '../functions/utils';
 import { synth, SynthArgs } from '../features/sound';
@@ -45,15 +45,11 @@ export interface Preset {
     modEnv: EnvSlider
 }
 
-interface value {
-    value: number 
-}
-
 interface Qubit {
-    degrees: value
-    x: value
-    y: value
-    z: value
+    degrees: Value
+    x: Value
+    y: Value
+    z: Value
 }
 
 export interface DataState extends Dictionary {
