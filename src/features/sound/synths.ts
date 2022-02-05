@@ -75,7 +75,7 @@ export const makeSynth = () => {
                 setTimeout(downloadRecording, (+duration + 3) * 1000)
                 
                 return methods()
-            },
+            }
         }
     }()
 }

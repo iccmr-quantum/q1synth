@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Slider, Dictionary } from '../types';
 import { RootState } from '../app/store';
-import { mapToRange, blendBetweenValues } from '../functions/utils';
+import { mapToRange, blendBetweenValues, xyToDegrees } from '../functions/utils';
 import { synth, SynthArgs } from '../features/sound';
 import preset0 from './presets/preset0'
 import preset1 from './presets/preset1'
@@ -51,7 +51,7 @@ interface xyzPosition {
 
 export interface DataState extends Dictionary {
     dial: number
-    dialPosition: {
+    qubit: {
         x: xyzPosition
         y: xyzPosition
         z: xyzPosition
@@ -68,10 +68,10 @@ export interface DataState extends Dictionary {
 
 const initialState: DataState = {
     dial: 0,
-    dialPosition: {
-        x: {value: 0},
-        y: {value: 0},
-        z: {value: 0},
+    qubit: {
+        x: {value: 20},
+        y: {value: 20},
+        z: {value: 20},
     },
     leftA: {
         freq: {value: 0, label: 'freq', min: 70, max: 1000},
@@ -138,7 +138,11 @@ export const dataSlice = createSlice({
         setControl: (state, action: PayloadAction<{group: string, key: string, value: number}>) => {
             const { group, key, value } = action.payload
             state[group][key].value = value;
+            
             synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
+            
+            group === 'qubit' 
+                && (state.dial = calculateDial(state.qubit.x.value, state.qubit.y.value))
         },
         randomiseSliderGroup: (state, action: PayloadAction<string>) => {
             state[action.payload].freq.value = Math.random()
@@ -232,5 +236,10 @@ const calculateParams = (state: DataState, sliders: SynthSlider[], points: numbe
         blend: blendBetweenValues(dial, [0, 1], [90, 270])
     }
 }
+
+const calculateDial = (
+    x: number,
+    y: number
+) => xyToDegrees(x, y)
 
 export default dataSlice.reducer;

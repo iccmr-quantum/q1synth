@@ -11,6 +11,7 @@ const knobStyles = {
 export function Dial() {
     const dispatch = useAppDispatch()
     const value = useAppSelector(getDialValue);
+    
 
     const handleOnChange = (val: number) : void => {
         dispatch(setDialValue(val))

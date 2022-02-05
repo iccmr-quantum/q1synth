@@ -22,9 +22,9 @@ function App() {
         && WebMidi.getInputById(midiInput).addListener('controlchange', e => {
             const { value } = e
             const { number } = e.controller
-            const {group, key} = midiMap(number)
-            group && key && value
-                && dispatch(setControl({group, key, value: +value}))
+            const map = midiMap(number)
+            map && value
+                && dispatch(setControl({ group: map.group, key: map.key, value: +value }))
         });
 
     return (
