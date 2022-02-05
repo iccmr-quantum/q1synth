@@ -25,7 +25,6 @@ export function SidePanel() {
 
     function handleMidiSelect(e: React.ChangeEvent<HTMLSelectElement>) {
         dispatch(setActiveInput(e.target.value))
-        // console.log(e.target.value)
     }
 
     return (

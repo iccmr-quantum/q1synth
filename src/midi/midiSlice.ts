@@ -11,14 +11,14 @@ export interface MidiInput {
 export interface MidiState {
     isEnabled: boolean
     inputs: MidiInput[]
-    activeInputID: string | null
+    activeInputID: string
 }
 
 
 const initialState: MidiState = {
     isEnabled: false,
     inputs: [],
-    activeInputID: null
+    activeInputID: ''
 };
 
 export const midiSlice = createSlice({
@@ -46,7 +46,9 @@ export const getActiveMidiInput = (state: RootState) => state.midi.activeInputID
 export const enableMidi = (): AppThunk => async dispatch => {
     await WebMidi.enable()
     dispatch(setMidiStatus(WebMidi.enabled))
-    WebMidi.enabled && dispatch(setMidiInputs(WebMidi.inputs.map(({id, name}) => ({id, name}))));
+    WebMidi.enabled 
+        && dispatch(setMidiInputs(WebMidi.inputs.map(({id, name}) => ({id, name}))))
+        && dispatch(setActiveInput(WebMidi.inputs[0].id));
 }
 
 export default midiSlice.reducer;

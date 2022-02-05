@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controls } from './features/controls/Controls';
 import { SidePanel } from './features/sidePanel/SidePanel';
-import { enableMidi } from './midi/midiSlice';
+import { enableMidi, getMidiStatus, getActiveMidiInput } from './midi/midiSlice';
+import { setControl } from './data/dataSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
-// import { midiMap } from './data/midiMap'
+import { WebMidi } from 'webmidi';
+import { midiMap } from './data/midiMap'
 
 function App() {
     const dispatch = useAppDispatch()
-    dispatch(enableMidi())
+    useEffect(() => {
+        dispatch(enableMidi())
+    }, [dispatch])
+    
+    const midiIsEnabled = useAppSelector(getMidiStatus)
+    const midiInput = useAppSelector(getActiveMidiInput)
 
-    // Webmidi on message
-    // use midimap to get group and key
-    // setData(group, key)
+    midiIsEnabled 
+        && midiInput
+        && WebMidi.getInputById(midiInput).addListener('controlchange', e => {
+            const { value } = e
+            const { number } = e.controller
+            const {group, key} = midiMap(number)
+            group && key && value
+                && dispatch(setControl({group, key, value: +value}))
+        });
 
     return (
         <div className="App">

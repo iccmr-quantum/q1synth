@@ -135,7 +135,7 @@ export const dataSlice = createSlice({
             state.dial = (state.dial + action.payload) % 360;
             synth.set(calculateParams(state, [state.leftA, state.rightA, state.rightB, state.leftB], [45, 135, 225, 315]))
         },
-        setData: (state, action: PayloadAction<{group: string, key: string, value: number}>) => {
+        setControl: (state, action: PayloadAction<{group: string, key: string, value: number}>) => {
             const { group, key, value } = action.payload
             state[group][key].value = value;
             synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
@@ -180,7 +180,7 @@ export const dataSlice = createSlice({
     }
 });
 
-export const { setPreset, setDialValue, incrementDialValue, setData, randomiseSliderGroup, setTime, setButtonValue, setButtonsDisabled, setButtonsActive } = dataSlice.actions;
+export const { setPreset, setDialValue, incrementDialValue, setControl, randomiseSliderGroup, setTime, setButtonValue, setButtonsDisabled, setButtonsActive } = dataSlice.actions;
 
 export const getDialValue = (state: RootState) => state.data.dial;
 export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];

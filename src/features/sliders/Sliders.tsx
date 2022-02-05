@@ -1,7 +1,7 @@
 import React, {  } from 'react'
 import Slider from 'rc-slider';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getSlidersValue, setData, getDisabledStatus } from '../../data/dataSlice';
+import { getSlidersValue, setControl, getDisabledStatus } from '../../data/dataSlice';
 import 'rc-slider/assets/index.css';
 import styles from './Sliders.module.css';
 
@@ -18,7 +18,7 @@ export function Sliders({group, title, invert} : sliderProps) {
     const disabled = useAppSelector(getDisabledStatus)
     
     function handleOnChange(value: number, key: string) {
-        dispatch(setData({group, key, value}))
+        dispatch(setControl({group, key, value}))
     }
 
     return (
