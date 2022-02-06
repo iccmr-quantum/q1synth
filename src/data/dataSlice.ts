@@ -67,9 +67,9 @@ export interface DataState extends Dictionary {
 const initialState: DataState = {
     qubit: {
         degrees: {value: 0},
-        x: {value: 20},
-        y: {value: 20},
-        z: {value: 20},
+        x: {value: 0},
+        y: {value: 0},
+        z: {value: 0},
     },
     leftA: {
         freq: {value: 0, label: 'freq', min: 70, max: 1000},
@@ -242,6 +242,12 @@ const calculateParams = (state: DataState, sliders: SynthSlider[], points: numbe
 const calculateDial = (
     x: number,
     y: number
-) => xyToDegrees(x, y)
+) => {
+    console.log(mapToRange(x, 0, 1, -1, 1), mapToRange(y, 0, 1, -1, 1))
+    return xyToDegrees(
+        mapToRange(x, 0, 1, -1, 1), 
+        mapToRange(y, 0, 1, -1, 1)
+    )
+}
 
 export default dataSlice.reducer;
