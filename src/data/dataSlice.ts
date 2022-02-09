@@ -129,7 +129,7 @@ export const dataSlice = createSlice({
             state.qubit.degrees.value = action.payload;
             synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
         },
-        incrementDialValue: (state, action: PayloadAction<number>) => {
+        incrementQubitDegrees: (state, action: PayloadAction<number>) => {
             const { value } = state.qubit.degrees
             state.qubit.degrees.value = (value + action.payload) % 360;
             synth.set(calculateParams(state, [state.leftA, state.rightA, state.rightB, state.leftB], [45, 135, 225, 315]))
@@ -185,7 +185,7 @@ export const dataSlice = createSlice({
     }
 });
 
-export const { setPreset, setDialValue, incrementDialValue, setControl, randomiseSliderGroup, setTime, setButtonValue, setButtonsDisabled, setButtonsActive } = dataSlice.actions;
+export const { setPreset, setDialValue, incrementQubitDegrees, setControl, randomiseSliderGroup, setTime, setButtonValue, setButtonsDisabled, setButtonsActive } = dataSlice.actions;
 
 export const getDialValue = (state: RootState) => state.data.qubit.degrees.value;
 export const getQubit = (state: RootState) => state.data.qubit;

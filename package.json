@@ -18,6 +18,7 @@
     "rc-slider": "^9.7.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-p5-wrapper": "^3.1.0",
     "react-redux": "^7.2.0",
     "react-rotary-knob": "^1.1.8",
     "react-scripts": "4.0.3",

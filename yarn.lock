@@ -1902,7 +1902,7 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==
 
-"@types/p5@^1.4.0":
+"@types/p5@^1.3.3", "@types/p5@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@types/p5/-/p5-1.4.0.tgz#6d5e9874fa77b2906172633bddbb053e1d20cd96"
   integrity sha512-rhRG1FWaqrr+dzx5gMeADw194Q25hs73bzW1meKU69qFec1EhDGXhljydVL2D/Php5IBmlbX6XW3d+WyEACy/g==
@@ -7443,6 +7443,11 @@ lodash._reinterpolate@^3.0.0:
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
   integrity sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=
 
+lodash.debounce@^4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+  integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
+
 lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
@@ -7647,6 +7652,11 @@ methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
+
+microdiff@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/microdiff/-/microdiff-1.3.0.tgz#33985889544a95813f1ad204ca97bd26c104caac"
+  integrity sha512-inB7Krtw90hnpijkMWaQMzdpsYnDCnpholaVwqPebs1m3pkk9U/qRfbKcB2UpbPFnt0WX/GHj33wD7TtdlgYZQ==
 
 microevent.ts@~0.1.1:
   version "0.1.1"
@@ -8346,7 +8356,7 @@ p-try@^2.0.0:
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
 
-p5@^1.4.1:
+p5@^1.4.0, p5@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/p5/-/p5-1.4.1.tgz#979739a576eb566225642b5d25cf7bb8945b70dd"
   integrity sha512-3/X+qb0bK2Cg8nuZNpZZvzxkeUSRghOf0S+l8c+U8yIkUTVSbbcV0R8y96rx3InVBVhk8cH9kFC93VlZZElqSw==
@@ -9704,6 +9714,16 @@ react-move@^2.7.0:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
+react-p5-wrapper@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-p5-wrapper/-/react-p5-wrapper-3.1.0.tgz#4f9cae22c67de222c7aa594fd23ee24fccf8cbb6"
+  integrity sha512-IeCHqwEfJ6ZgnU2E1bCqXwrU5qcoBhB+PiDnx710LHaM55d/0Edxod/Tw7RJS0q0Tzb6R99u0dNreCMgu9F/Hg==
+  dependencies:
+    "@types/p5" "^1.3.3"
+    microdiff "^1.3.0"
+    p5 "^1.4.0"
+    rooks "^5.9.0"
+
 react-redux@^7.2.0:
   version "7.2.5"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.2.5.tgz#213c1b05aa1187d9c940ddfc0b29450957f6a3b8"
@@ -10266,6 +10286,14 @@ rollup@^1.31.1:
     "@types/estree" "*"
     "@types/node" "*"
     acorn "^7.1.0"
+
+rooks@^5.9.0:
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/rooks/-/rooks-5.10.0.tgz#af39b75709b9221da454bb9607b58b87dad9413e"
+  integrity sha512-zKO0dOn/GJYn2vdo/vgy9fbQq4xebvJYntaxtJnZRXODhco/nLcNOWnhtwSPwx9X1vFPzdnLypoVrt9MZ+Cmvg==
+  dependencies:
+    lodash.debounce "^4.0.8"
+    raf "^3.4.1"
 
 rsvp@^4.8.4:
   version "4.8.5"

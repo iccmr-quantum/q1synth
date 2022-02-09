@@ -5,7 +5,7 @@ import { Qubit } from '../qubit/Qubit';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive } from '../../data/dataSlice';
-import { getSynthParams, incrementDialValue , getDialValue, randomiseSliderGroup, getTime } from '../../data/dataSlice';
+import { getSynthParams, incrementQubitDegrees , getDialValue, randomiseSliderGroup, getTime } from '../../data/dataSlice';
 import styles from './Controls.module.css';
 import { synth } from '../sound';
 import { shortestAngle, tossWeightedCoin, mapToRange } from '../../functions/utils';
@@ -42,7 +42,7 @@ export function Controls() {
         Tone.Transport.scheduleOnce(() => synth.play(synthParams, time), 0)
         
         Tone.Transport.scheduleRepeat(() => {
-            dispatch(incrementDialValue(step))
+            dispatch(incrementQubitDegrees(step))
         }, "128n", 0);
 
         Tone.Transport.start().stop(`+${time}`);
