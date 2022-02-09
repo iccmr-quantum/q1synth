@@ -67,9 +67,9 @@ export interface DataState extends Dictionary {
 const initialState: DataState = {
     qubit: {
         degrees: {value: 0},
-        x: {value: 0},
-        y: {value: 0},
-        z: {value: 0},
+        x: {value: 10},
+        y: {value: 20},
+        z: {value: 40},
     },
     leftA: {
         freq: {value: 0, label: 'freq', min: 70, max: 1000},
@@ -188,6 +188,7 @@ export const dataSlice = createSlice({
 export const { setPreset, setDialValue, incrementDialValue, setControl, randomiseSliderGroup, setTime, setButtonValue, setButtonsDisabled, setButtonsActive } = dataSlice.actions;
 
 export const getDialValue = (state: RootState) => state.data.qubit.degrees.value;
+export const getQubit = (state: RootState) => state.data.qubit;
 export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];
 export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.data, [state.data.leftA, state.data.rightA], [90, 270])
 export const getButtonValue = (button: 'rotate' | 'measure') => (state: RootState) => state.data.buttons[button];
@@ -243,7 +244,6 @@ const calculateDial = (
     x: number,
     y: number
 ) => {
-    console.log(mapToRange(x, 0, 1, -1, 1), mapToRange(y, 0, 1, -1, 1))
     return xyToDegrees(
         mapToRange(x, 0, 1, -1, 1), 
         mapToRange(y, 0, 1, -1, 1)

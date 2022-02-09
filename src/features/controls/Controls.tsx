@@ -1,6 +1,7 @@
 import React, { MouseEvent } from 'react'
 import * as Tone from 'tone'
 import { Sliders } from '../sliders/Sliders';
+import { Qubit } from '../qubit/Qubit';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive } from '../../data/dataSlice';
@@ -64,7 +65,7 @@ export function Controls() {
                     <Sliders group="leftA"/>
                 </section>
                 <section className={`${styles.qubit} qubit`}>
-                    
+                    <Qubit />
                 </section>
                 <section className={`${styles.sliders} sliders`}>
                     <Sliders group="rightA" invert={true}/>
