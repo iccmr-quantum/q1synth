@@ -8,6 +8,7 @@ const sketch: Sketch = p => {
     let x = 0;
     let y = 0;
     let z = 0;
+    const radius = 130
 
     p.setup = () => {
         p.createCanvas(300, 300, p.WEBGL);
@@ -28,7 +29,7 @@ const sketch: Sketch = p => {
         p.rotateZ(z);
         p.noFill()
         p.stroke('#FFF')
-        p.sphere(130);
+        p.sphere(radius);
     }
 }
 
@@ -39,9 +40,9 @@ export function Qubit() {
         <div className={styles.container}>
             <ReactP5Wrapper 
                 sketch={sketch} 
-                x={x.value * 360}
+                x={z.value * 360} // p5 seems to view axis different to how I imagine them
                 y={y.value * 360}
-                z={z.value * 360}
+                z={x.value * 360}
             />
         </div>
     )

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Value, Slider, Dictionary } from '../types';
 import { RootState } from '../app/store';
-import { mapToRange, blendBetweenValues, xyToDegrees } from '../functions/utils';
+import { mapToRange, blendBetweenValues, xyToDegrees, degreesToXy } from '../functions/utils';
 import { synth, SynthArgs } from '../features/sound';
 import preset0 from './presets/preset0'
 import preset1 from './presets/preset1'
@@ -131,7 +131,15 @@ export const dataSlice = createSlice({
         },
         incrementQubitDegrees: (state, action: PayloadAction<number>) => {
             const { value } = state.qubit.degrees
+            const newValue = (value + action.payload) % 360
             state.qubit.degrees.value = (value + action.payload) % 360;
+            
+            const { x, y } = degreesToXy(newValue)
+
+            // TODO: this is wrong
+            state.qubit.x.value = x
+            state.qubit.y.value = y
+
             synth.set(calculateParams(state, [state.leftA, state.rightA, state.rightB, state.leftB], [45, 135, 225, 315]))
         },
         setControl: (state, action: PayloadAction<{group: string, key: string, value: number}>) => {
