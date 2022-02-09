@@ -1,6 +1,5 @@
 import React, { MouseEvent } from 'react'
 import * as Tone from 'tone'
-import { Dial } from '../dial/Dial';
 import { Sliders } from '../sliders/Sliders';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
@@ -64,8 +63,8 @@ export function Controls() {
                 <section className={`${styles.sliders} sliders`}>
                     <Sliders group="leftA"/>
                 </section>
-                <section className={`${styles.dial} dial`}>
-                    <Dial />
+                <section className={`${styles.qubit} qubit`}>
+                    
                 </section>
                 <section className={`${styles.sliders} sliders`}>
                     <Sliders group="rightA" invert={true}/>
