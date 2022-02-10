@@ -137,6 +137,13 @@ export const dataSlice = createSlice({
 
             synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
         },
+        incrementZAxis: (state, action: PayloadAction<number>) => {
+            const increment = action.payload
+            const z = state.qubit.z.value
+            state.qubit.z.value = z + increment
+
+            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
+        },        
         setButtonValue: (state, action: PayloadAction<{button: 'rotate' | 'measure' }>) => {
             const { button } = action.payload
             const { measure: isMeasuring, rotate: isRotating } = state.buttons
@@ -170,7 +177,7 @@ export const dataSlice = createSlice({
     }
 });
 
-export const { setPreset, setControl, setTime, setButtonValue, setButtonsDisabled, setButtonsActive, incrementXAxis } = dataSlice.actions;
+export const { setPreset, setControl, setTime, setButtonValue, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementZAxis } = dataSlice.actions;
 
 export const getQubit = (state: RootState) => state.data.qubit;
 export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];
@@ -188,13 +195,13 @@ export const getTime = (state: RootState) => {
 }
 
 const calculateParam = (
-    dial: number, 
+    position: number, 
     key: string, 
     sliders: SynthSlider[],
     points: number[]
 ) => {
     return mapToRange(
-        blendBetweenValues(dial, sliders.map(slider => slider[key].value), points), 
+        blendBetweenValues(position, sliders.map(slider => slider[key].value), points), 
         0, 1, sliders[0][key].min, sliders[0][key].max
     )
 }
@@ -210,17 +217,19 @@ const calculateEnvelope = (
 
 const calculateParams = (state: DataState, sliders: SynthSlider[], points: number[]) : SynthArgs => {
     const { env, modEnv } = state
-    const degrees = state.qubit.y.value * 360
+    const xDegrees = state.qubit.x.value * 360
+    const yDegrees = state.qubit.y.value * 360
+    const zDegrees = state.qubit.z.value * 360
 
     return { 
-        freq: calculateParam(degrees, 'freq', sliders, points), 
-        volume: calculateParam(degrees, 'volume', sliders, points), 
-        reverb: calculateParam(degrees, 'reverb', sliders, points), 
-        modulationIndex: calculateParam(degrees, 'modulationIndex', sliders, points), 
-        harmonicity: calculateParam(degrees, 'harmonicity', sliders, points), 
+        freq: calculateParam(yDegrees, 'freq', sliders, points), 
+        volume: calculateParam(yDegrees, 'volume', sliders, points), 
+        reverb: calculateParam(yDegrees, 'reverb', sliders, points), 
+        modulationIndex: calculateParam(zDegrees, 'modulationIndex', sliders, points), 
+        harmonicity: calculateParam(xDegrees, 'harmonicity', sliders, points), 
         envelope: calculateEnvelope(env),
         modulationEnvelope: calculateEnvelope(modEnv),
-        blend: blendBetweenValues(degrees, [0, 1], [90, 270])
+        blend: blendBetweenValues(yDegrees, [0, 1], [90, 270])
     }
 }
 
