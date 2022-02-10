@@ -40,9 +40,9 @@ export function Qubit() {
         <div className={styles.container}>
             <ReactP5Wrapper 
                 sketch={sketch} 
-                x={z.value * 360} // p5 seems to view axis different to how I imagine them
+                x={x.value * 360}
                 y={y.value * 360}
-                z={x.value * 360}
+                z={z.value * 360}
             />
         </div>
     )

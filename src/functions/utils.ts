@@ -42,15 +42,3 @@ export function blendBetweenValues(
 export const tossCoin = () => Math.floor(Math.random() * 2) === 0
 
 export const tossWeightedCoin = (weightHeads: number) => Math.random() > weightHeads
-
-export const xyToDegrees = (x2: number, y2: number, x1: number = 0, y1: number = 0) : number => {
-    const deltaX = x2 - x1;
-    const deltaY = y2 - y1;
-    return Math.atan2(deltaY, deltaX) * 180.0/Math.PI;
-}
-
-export const degreesToXy = (degrees: number, radius: number = 130) => {
-    const x = Math.cos(degrees)
-    const y = Math.sin(degrees)
-    return {x, y}
-}
