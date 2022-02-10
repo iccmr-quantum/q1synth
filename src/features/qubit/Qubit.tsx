@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef, MouseEvent } from 'react'
 import { ReactP5Wrapper, Sketch } from "react-p5-wrapper";
 import { useAppSelector } from '../../app/hooks';
 import { getQubit } from '../../data/dataSlice';
@@ -35,9 +35,30 @@ const sketch: Sketch = p => {
 
 export function Qubit() {
     const { x, y, z } = useAppSelector(getQubit);
+    const [isClicked, setIsClicked] = useState(false)
+
+    const qubitRef = useRef<null | HTMLDivElement>(null)
+
+    const handleMouseDown = () => setIsClicked(true)
+    const handleMouseLeave = () => setIsClicked(false)
+
+    const handleMouseMove = (e: MouseEvent) => {
+        const rect = qubitRef.current?.getBoundingClientRect()
+        const left = rect?.left || 0
+        const top = rect?.top || 0
+        const x = e.clientX - left
+        const y = e.clientY - top
+        console.log(x, y)
+    }
       
     return (
-        <div className={styles.container}>
+        <div 
+            ref={qubitRef}
+            className={styles.container}
+            onMouseDown={handleMouseDown}
+            onMouseLeave={handleMouseLeave}
+            onMouseMove={(e) => isClicked && handleMouseMove(e)}
+        >
             <ReactP5Wrapper 
                 sketch={sketch} 
                 x={x.value * 360}
