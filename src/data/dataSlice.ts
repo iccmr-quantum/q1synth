@@ -225,7 +225,7 @@ const calculateParams = (state: DataState, sliders: SynthSlider[], points: numbe
         freq: calculateParam(yDegrees, 'freq', sliders, points), 
         volume: calculateParam(yDegrees, 'volume', sliders, points), 
         reverb: calculateParam(yDegrees, 'reverb', sliders, points), 
-        modulationIndex: calculateParam(xDegrees, 'modulationIndex', sliders, points), 
+        modulationIndex: calculateParam(zDegrees, 'modulationIndex', sliders, points), 
         harmonicity: calculateParam(xDegrees, 'harmonicity', sliders, points), 
         envelope: calculateEnvelope(env),
         modulationEnvelope: calculateEnvelope(modEnv),
