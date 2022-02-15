@@ -12,7 +12,7 @@ const sketch: Sketch = p => {
     const radius = 130
 
     p.setup = () => {
-        p.createCanvas(300, 300, p.WEBGL);
+        p.createCanvas(350, 350, p.WEBGL);
         p.perspective(p.PI / 3.0, p.width / p.height, 0.1, 500);
     }
 
@@ -29,8 +29,18 @@ const sketch: Sketch = p => {
         p.rotateY(y);
         p.rotateZ(z);
         p.noFill()
-        p.stroke('#FFF')
+        p.stroke('rgba(255,255,255,0.3)')
         p.sphere(radius);
+        
+        p.noStroke()
+        p.fill('rgba(255,255,255,0.5)')
+        p.cylinder(2, 2.5 * radius)
+
+        p.rotateX(90);
+        p.cylinder(1, 2.2 * radius)
+
+        p.rotateZ(90);
+        p.cylinder(1, 2.2 * radius)
     }
 }
 
