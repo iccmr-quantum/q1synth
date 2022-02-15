@@ -137,6 +137,13 @@ export const dataSlice = createSlice({
 
             synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
         },
+        incrementYAxis: (state, action: PayloadAction<number>) => {
+            const increment = action.payload
+            const y = state.qubit.y.value
+            state.qubit.y.value = y + increment
+
+            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
+        },  
         incrementZAxis: (state, action: PayloadAction<number>) => {
             const increment = action.payload
             const z = state.qubit.z.value
@@ -177,7 +184,7 @@ export const dataSlice = createSlice({
     }
 });
 
-export const { setPreset, setControl, setTime, setButtonValue, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementZAxis } = dataSlice.actions;
+export const { setPreset, setControl, setTime, setButtonValue, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis } = dataSlice.actions;
 
 export const getQubit = (state: RootState) => state.data.qubit;
 export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];
@@ -225,7 +232,7 @@ const calculateParams = (state: DataState, sliders: SynthSlider[], points: numbe
         freq: calculateParam(yDegrees, 'freq', sliders, points), 
         volume: calculateParam(yDegrees, 'volume', sliders, points), 
         reverb: calculateParam(yDegrees, 'reverb', sliders, points), 
-        modulationIndex: calculateParam(zDegrees, 'modulationIndex', sliders, points), 
+        modulationIndex: calculateParam(xDegrees, 'modulationIndex', sliders, points), 
         harmonicity: calculateParam(xDegrees, 'harmonicity', sliders, points), 
         envelope: calculateEnvelope(env),
         modulationEnvelope: calculateEnvelope(modEnv),

@@ -4,7 +4,7 @@ import { Sliders } from '../sliders/Sliders';
 import { Qubit } from '../qubit/Qubit';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementZAxis, getQubit } from '../../data/dataSlice';
+import { setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis, getQubit } from '../../data/dataSlice';
 import { getSynthParams, getTime } from '../../data/dataSlice';
 import styles from './Controls.module.css';
 import { synth } from '../sound';
@@ -25,9 +25,9 @@ export function Controls() {
         dispatch(setButtonsDisabled())
 
         const x = qubit.x.value * 360
+        const y = qubit.y.value * 360
         const z = qubit.z.value * 360
 
-        // TODO: rewrite to change x value
         const weight = x > 180 
             ? 360 - x
             : x
@@ -39,14 +39,17 @@ export function Controls() {
                 : 180
         
         const xAngle = shortestAngle(x, destination)
-        const zAngle = shortestAngle(z, destination)
+        const yAngle = shortestAngle(y, destination)
+        const zAngle = shortestAngle(z, 0)
         const xStep = (xAngle / (time * 64)) * (x < destination ? +1 : -1) / 360
-        const zStep = (zAngle / (time * 64)) * (z < destination ? +1 : -1) / 360
+        const yStep = (yAngle / (time * 64)) * (y < 0 ? +1 : -1) / 360
+        const zStep = (zAngle / (time * 64)) * (z < 0 ? +1 : -1) / 360
 
         Tone.Transport.scheduleOnce(() => synth.play(synthParams, time), 0)
         
         Tone.Transport.scheduleRepeat(() => {
             dispatch(incrementXAxis(xStep))
+            dispatch(incrementYAxis(yStep))
             dispatch(incrementZAxis(zStep))
         }, "128n", 0);
 
