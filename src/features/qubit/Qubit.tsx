@@ -11,10 +11,7 @@ const sketch: Sketch = p => {
     let z = 0;
     const radius = 130
 
-    p.setup = () => {
-        p.createCanvas(350, 350, p.WEBGL);
-        p.perspective(p.PI / 3.0, p.width / p.height, 0.1, 500);
-    }
+    p.setup = () => p.createCanvas(350, 350, p.WEBGL)
 
     p.updateWithProps = props => {
         x = props.x ? props.x : x
