@@ -29,11 +29,11 @@ const sketch: Sketch = p => {
         p.rotateY(y);
         p.rotateZ(z);
         p.noFill()
-        p.stroke('rgba(255,255,255,0.3)')
+        p.stroke('rgba(255,255,255,0.25)')
         p.sphere(radius);
         
         p.noStroke()
-        p.fill('rgba(255,255,255,0.5)')
+        p.fill('rgba(255,255,255,0.6)')
         p.cylinder(2, 2.5 * radius)
 
         p.rotateX(90);
