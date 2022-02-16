@@ -8,5 +8,6 @@ export interface Slider extends Value {
     label: string, 
     min: number, 
     max: number, 
-    midicc?: number
+    midicc?: number,
+    title?: string
 }

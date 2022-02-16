@@ -6,7 +6,8 @@ const preset: Preset = {
 			value: 0,
 			label: "freq",
 			min: 70,
-			max: 1000
+			max: 1000,
+			title: 'y|270°'
 		},
 		volume: {
 			value: 0.57,
@@ -24,7 +25,8 @@ const preset: Preset = {
 			value: 0.24,
 			label: "mod index",
 			min: 0,
-			max: 20
+			max: 20,
+			title: 'x|270°'
 		},
 		harmonicity: {
 			value: 0.55,
@@ -38,7 +40,8 @@ const preset: Preset = {
 			value: 0.02,
 			label: "freq",
 			min: 70,
-			max: 1000
+			max: 1000,
+			title: 'y|90°'
 		},
 		volume: {
 			value: 1,
@@ -56,7 +59,8 @@ const preset: Preset = {
 			value: 1,
 			label: "mod index",
 			min: 0,
-			max: 20
+			max: 20, 
+			title: 'x|90°'
 		},
 		harmonicity: {
 			value: 0.72,

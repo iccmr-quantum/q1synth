@@ -76,7 +76,7 @@ export function Controls() {
                     <Qubit />
                 </section>
                 <section className={`${styles.sliders} sliders`}>
-                    <Sliders group="rightA" invert={true}/>
+                    <Sliders group="rightA" />
                 </section>
             </div>
             <div className={styles.buttons}>

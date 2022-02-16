@@ -25,25 +25,28 @@ export function Sliders({group, title, invert} : sliderProps) {
         <div className={styles.sliders}>
             { title && <h2 className={invert ? styles.textrightA : ''}>{ title }</h2> }
             {Object.values(sliders).map((
-                {label, value} : any,
+                {title, label, value} : any,
                 i: number
             ) => (
-                <div className={styles.container} key={i}>
-                    <Slider
-                        className={styles.slider}
-                        min={0} 
-                        max={1}
-                        onChange={val => handleOnChange(val, Object.keys(sliders)[i])}
-                        step={0.01}
-                        key={i}
-                        disabled={disabled}
-                        value={value}
-                    />
-                    <p className={`
-                        ${styles.label} 
-                        ${invert ? styles.labelInvert : ''}
-                    `}>{ label }</p>
-                </div>
+                <>
+                    {title && <strong><p>{title}</p></strong>}
+                    <div className={styles.container} key={i}>
+                        <Slider
+                            className={styles.slider}
+                            min={0} 
+                            max={1}
+                            onChange={val => handleOnChange(val, Object.keys(sliders)[i])}
+                            step={0.01}
+                            key={i}
+                            disabled={disabled}
+                            value={value}
+                        />
+                        <p className={`
+                            ${styles.label} 
+                            ${invert ? styles.labelInvert : ''}
+                        `}>{ label }</p>
+                    </div>
+                </>
             ))}
         </div> 
     );
