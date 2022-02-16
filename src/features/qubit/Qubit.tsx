@@ -21,7 +21,7 @@ const sketch: Sketch = p => {
     
     p.draw = () => {
         p.angleMode(p.DEGREES)
-        p.background('#323232');
+        p.background('#000');
         p.rotateX(x);
         p.rotateY(y);
         p.rotateZ(z);

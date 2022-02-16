@@ -1,5 +1,5 @@
 html {
-    background-color: #323232;
+    background-color: #000;
     color: #FFF;
     
 }
@@ -68,11 +68,11 @@ svg linearGradient {
 
 .rc-slider-handle {
     border-color: #FFF;
-    background-color: black;
+    background-color: #323232;
 }
 
 .rc-slider-track {
-    background-color: black;
+    background-color: #323232;
 }
 
 .download {
