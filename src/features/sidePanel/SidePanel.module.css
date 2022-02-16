@@ -10,14 +10,14 @@
     border-bottom: 2px solid white;
     border-right: 2px solid white;
     border-left: 2px solid white;
-    background-color: #000;
+    background-color: #323232;
     cursor: pointer;
     border-radius: 0 0 5px 5px;
 }
 
 .sidePanel {
     position: relative;
-    background-color: #000;
+    background-color: #323232;
     border-left: 2px solid white;
     min-height: 100vh;
 }

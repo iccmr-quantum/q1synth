@@ -21,7 +21,7 @@ const sketch: Sketch = p => {
     
     p.draw = () => {
         p.angleMode(p.DEGREES)
-        p.background('#000');
+        p.background('#323232');
         p.rotateX(x);
         p.rotateY(y);
         p.rotateZ(z);
@@ -30,7 +30,7 @@ const sketch: Sketch = p => {
         p.sphere(radius);
         
         p.noStroke()
-        p.fill('rgba(255,255,255,0.6)')
+        p.fill('rgb(255,255,255)')
         p.cylinder(2, 2.5 * radius)
 
         p.rotateX(90);
