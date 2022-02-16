@@ -212,7 +212,7 @@ const calculateParams = (state: DataState, sliders: SynthSlider[], points: numbe
     const { env, modEnv } = state
     const xDegrees = state.qubit.x.value * 360
     const yDegrees = state.qubit.y.value * 360
-    const zDegrees = state.qubit.z.value * 360
+    // const zDegrees = state.qubit.z.value * 360
 
     return { 
         freq: calculateParam(yDegrees, 'freq', sliders, points), 
