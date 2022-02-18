@@ -28,22 +28,22 @@ export function Controls() {
         const y = qubit.y.value * 360
         const z = qubit.z.value * 360
 
-        const weight = x > 180 
-            ? 360 - x
-            : x
+        const weight = z > 180 
+            ? 360 - z
+            : z
 
         const destination = tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) 
-            ? x > 180
+            ? z > 180
                 ? 360 
                 : 0 
                 : 180
         
-        const xAngle = shortestAngle(x, destination)
-        const yAngle = shortestAngle(y, destination)
-        const zAngle = shortestAngle(z, 0)
-        const xStep = (xAngle / (time * 64)) * (x < destination ? +1 : -1) / 360
+        const xAngle = shortestAngle(x, 0)
+        const yAngle = shortestAngle(y, 0)
+        const zAngle = shortestAngle(z, destination)
+        const xStep = (xAngle / (time * 64)) * (x < 0 ? +1 : -1) / 360
         const yStep = (yAngle / (time * 64)) * (y < 0 ? +1 : -1) / 360
-        const zStep = (zAngle / (time * 64)) * (z < 0 ? +1 : -1) / 360
+        const zStep = (zAngle / (time * 64)) * (z < destination ? +1 : -1) / 360
 
         Tone.Transport.scheduleOnce(() => synth.play(synthParams, time), 0)
         

@@ -9,6 +9,11 @@ const sketch: Sketch = p => {
     let x = 0;
     let y = 0;
     let z = 0;
+
+    const globalX = 20
+    const globalY = 20
+    const globalZ = 20
+    
     const radius = 130
 
     p.setup = () => p.createCanvas(350, 350, p.WEBGL)
@@ -20,30 +25,43 @@ const sketch: Sketch = p => {
     }
     
     p.draw = () => {
+        p.push()
+        p.rotateY(45)
+        p.rotateX(-10)
+        p.rotateZ(-10)
         p.angleMode(p.DEGREES)
         p.background('#323232');
-        p.rotateX(x);
+        // p.push()
+        
+        p.noStroke()
+        p.fill('white')
+        p.cylinder(2, 2.5 * radius)
+        // p.fill('blue')
+        p.rotateX(90);
+        p.cylinder(1, 2.5 * radius)
+        // p.fill('green')
+        p.rotateZ(90);
+        p.cylinder(1, 2.5 * radius)
+
+        // reset
+        p.pop()
+        
+        
+        p.rotateX(x - 10);
         p.rotateY(y);
         p.rotateZ(z);
         p.noFill()
         p.stroke('rgba(255,255,255,0.25)')
         p.sphere(radius);
-        
-        p.noStroke()
-        p.fill('rgb(255,255,255)')
-        p.cylinder(2, 2.5 * radius)
-
-        p.rotateX(90);
-        p.cylinder(1, 2.2 * radius)
-
-        p.rotateZ(90);
-        p.cylinder(1, 2.2 * radius)
+    
     }
 }
 
 export function Qubit() {
     const dispatch = useAppDispatch()
     const { x, y, z } = useAppSelector(getQubit);
+
+    console.log(x, y, z)
 
     const [isClicked, setIsClicked] = useState(false)
 
@@ -69,7 +87,7 @@ export function Qubit() {
         const y = e.clientY - top
         
         dispatch(setControl({group: 'qubit', key: 'y', value: mapToRange((x/width), 0, 1, -0.5, 0.5)}));
-        dispatch(setControl({group: 'qubit', key: 'x', value: mapToRange((y/height), 0, 1, 0.5, -0.5)}));
+        dispatch(setControl({group: 'qubit', key: 'z', value: mapToRange((y/height), 0, 1, 0.5, -0.5)}));
     }
       
     return (

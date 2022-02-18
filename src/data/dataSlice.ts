@@ -70,17 +70,17 @@ const initialState: DataState = {
         z: {value: 0},
     },
     leftA: {
-        freq: {value: 0, label: 'freq', min: 70, max: 1000, title: 'y|270°'},
+        freq: {value: 0, label: 'freq', min: 70, max: 1000, title: '|-i>'},
         volume: {value: 1, label: 'amp', min: -50, max: -3},
         reverb: {value: 0.8, label: 'reverb', min: 0, max: 0.8},
-        modulationIndex: {value: 0, label: 'mod index', min: 0, max: 20, title: 'x|270°'},
+        modulationIndex: {value: 0, label: 'mod index', min: 0, max: 20, title: '|->'},
         harmonicity: {value: 0.05, label: 'harmonicity', min: 1, max: 20},
     },
     rightA: {
-        freq: {value: 0.2, label: 'freq', min: 70, max: 1000, title: 'y|90°'},
+        freq: {value: 0.2, label: 'freq', min: 70, max: 1000, title: '|i>'},
         volume: {value: 0.5, label: 'amp', min: -50, max: -3},
         reverb: {value: 1, label: 'reverb', min: 0, max: 0.8},
-        modulationIndex: {value: 1, label: 'mod index', min: 0, max: 20, title: 'x|90°'},
+        modulationIndex: {value: 1, label: 'mod index', min: 0, max: 20, title: '|+>'},
         harmonicity: {value: 1, label: 'harmonicity', min: 1, max: 20},
     },
     env: {

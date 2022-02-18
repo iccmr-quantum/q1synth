@@ -11,7 +11,11 @@
 
 .label0 { top: 0 }
 .label1 { bottom: 0 }
-.labelplus { left: 20%; top: 60% }
-.labeli { right: 20%; top: 60% }
-.labelminus { right: 25%; bottom: 60%; transform: scale(0.75); }
-.labelminusi { left: 25%; bottom: 60%; transform: scale(0.75); }
+
+.labelplus, .labeli { top: 60% }
+.labelplus { left: 20% }
+.labeli { right: 20% }
+
+.labelminus, .labelminusi { bottom: 60%; transform: scale(0.75) }
+.labelminus { right: 22.5% }
+.labelminusi { left: 22.5% }
