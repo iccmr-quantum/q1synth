@@ -87,7 +87,7 @@ export function Qubit() {
         const y = e.clientY - top
         
         dispatch(setControl({group: 'qubit', key: 'y', value: mapToRange((x/width), 0, 1, -0.5, 0.5)}));
-        dispatch(setControl({group: 'qubit', key: 'z', value: mapToRange((y/height), 0, 1, 0.5, -0.5)}));
+        dispatch(setControl({group: 'qubit', key: 'x', value: mapToRange((y/height), 0, 1, 0.5, -0.5)}));
     }
       
     return (
