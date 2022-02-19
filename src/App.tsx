@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Controls } from './features/controls/Controls';
 import { SidePanel } from './features/sidePanel/SidePanel';
 import { enableMidi, getMidiStatus, getActiveMidiInput } from './midi/midiSlice';
-import { getMode, setControl } from './data/dataSlice';
+import { getMode, setControl, setMode } from './data/dataSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
 import { WebMidi } from 'webmidi';
@@ -14,6 +14,14 @@ function App() {
     useEffect(() => {
         dispatch(enableMidi())
     }, [dispatch])
+
+    useEffect(() => {
+        const handleFullScreen = (e: KeyboardEvent) : void => {
+            e.key === 'f' && dispatch(setMode('fullscreen'))
+        };
+        window.addEventListener('keydown', handleFullScreen)
+        return () => window.removeEventListener('keydown', handleFullScreen) 
+    });
     
     const midiIsEnabled = useAppSelector(getMidiStatus)
     const midiInput = useAppSelector(getActiveMidiInput)

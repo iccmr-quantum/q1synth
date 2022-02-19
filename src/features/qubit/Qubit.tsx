@@ -89,7 +89,7 @@ export function Qubit({size = 350} : QubitProps) {
         <div 
             ref={qubitRef}
             className={styles.container}
-            style={{maxWidth: size}}
+            style={{minWidth: size, minHeight: size}}
             onMouseDown={() => setIsClicked(true)}
             onMouseUp={() => setIsClicked(false)}
             onMouseLeave={() => setIsClicked(false)}
