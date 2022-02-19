@@ -2,7 +2,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2em 0;
+    padding: 2em;
+    position: relative;
+    margin: 0 auto;
 }
 
 .label {
@@ -12,10 +14,10 @@
 .label0 { top: 0 }
 .label1 { bottom: 0 }
 
-.labelminus, .labeli { top: 60% }
-.labelminus { left: 20% }
-.labeli { right: 20% }
+.labelminus, .labeli { top: 57.5% }
+.labelminus { left: -0.5em }
+.labeli { right: -0.5em }
 
-.labelplus, .labelminusi { bottom: 60%; transform: scale(0.75) }
-.labelplus { right: 22.5% }
-.labelminusi { left: 22.5% }
+.labelplus, .labelminusi { bottom: 57.5%; transform: scale(0.75) }
+.labelplus { right: 2em }
+.labelminusi { left: 1.5em }

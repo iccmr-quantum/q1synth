@@ -9,19 +9,17 @@ const sketch: Sketch = p => {
     let x = 0;
     let y = 0;
     let z = 0;
+    let size = 350;
+    let radius = 130
 
-    const globalX = 20
-    const globalY = 20
-    const globalZ = 20
-    
-    const radius = 130
-
-    p.setup = () => p.createCanvas(350, 350, p.WEBGL)
+    p.setup = () => p.createCanvas(size, size, p.WEBGL)
 
     p.updateWithProps = props => {
-        x = props.x ? props.x : x
-        y = props.y ? props.y : y
-        z = props.z ? props.z : z
+        x = props.x ?? x
+        y = props.y ?? y
+        z = props.z ?? z
+        size = props.size ?? size
+        radius = size / 2.7
     }
     
     p.draw = () => {
@@ -31,10 +29,10 @@ const sketch: Sketch = p => {
         p.fill('white')
         
         p.push()
+        p.cylinder(2, 2.5 * radius)
         p.rotateY(45)
         p.rotateX(-10)
         p.rotateZ(-10)
-        p.cylinder(2, 2.5 * radius)
         p.rotateX(90);
         p.cylinder(1, 2.5 * radius)
         p.rotateZ(90);
@@ -51,11 +49,13 @@ const sketch: Sketch = p => {
     }
 }
 
-export function Qubit() {
+interface QubitProps {
+    size?: number
+}
+
+export function Qubit({size = 350} : QubitProps) {
     const dispatch = useAppDispatch()
     const { x, y, z } = useAppSelector(getQubit);
-
-    console.log(x, y, z)
 
     const [isClicked, setIsClicked] = useState(false)
 
@@ -88,18 +88,19 @@ export function Qubit() {
         <div 
             ref={qubitRef}
             className={styles.container}
+            style={{maxWidth: size}}
             onMouseDown={() => setIsClicked(true)}
             onMouseUp={() => setIsClicked(false)}
             onMouseLeave={() => setIsClicked(false)}
             onMouseMove={(e) => isClicked && handleMouseMove(e)}
         >
             {states.map(({id, label}) => <span className={`${styles.label} ${styles['label' + id]}`}>{`|${label}⟩`}</span>)}
-            
             <ReactP5Wrapper 
                 sketch={sketch} 
                 x={x.value * 360}
                 y={y.value * 360}
                 z={z.value * 360}
+                size={size}
             />
         </div>
     )
