@@ -46,7 +46,7 @@ const sketch: Sketch = p => {
         p.rotateZ(z);
         p.noFill()
         p.stroke('rgba(255,255,255,0.25)')
-        p.sphere(radius);
+        p.sphere(radius, 20, 20);
     
     }
 }
