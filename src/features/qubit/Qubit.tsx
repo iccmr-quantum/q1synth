@@ -25,27 +25,21 @@ const sketch: Sketch = p => {
     }
     
     p.draw = () => {
+        p.angleMode(p.DEGREES)
+        p.background('#323232');
+        p.noStroke()
+        p.fill('white')
+        
         p.push()
         p.rotateY(45)
         p.rotateX(-10)
         p.rotateZ(-10)
-        p.angleMode(p.DEGREES)
-        p.background('#323232');
-        // p.push()
-        
-        p.noStroke()
-        p.fill('white')
         p.cylinder(2, 2.5 * radius)
-        // p.fill('blue')
         p.rotateX(90);
         p.cylinder(1, 2.5 * radius)
-        // p.fill('green')
         p.rotateZ(90);
         p.cylinder(1, 2.5 * radius)
-
-        // reset
         p.pop()
-        
         
         p.rotateX(x);
         p.rotateY(y);
