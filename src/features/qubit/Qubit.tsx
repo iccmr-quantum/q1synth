@@ -99,7 +99,7 @@ export function Qubit() {
             onMouseLeave={() => setIsClicked(false)}
             onMouseMove={(e) => isClicked && handleMouseMove(e)}
         >
-            {states.map(({id, label}) => <span className={`${styles.label} ${styles['label' + id]}`}>{`|${label}>`}</span>)}
+            {states.map(({id, label}) => <span className={`${styles.label} ${styles['label' + id]}`}>{`|${label}⟩`}</span>)}
             
             <ReactP5Wrapper 
                 sketch={sketch} 

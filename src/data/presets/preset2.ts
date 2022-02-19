@@ -7,7 +7,7 @@ const preset: Preset = {
 			label: "freq",
 			min: 70,
 			max: 1000,
-			title: '|-i>'
+			title: '|-i⟩'
 		},
 		volume: {
 			value: 0.65,
@@ -26,7 +26,7 @@ const preset: Preset = {
 			label: "mod index",
 			min: 0,
 			max: 20,
-			title: '|->'
+			title: '|-⟩'
 		},
 		harmonicity: {
 			value: 0.37,
@@ -41,7 +41,7 @@ const preset: Preset = {
 			label: "freq",
 			min: 70,
 			max: 1000,
-			title: '|i>'
+			title: '|i⟩'
 		},
 		volume: {
 			value: 0.5,
@@ -60,7 +60,7 @@ const preset: Preset = {
 			label: "mod index",
 			min: 0,
 			max: 20, 
-			title: '|+>'
+			title: '|+⟩'
 		},
 		harmonicity: {
 			value: 0,
