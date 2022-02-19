@@ -47,7 +47,7 @@ const sketch: Sketch = p => {
         p.pop()
         
         
-        p.rotateX(x - 10);
+        p.rotateX(x);
         p.rotateY(y);
         p.rotateZ(z);
         p.noFill()
