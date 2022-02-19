@@ -1,7 +1,7 @@
 import React, { useState, useRef, MouseEvent } from 'react'
 import { ReactP5Wrapper, Sketch } from "react-p5-wrapper";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getQubit, setControl } from '../../data/dataSlice';
+import { getQubit, setControl, getMode } from '../../data/dataSlice';
 import { mapToRange } from '../../functions/utils';
 import styles from './Qubit.module.css';
 
@@ -56,6 +56,7 @@ interface QubitProps {
 export function Qubit({size = 350} : QubitProps) {
     const dispatch = useAppDispatch()
     const { x, y, z } = useAppSelector(getQubit);
+    const mode = useAppSelector(getMode)
 
     const [isClicked, setIsClicked] = useState(false)
 
@@ -94,7 +95,7 @@ export function Qubit({size = 350} : QubitProps) {
             onMouseLeave={() => setIsClicked(false)}
             onMouseMove={(e) => isClicked && handleMouseMove(e)}
         >
-            {states.map(({id, label}) => <span className={`${styles.label} ${styles['label' + id]}`}>{`|${label}⟩`}</span>)}
+            {mode === 'interactive' && states.map(({id, label}) => <span key={id} className={`${styles.label} ${styles['label' + id]}`}>{`|${label}⟩`}</span>)}
             <ReactP5Wrapper 
                 sketch={sketch} 
                 x={x.value * 360}

@@ -65,7 +65,7 @@ export interface DataState extends Dictionary {
 }
 
 const initialState: DataState = {
-    mode: 'fullscreen',
+    mode: 'interactive',
     qubit: {
         x: {value: 0},
         y: {value: 0},

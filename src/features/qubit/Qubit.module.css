@@ -15,8 +15,8 @@
 .label1 { bottom: 0 }
 
 .labelminus, .labeli { top: 57.5% }
-.labelminus { left: -0.5em }
-.labeli { right: -0.5em }
+.labelminus { left: -0em }
+.labeli { right: -0em }
 
 .labelplus, .labelminusi { bottom: 57.5%; transform: scale(0.75) }
 .labelplus { right: 2em }
