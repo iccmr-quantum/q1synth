@@ -30,6 +30,7 @@ const sketch: Sketch = p => {
     p.draw = () => {
         p.angleMode(p.DEGREES)
         p.background('#323232');
+
         p.noStroke()
         p.fill('white')
         
@@ -94,7 +95,6 @@ export function Qubit({size = 350} : QubitProps) {
         <div 
             ref={qubitRef}
             className={styles.container}
-            style={{minWidth: size, minHeight: size}}
             onMouseDown={() => setIsClicked(true)}
             onMouseUp={() => setIsClicked(false)}
             onMouseLeave={() => setIsClicked(false)}
