@@ -19,6 +19,8 @@ body {
     margin: auto;
     display: flex;
     overflow: hidden;
+    min-height: 100vh;
+    align-items: center;
 }
 
 .main {
@@ -27,6 +29,10 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
+}
+
+.info {
+    padding-bottom: 2em;
 }
 
 .fullscreen {

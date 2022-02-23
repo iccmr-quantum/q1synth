@@ -81,8 +81,8 @@ const initialState: DataState = {
         reverb: {value: 0.8, label: 'reverb', min: 0, max: 0.8},
         modulationIndex: {value: 0, label: 'mod index', min: 0, max: 20, title: '|-⟩'},
         harmonicity: {value: 0.05, label: 'harmonicity', min: 1, max: 20},
-        lfoFreq: {value: 0.5, label: 'lfo freq', min: 0, max: 10, title: '-90°'},
-        lfoDepth: {value: 0, label: 'lfo depth', min: 0, max: 1},
+        lfoFreq: {value: 0.05, label: 'lfo freq', min: 0, max: 100, title: '-90°'},
+        lfoDepth: {value: 0.2, label: 'lfo depth', min: 0, max: 1},
     },
     rightA: {
         freq: {value: 0.2, label: 'freq', min: 70, max: 1000, title: '|i⟩'},
@@ -90,8 +90,8 @@ const initialState: DataState = {
         reverb: {value: 1, label: 'reverb', min: 0, max: 0.8},
         modulationIndex: {value: 1, label: 'mod index', min: 0, max: 20, title: '|+⟩'},
         harmonicity: {value: 1, label: 'harmonicity', min: 1, max: 20},
-        lfoFreq: {value: 0, label: 'lfo freq', min: 0, max: 10, title: '90°'},
-        lfoDepth: {value: 0, label: 'lfo depth', min: 0, max: 1},
+        lfoFreq: {value: 0.1, label: 'lfo freq', min: 0, max: 100, title: '90°'},
+        lfoDepth: {value: 1, label: 'lfo depth', min: 0, max: 1},
     },
     env: {
         attack: {value: 0.25, label: 'attack', min: 0, max: 1},
@@ -110,7 +110,7 @@ const initialState: DataState = {
     },
     disabled: false,
     times: {
-        one: false, five: true, ten: false
+        one: false, five: false, ten: true
     },
     preset: 0
 };

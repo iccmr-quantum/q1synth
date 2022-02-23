@@ -4,7 +4,7 @@ import { Sliders } from '../sliders/Sliders';
 import { Qubit } from '../qubit/Qubit';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis, getQubit } from '../../data/dataSlice';
+import { toggleIsFullScreen, setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis, getQubit } from '../../data/dataSlice';
 import { getSynthParams, getTime, getIsFullScreen } from '../../data/dataSlice';
 import styles from './Controls.module.css';
 import { synth } from '../sound';
@@ -24,6 +24,7 @@ export function Controls() {
         // TODO: this should all go in an async reducer action - rather than it sitting in a template...
         Tone.Transport.cancel(0)
         dispatch(setButtonsDisabled())
+        !isFullScreen && dispatch(toggleIsFullScreen());
 
         const x = qubit.x.value * 360
         const y = qubit.y.value * 360
@@ -55,7 +56,10 @@ export function Controls() {
         }, "128n", 0);
 
         Tone.Transport.start().stop(`+${time}`);
-        Tone.Transport.once('stop', () => dispatch(setButtonsActive()) && dispatch(setButtonValue({button: 'measure'})))
+        Tone.Transport.once('stop', () => {
+            dispatch(setButtonsActive()) && dispatch(setButtonValue({button: 'measure'}));
+            isFullScreen && dispatch(toggleIsFullScreen());
+        })
     }
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
