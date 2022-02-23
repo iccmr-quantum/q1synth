@@ -78,6 +78,7 @@ export function Qubit({size = 350} : QubitProps) {
     ]
 
     const handleMouseMove = (e: MouseEvent) => {
+        console.log(e)
         const rect = qubitRef.current?.getBoundingClientRect()
         const left = rect?.left || 0
         const top = rect?.top || 0
@@ -88,7 +89,7 @@ export function Qubit({size = 350} : QubitProps) {
         const y = e.clientY - top
         
         dispatch(setControl({group: 'qubit', key: 'y', value: mapToRange((x/width), 0, 1, -0.5, 0.5)}));
-        dispatch(setControl({group: 'qubit', key: 'x', value: mapToRange((y/height), 0, 1, 0.5, -0.5)}));
+        dispatch(setControl({group: 'qubit', key: e.shiftKey ? 'z' : 'x', value: mapToRange((y/height), 0, 1, 0.5, -0.5)}));
     }
       
     return (
