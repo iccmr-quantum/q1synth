@@ -19,7 +19,9 @@ export interface SynthArgs extends Dictionary {
         decay: number
         sustain: number
         release: number
-    }
+    },
+    lfoFreq: number
+    lfoDepth: number
     blend: number
 }
 

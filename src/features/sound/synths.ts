@@ -12,15 +12,20 @@ export const makeSynth = () => {
     const reverb = new Tone.Reverb().connect(limiter);
     reverb.set({ decay: 5 });
     
-    const synthL = new Tone.FMSynth().connect(reverb)
+    const gainL = new Tone.Gain(1).connect(reverb)
+    const synthL = new Tone.FMSynth().connect(gainL)
+    const lfoL = new Tone.LFO("4n", 1, 1).start().connect(gainL.gain);
     synthL.set({portamento: 0.1, oscillator: {type: 'sine'}})
 
-    const synthR = new Tone.FMSynth().connect(reverb)
+    const gainR = new Tone.Gain(0).connect(reverb)
+    const synthR = new Tone.FMSynth().connect(gainR)
+    const lfoR = new Tone.LFO("4n", 1, 1).start().connect(gainR.gain);
     synthR.set({portamento: 0.1, oscillator: {type: 'square'}})
 
     const setParams = (args: SynthArgs) => {
-        const { freq, volume, modulationIndex, harmonicity, reverb: wet, envelope, modulationEnvelope, blend } = args
+        const { freq, volume, modulationIndex, harmonicity, reverb: wet, envelope, modulationEnvelope, blend, lfoDepth, lfoFreq } = args
 
+        console.log(lfoFreq, lfoDepth)
         reverb.set({ wet });
         
         synthL.setNote(freq)

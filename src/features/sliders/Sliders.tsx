@@ -29,7 +29,7 @@ export function Sliders({group, title, invert} : sliderProps) {
                 i: number
             ) => (
                 <div key={i}>
-                    {title && <strong><p>{title}</p></strong>}
+                    {title && <p className={styles.title}>{title}</p>}
                     <div className={styles.container}>
                         <Slider
                             className={styles.slider}

@@ -84,7 +84,6 @@ export function Qubit({size = 350} : QubitProps) {
     ]
 
     const handleMouseMove = (e: MouseEvent) => {
-        console.log(e)
         const rect = qubitRef.current?.getBoundingClientRect()
         const left = rect?.left || 0
         const top = rect?.top || 0

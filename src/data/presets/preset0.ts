@@ -33,7 +33,9 @@ const preset: Preset = {
 			label: "harmonicity",
 			min: 1,
 			max: 20
-		}
+		},
+		lfoFreq: {value: 0, label: 'lfo freq', min: 0, max: 10, title: '-90°'},
+        lfoDepth: {value: 0, label: 'lfo depth', min: 0, max: 1},
 	},
 	rightA: {
 		freq: {
@@ -67,7 +69,9 @@ const preset: Preset = {
 			label: "harmonicity",
 			min: 1,
 			max: 20
-		}
+		},
+		lfoFreq: {value: 0, label: 'lfo freq', min: 0, max: 10, title: '90°'},
+        lfoDepth: {value: 0, label: 'lfo depth', min: 0, max: 1},
 	},
 	env: {
 		attack: {
