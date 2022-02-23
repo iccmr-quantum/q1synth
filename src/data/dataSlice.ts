@@ -52,7 +52,8 @@ interface Qubit {
 }
 
 export interface DataState extends Dictionary {
-    mode: 'interactive' | 'fullscreen' | 'presentation'
+    mode: 'interactive' | 'presentation'
+    isFullScreen: Boolean
     qubit: Qubit
     leftA: SynthSlider
     rightA: SynthSlider
@@ -66,6 +67,7 @@ export interface DataState extends Dictionary {
 
 const initialState: DataState = {
     mode: 'interactive',
+    isFullScreen: false,
     qubit: {
         x: {value: 0},
         y: {value: 0},
@@ -111,8 +113,11 @@ export const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
-        setMode: (state, action: PayloadAction<'interactive' | 'fullscreen' | 'presentation'>) => {
+        setMode: (state, action: PayloadAction<'interactive' | 'presentation'>) => {
             state.mode = action.payload
+        },
+        toggleIsFullScreen: (state) => {
+            state.isFullScreen = !state.isFullScreen
         },
         setControl: (state, action: PayloadAction<{group: string, key: string, value: number}>) => {
             const { group, key, value } = action.payload
@@ -175,9 +180,10 @@ export const dataSlice = createSlice({
     }
 });
 
-export const { setMode, setPreset, setControl, setTime, setButtonValue, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis } = dataSlice.actions;
+export const { setMode, toggleIsFullScreen, setPreset, setControl, setTime, setButtonValue, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis } = dataSlice.actions;
 
 export const getMode = (state: RootState) => state.data.mode;
+export const getIsFullScreen = (state: RootState) => state.data.isFullScreen;
 export const getQubit = (state: RootState) => state.data.qubit;
 export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];
 export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.data, [state.data.leftA, state.data.rightA], [90, 270])

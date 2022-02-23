@@ -5,7 +5,7 @@ import { Qubit } from '../qubit/Qubit';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis, getQubit } from '../../data/dataSlice';
-import { getSynthParams, getTime } from '../../data/dataSlice';
+import { getSynthParams, getTime, getIsFullScreen } from '../../data/dataSlice';
 import styles from './Controls.module.css';
 import { synth } from '../sound';
 import { shortestAngle, tossWeightedCoin, mapToRange } from '../../functions/utils';
@@ -18,6 +18,7 @@ export function Controls() {
     const qubit = useAppSelector(getQubit)
     const disabled = useAppSelector(getDisabledStatus)
     const time = useAppSelector(getTime)
+    const isFullScreen = useAppSelector(getIsFullScreen)
 
     function handleMeasure() {
         // TODO: this should all go in an async reducer action - rather than it sitting in a template...
@@ -69,15 +70,21 @@ export function Controls() {
     return (
         <>
             <div className={styles.container}>
-                <section className={`${styles.sliders} sliders`}>
-                    <Sliders group="leftA"/>
+                {!isFullScreen &&
+                    <section className={`${styles.sliders} sliders`}>
+                        <Sliders group="leftA"/>
+                    </section>
+                }
+                <section 
+                    className={`${styles.qubit} ${isFullScreen && styles.qubitFW}`}
+                >
+                    <Qubit size={isFullScreen ? 500 : 350}/>
                 </section>
-                <section className={`${styles.qubit} qubit`}>
-                    <Qubit />
-                </section>
-                <section className={`${styles.sliders} sliders`}>
-                    <Sliders group="rightA" />
-                </section>
+                {!isFullScreen &&
+                    <section className={`${styles.sliders} sliders`}>
+                        <Sliders group="rightA"/>
+                    </section>
+                }
             </div>
             <div className={styles.buttons}>
                 <Button 

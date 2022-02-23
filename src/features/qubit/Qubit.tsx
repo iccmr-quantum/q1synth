@@ -12,12 +12,17 @@ const sketch: Sketch = p => {
     let size = 350;
     let radius = 130
 
+    const resize = (w: number, h: number) => {
+        p.resizeCanvas(w, h)
+    }
+
     p.setup = () => p.createCanvas(size, size, p.WEBGL)
 
     p.updateWithProps = props => {
         x = props.x ?? x
         y = props.y ?? y
         z = props.z ?? z
+        props.size !== size && resize(props.size, props.size);
         size = props.size ?? size
         radius = size / 2.7
     }

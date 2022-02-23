@@ -18,9 +18,13 @@
 }
 
 .sliders {
-    width: 25%;
+    flex-basis: 25%;
 }
 .qubit {
-    width: 50%;
+    flex-basis: 50%;
     position: relative;
+}
+
+.qubitFW {
+    flex-basis: 100%;
 }
