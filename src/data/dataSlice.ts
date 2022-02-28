@@ -122,7 +122,6 @@ export const dataSlice = createSlice({
     initialState,
     reducers: {
         setData: (state, action: PayloadAction<DataState>) => {
-            console.log(action.payload)
             Object.entries(action.payload).map(([key,value]) => state[key] = value)
         },
         setMode: (state, action: PayloadAction<'interactive' | 'presentation'>) => {
@@ -195,6 +194,7 @@ export const dataSlice = createSlice({
 export const { setData, setMode, toggleIsFullScreen, setPreset, setControl, setTime, setButtonValue, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis } = dataSlice.actions;
 
 export const getMode = (state: RootState) => state.data.mode;
+export const getDestination = (state: RootState) => state.data.destination;
 export const getIsFullScreen = (state: RootState) => state.data.isFullScreen;
 export const getQubit = (state: RootState) => state.data.qubit;
 export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];

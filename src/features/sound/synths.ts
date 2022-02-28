@@ -71,16 +71,16 @@ export const makeSynth = () => {
                 synthR.triggerRelease()  
                 return methods()
             },
-            play: (args: SynthArgs, duration: Tone.Unit.Time) => {
+            play: (args: SynthArgs, duration: Tone.Unit.Time, shouldRecord: boolean) => {
                 const { freq } = args
                 setParams(args)
 
-                record()
+                shouldRecord && record();
                 
                 synthL.triggerAttackRelease(freq, duration)
                 synthR.triggerAttackRelease(freq, duration)
                 
-                setTimeout(downloadRecording, (+duration + 3) * 1000)
+                shouldRecord && setTimeout(downloadRecording, (+duration + 3) * 1000);
                 
                 return methods()
             }

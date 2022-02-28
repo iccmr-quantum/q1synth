@@ -4,15 +4,38 @@ import { Sliders } from '../sliders/Sliders';
 import { Qubit } from '../qubit/Qubit';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { toggleIsFullScreen, setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis, getQubit } from '../../data/dataSlice';
-import { getSynthParams, getTime, getIsFullScreen, getMintData } from '../../data/dataSlice';
+import { 
+    toggleIsFullScreen, 
+    getButtonValue, 
+    getDisabledStatus, 
+    incrementXAxis, 
+    incrementYAxis, 
+    incrementZAxis, 
+    getQubit,
+    getSynthParams, 
+    getTime, 
+    getIsFullScreen, 
+    getMintData, 
+    getMode,
+    setData,
+    setButtonsDisabled, 
+    setButtonsActive, 
+    setButtonValue,
+    getDestination
+} from '../../data/dataSlice';
+
 import styles from './Controls.module.css';
 import { synth } from '../sound';
 import { shortestAngle, tossWeightedCoin, mapToRange } from '../../functions/utils';
 import { DataState } from '../../data/dataSlice';
 
 const mint = (destination: number, data: DataState) => {
-    console.log(JSON.stringify({...data, destination: destination === 180 ? 1 : 0}))
+    console.log(JSON.stringify(
+        {
+            ...data, 
+            mode: 'presentation',
+            destination: destination === 180 ? 1 : 0
+        }))
 }
 
 export function Controls() {
@@ -25,6 +48,8 @@ export function Controls() {
     const time = useAppSelector(getTime)
     const isFullScreen = useAppSelector(getIsFullScreen)
     const mintData = useAppSelector(getMintData)
+    const mode = useAppSelector(getMode)
+    const storedDestination = useAppSelector(getDestination)
 
     function handleMeasure() {
         // TODO: this should all go in an async reducer action - rather than it sitting in a template...
@@ -40,11 +65,13 @@ export function Controls() {
             ? 360 - z
             : z
 
-        const destination = tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) 
-            ? z > 180
-                ? 360 
-                : 0 
-                : 180
+        const destination = mode === 'presentation'
+            ? storedDestination
+            : tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) 
+                ? z > 180
+                    ? 360 
+                    : 0 
+                    : 180
         
         mint(destination, mintData)
 
@@ -55,7 +82,7 @@ export function Controls() {
         const yStep = (yAngle / (time * 64)) * (y < 0 ? +1 : -1) / 360
         const zStep = (zAngle / (time * 64)) * (z < destination ? +1 : -1) / 360
 
-        Tone.Transport.scheduleOnce(() => synth.play(synthParams, time), 0)
+        Tone.Transport.scheduleOnce(() => synth.play(synthParams, time, mode !== 'presentation'), 0)
         
         Tone.Transport.scheduleRepeat(() => {
             dispatch(incrementXAxis(xStep))
@@ -65,8 +92,11 @@ export function Controls() {
 
         Tone.Transport.start().stop(`+${time}`);
         Tone.Transport.once('stop', () => {
-            dispatch(setButtonsActive()) && dispatch(setButtonValue({button: 'measure'}));
-            isFullScreen && dispatch(toggleIsFullScreen());
+            setTimeout(() => {
+                dispatch(setButtonsActive()) && dispatch(setButtonValue({button: 'measure'}));
+                isFullScreen && mode !== 'presentation' && dispatch(toggleIsFullScreen());
+                window.qusynth && dispatch(setData(window.qusynth))
+            }, 1000); 
         })
     }
 
@@ -99,15 +129,15 @@ export function Controls() {
                 }
             </div>
             <div className={styles.buttons}>
-                <Button 
+                {mode !== 'presentation' && <Button 
                     name="rotate" 
                     activeName="stop"
                     onClick={handleButtonOnClick}
                     isActive={rotate}
                     disabled={disabled}
-                />
+                />}
                 <Button 
-                    name="measure" 
+                    name="measure"
                     activeName="stop"
                     onClick={handleButtonOnClick}
                     isActive={measure}
