@@ -47,7 +47,7 @@ export interface Preset {
     modEnv: EnvSlider
 }
 
-interface Qubit {
+export interface Qubit {
     x: Value
     y: Value
     z: Value

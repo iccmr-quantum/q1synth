@@ -1,0 +1,23 @@
+.ul {
+    position: absolute;
+    right: -40%;
+    top: 0;
+    list-style: none;
+    padding-left: none;
+    color: #03A062;
+    opacity: 0.4;
+    height: 100%;
+    overflow: hidden;
+}
+
+.vector {
+    display: inline-block;
+    padding-right: 0.5em;
+    min-width: 4em;
+    text-align: right;
+    user-select: none
+}
+
+.vector:last-of-type {
+    padding-right: 0;
+}

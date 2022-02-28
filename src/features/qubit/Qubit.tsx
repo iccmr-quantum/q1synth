@@ -3,6 +3,7 @@ import { ReactP5Wrapper, Sketch } from "react-p5-wrapper";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { getQubit, setControl, getMode } from '../../data/dataSlice';
 import { mapToRange } from '../../functions/utils';
+import { DataStream } from '../dataStream/DataStream';
 import styles from './Qubit.module.css';
 
 const sketch: Sketch = p => {
@@ -108,6 +109,7 @@ export function Qubit({size = 350} : QubitProps) {
                 z={z.value * 360}
                 size={size}
             />
+            <DataStream />
         </div>
     )
 }

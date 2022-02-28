@@ -27,7 +27,6 @@ export const makeSynth = () => {
     const setParams = (args: SynthArgs) => {
         const { freq, volume, modulationIndex, harmonicity, reverb: wet, envelope, modulationEnvelope, blend, lfoDepth, lfoFreq } = args
 
-        console.log(lfoFreq, lfoDepth)
         reverb.set({ wet });
         lfo.frequency.rampTo(lfoFreq, 0.25)
         lfo.set({min: 1 - lfoDepth})

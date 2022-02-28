@@ -19,10 +19,10 @@
 }
 
 .sliders {
-    flex-basis: 25%;
+    flex-basis: 20%;
 }
 .qubit {
-    flex-basis: 50%;
+    flex-basis: 60%;
     position: relative;
     display: flex;
     justify-content: center;
