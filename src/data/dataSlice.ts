@@ -65,10 +65,12 @@ export interface DataState extends Dictionary {
     times: Times
     disabled: boolean
     preset: number
+    destination: number
 }
 
 const initialState: DataState = {
     mode: 'interactive',
+    destination: 0,
     isFullScreen: false,
     qubit: {
         x: {value: 0},
@@ -119,6 +121,10 @@ export const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
+        setData: (state, action: PayloadAction<DataState>) => {
+            console.log(action.payload)
+            Object.entries(action.payload).map(([key,value]) => state[key] = value)
+        },
         setMode: (state, action: PayloadAction<'interactive' | 'presentation'>) => {
             state.mode = action.payload
         },
@@ -186,7 +192,7 @@ export const dataSlice = createSlice({
     }
 });
 
-export const { setMode, toggleIsFullScreen, setPreset, setControl, setTime, setButtonValue, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis } = dataSlice.actions;
+export const { setData, setMode, toggleIsFullScreen, setPreset, setControl, setTime, setButtonValue, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis } = dataSlice.actions;
 
 export const getMode = (state: RootState) => state.data.mode;
 export const getIsFullScreen = (state: RootState) => state.data.isFullScreen;

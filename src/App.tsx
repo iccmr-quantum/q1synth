@@ -2,19 +2,23 @@ import React, { useEffect } from 'react';
 import { Controls } from './features/controls/Controls';
 import { SidePanel } from './features/sidePanel/SidePanel';
 import { enableMidi, getMidiStatus, getActiveMidiInput } from './midi/midiSlice';
-import { setControl, toggleIsFullScreen, getIsFullScreen } from './data/dataSlice';
+import { setControl, toggleIsFullScreen, getIsFullScreen, setData } from './data/dataSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
 import { WebMidi } from 'webmidi';
 import { midiMap } from './midi/midiMap'
 
-declare const window: any;
+declare global {
+    interface Window {
+        qusynth:any;
+    }
+}
 
 function App() {
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(enableMidi())
-        console.log(window.qusynth)
+        window.qusynth && dispatch(setData(window.qusynth));
     }, [dispatch])
 
     useEffect(() => {
