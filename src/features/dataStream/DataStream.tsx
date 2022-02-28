@@ -15,9 +15,12 @@ export function DataStream() {
     
     return (
         <ul className={styles.ul}>
-            {data.reverse().map(({x, y, z}) => (
-                <li className={styles.item}>
-                    {[x,z,y].map(({value}) => <span className={styles.vector}>{value.toFixed(3)}</span>)}
+            {data.reverse().map(({x, y, z}, i) => (
+                <li 
+                    className={styles.item}
+                    key={i}
+                >
+                    {[x,z,y].map(({value}, v) => <span key={`${i}_${v}`} className={styles.vector}>{value.toFixed(3)}</span>)}
                 </li>
             ))}
         </ul>

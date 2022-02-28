@@ -5,10 +5,15 @@ import { Qubit } from '../qubit/Qubit';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { toggleIsFullScreen, setButtonValue, getButtonValue, getDisabledStatus, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis, getQubit } from '../../data/dataSlice';
-import { getSynthParams, getTime, getIsFullScreen } from '../../data/dataSlice';
+import { getSynthParams, getTime, getIsFullScreen, getMintData } from '../../data/dataSlice';
 import styles from './Controls.module.css';
 import { synth } from '../sound';
 import { shortestAngle, tossWeightedCoin, mapToRange } from '../../functions/utils';
+import { DataState } from '../../data/dataSlice';
+
+const mint = (destination: number, data: DataState) => {
+    console.log(JSON.stringify({...data, destination: destination === 180 ? 1 : 0}))
+}
 
 export function Controls() {
     const dispatch = useAppDispatch()
@@ -19,6 +24,7 @@ export function Controls() {
     const disabled = useAppSelector(getDisabledStatus)
     const time = useAppSelector(getTime)
     const isFullScreen = useAppSelector(getIsFullScreen)
+    const mintData = useAppSelector(getMintData)
 
     function handleMeasure() {
         // TODO: this should all go in an async reducer action - rather than it sitting in a template...
@@ -40,6 +46,8 @@ export function Controls() {
                 : 0 
                 : 180
         
+        mint(destination, mintData)
+
         const xAngle = shortestAngle(x, 0)
         const yAngle = shortestAngle(y, 0)
         const zAngle = shortestAngle(z, destination)

@@ -204,6 +204,13 @@ export const getTime = (state: RootState) => {
             ? 5
             : 10
 }
+export const getMintData = (state: RootState) : DataState => {
+    return {
+        ...state.data,
+        mode: 'interactive',
+        isFullScreen: true,
+    }
+}
 
 const calculateParam = (
     position: number, 
