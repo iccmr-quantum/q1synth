@@ -1,7 +1,11 @@
 import React, { useState, useRef, MouseEvent } from 'react'
 import { ReactP5Wrapper, Sketch } from "react-p5-wrapper";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getQubit, setControl, getMode } from '../../data/dataSlice';
+import { 
+    getQubit, 
+    setControl, 
+    getMode
+} from '../../data/dataSlice';
 import { mapToRange } from '../../functions/utils';
 import { DataStream } from '../dataStream/DataStream';
 import styles from './Qubit.module.css';
@@ -79,6 +83,7 @@ export function Qubit({size = 350} : QubitProps) {
     ]
 
     const handleMouseMove = (e: MouseEvent) => {
+
         const rect = qubitRef.current?.getBoundingClientRect()
         const left = rect?.left || 0
         const top = rect?.top || 0
@@ -99,7 +104,7 @@ export function Qubit({size = 350} : QubitProps) {
             onMouseDown={() => setIsClicked(true)}
             onMouseUp={() => setIsClicked(false)}
             onMouseLeave={() => setIsClicked(false)}
-            onMouseMove={(e) => isClicked && handleMouseMove(e)}
+            onMouseMove={(e) => isClicked && mode ==='interactive' && handleMouseMove(e)}
         >
             {mode === 'interactive' && states.map(({id, label}) => <span key={id} className={`${styles.label} ${styles['label' + id]}`}>{`|${label}⟩`}</span>)}
             <ReactP5Wrapper 

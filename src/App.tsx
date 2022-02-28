@@ -2,7 +2,13 @@ import React, { useEffect } from 'react';
 import { Controls } from './features/controls/Controls';
 import { SidePanel } from './features/sidePanel/SidePanel';
 import { enableMidi, getMidiStatus, getActiveMidiInput } from './midi/midiSlice';
-import { setControl, toggleIsFullScreen, getIsFullScreen, setData } from './data/dataSlice';
+import { 
+    setControl, 
+    toggleIsFullScreen, 
+    getIsFullScreen, 
+    setData,
+    getMode
+} from './data/dataSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
 import { WebMidi } from 'webmidi';
@@ -15,7 +21,9 @@ declare global {
 }
 
 function App() {
+    const mode = useAppSelector(getMode)
     const dispatch = useAppDispatch()
+
     useEffect(() => {
         dispatch(enableMidi())
         window.qusynth && dispatch(setData(window.qusynth));
@@ -23,7 +31,9 @@ function App() {
 
     useEffect(() => {
         const handleFullScreen = (e: KeyboardEvent) : void => {
-            e.key === 'f' && dispatch(toggleIsFullScreen())
+            mode === 'interactive'
+                && e.key === 'f' 
+                && dispatch(toggleIsFullScreen())
         };
         window.addEventListener('keydown', handleFullScreen)
         return () => window.removeEventListener('keydown', handleFullScreen) 
