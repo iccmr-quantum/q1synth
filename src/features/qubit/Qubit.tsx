@@ -52,12 +52,6 @@ const sketch: Sketch = p => {
         p.noFill()
         p.stroke('rgba(255,255,255,0.1)')
         p.sphere(radius, 20, 20);
-        
-        p.translate(0, -(radius/2))
-        p.noStroke()
-        p.fill('black')
-        p.cylinder(2, radius)
-    
     }
 }
 

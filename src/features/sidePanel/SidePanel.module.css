@@ -28,17 +28,18 @@
 }
 
 .sidePanelOpen {
+    position: absolute;
+    right: 0;
     width: 28em;
     transition: 0.5s all ease-out;
 }
 
 .sidePanelClosed {
     width: 0;
-    transition: 0.5s all ease-out;
 }
 
-@media (max-width: 1200px) {
-    .sidePanel {
+.sidePanelMobile {
+    @media (max-width: 1200px) {
         position: absolute;
         right: 0;
         max-width: calc(100vw - 38px);

@@ -20,7 +20,6 @@ body {
     display: flex;
     overflow: hidden;
     min-height: 100vh;
-    align-items: center;
 }
 
 .main {
@@ -29,6 +28,12 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
+}
+
+@media (max-width: 600px) {
+    .main {
+        padding: 1em;
+    }
 }
 
 .info {
