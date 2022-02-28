@@ -8,10 +8,13 @@ import './App.css';
 import { WebMidi } from 'webmidi';
 import { midiMap } from './midi/midiMap'
 
+declare const window: any;
+
 function App() {
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(enableMidi())
+        console.log(window.qusynth)
     }, [dispatch])
 
     useEffect(() => {
