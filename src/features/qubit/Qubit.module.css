@@ -5,6 +5,7 @@
     padding: 2em;
     position: relative;
     margin: 0 auto;
+    user-select: none;
 }
 
 .label {

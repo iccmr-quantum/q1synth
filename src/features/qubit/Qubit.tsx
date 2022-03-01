@@ -106,13 +106,13 @@ export function Qubit({size = 350} : QubitProps) {
             onMouseLeave={() => setIsClicked(false)}
             onMouseMove={(e) => isClicked && mode ==='interactive' && handleMouseMove(e)}
         >
-            {mode === 'interactive' && states.map(({id, label}) => <span key={id} className={`${styles.label} ${styles['label' + id]}`}>{`|${label}⟩`}</span>)}
+            {states.map(({id, label}) => <span key={id} className={`${styles.label} ${styles['label' + id]}`}>{`|${label}⟩`}</span>)}
             <ReactP5Wrapper 
                 sketch={sketch} 
                 x={x.value * 360}
                 y={y.value * 360}
                 z={z.value * 360}
-                size={size}
+                size={window.innerWidth < 450 ? window.innerWidth - 100 : size}
             />
             <DataStream />
         </div>

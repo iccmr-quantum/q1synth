@@ -15,7 +15,7 @@
     padding-right: 0.5em;
     min-width: 4em;
     text-align: right;
-    user-select: none
+    user-select: none;
 }
 
 .vector:last-of-type {
