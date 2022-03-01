@@ -6,6 +6,7 @@
     position: relative;
     margin: 0 auto;
     user-select: none;
+    z-index: 1000;
 }
 
 .label {

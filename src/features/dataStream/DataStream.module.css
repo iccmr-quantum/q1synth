@@ -10,6 +10,10 @@
     overflow: hidden;
 }
 
+@media (max-width: 786px) {
+    .ul { right: 0 }
+}
+
 .vector {
     display: inline-block;
     padding-right: 0.5em;
