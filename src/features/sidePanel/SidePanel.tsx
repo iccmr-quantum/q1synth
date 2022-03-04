@@ -13,13 +13,16 @@ export function SidePanel() {
     const times = useAppSelector(getTimes)
     const disabled = useAppSelector(getDisabledStatus)
     const midiInputs = useAppSelector(getMidiInputs)
+    const [active, setActive] = useState(0)
     const [show, setShow] = useState(false)
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
         (button === 'one' || button === 'five' || button === 'ten') && dispatch(setTime({button}))
     }
 
-    function handleHideShow() {
+    function handleHideShow(tab: number) {
+        
+        setActive(tab)
         setShow(!show)
     }
 
@@ -29,10 +32,22 @@ export function SidePanel() {
 
     return (
         <aside className={`${styles.sidePanel} ${show ? styles.sidePanelOpen : styles.sidePanelClosed}`}>
-            <div className={styles.sidePanel__content}>
+            <div className={`${styles.sidePanel__content} ${active === 0 && styles.contentActive}`}>
                 <span 
-                    className={styles.toggle}
-                    onClick={() => handleHideShow()}
+                    className={`${styles.toggle} ${styles.toggle0} ${active === 0 && styles.toggleActive}`}
+                    onClick={() => handleHideShow(0)}
+                >Info</span>
+                <div>
+                    <h2>Q1Synth</h2>
+                    <p>Interdisciplinary Centre For Computer Music Research (ICCMR).</p>
+                    <p>Rotate and measure the qubit to quantum-design a sound.</p>
+                    <p>f for fullscreen. shift + mouseY to rotate Y.</p>
+                </div>
+            </div>
+            <div className={`${styles.sidePanel__content} ${active === 1 && styles.contentActive}`}>
+                <span 
+                    className={`${styles.toggle} ${styles.toggle1} ${active === 1 && styles.toggleActive}`}
+                    onClick={() => handleHideShow(1)}
                 >Config</span>
                 <Presets />
                 <div className={styles.buttonsContainer}></div>

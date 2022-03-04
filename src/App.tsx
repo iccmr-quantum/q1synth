@@ -58,10 +58,7 @@ function App() {
             <div className="main">
                 {!isFullScreen &&
                     <div className="info">
-                        <h1>QuSynth</h1>
-                        <h2>Interdisciplinary Centre For Computer Music Research (ICCMR).</h2>
-                        <p>Rotate and measure the qubit to quantum-design a sound.</p>
-                        <p>f for fullscreen. shift + mouseY to rotate Y.</p>
+                        <h1>Q1Synth</h1>
                     </div>
                 }
                 <Controls />
