@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState} from 'react';
+import React, { MouseEvent, useState, useEffect} from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Sliders } from '../sliders/Sliders';
 import { Select } from '../select/Select';
@@ -16,14 +16,24 @@ export function SidePanel() {
     const [active, setActive] = useState(0)
     const [show, setShow] = useState(false)
 
+    useEffect(() => {
+        const handleKeyDownRun = (e: KeyboardEvent) => e.code === 'Escape' && setShow(false) && e.preventDefault();
+        const handleResize = () => setShow(false)
+        window.addEventListener('keydown', handleKeyDownRun)
+        window.addEventListener('resize', handleResize)
+        return () => {
+            window.removeEventListener('keydown', handleKeyDownRun) 
+            window.removeEventListener('resize', handleResize)
+        }
+    }, []);
+
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
         (button === 'one' || button === 'five' || button === 'ten') && dispatch(setTime({button}))
     }
 
     function handleHideShow(tab: number) {
-        
+        (show && tab !== active) || setShow(!show)
         setActive(tab)
-        setShow(!show)
     }
 
     function handleMidiSelect(e: React.ChangeEvent<HTMLSelectElement>) {
