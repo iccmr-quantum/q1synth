@@ -30,8 +30,8 @@ interface EnvSlider {
 }
 
 export interface Buttons extends Dictionary {
-    rotate: boolean,
-    measure: boolean
+    active: string | null
+    labels: string[]
 }
 
 export interface Times extends Dictionary {
@@ -108,7 +108,8 @@ const initialState: DataState = {
         release: {value: 0.5, label: 'release', min: 0, max: 4}
     },
     buttons: {
-        rotate: false, measure: false
+        active: null,
+        labels: ['rotate', 'measure']
     },
     disabled: false,
     times: {
@@ -158,13 +159,8 @@ export const dataSlice = createSlice({
 
             synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
         },        
-        setButtonValue: (state, action: PayloadAction<{button: 'rotate' | 'measure' }>) => {
-            const { button } = action.payload
-            const { measure: isMeasuring, rotate: isRotating } = state.buttons
-
-            state.buttons.rotate = button === 'measure' && !isMeasuring ? false : state.buttons.rotate
-            state.buttons.measure = button === 'rotate' && !isRotating ? false : state.buttons.measure
-            state.buttons[button] = !state.buttons[button];
+        setButtonActive: (state, action: PayloadAction<'rotate' | 'measure' | null>) => {
+            state.buttons.active = action.payload
         },
         setButtonsDisabled: (state) => {
             state.disabled = true
@@ -191,7 +187,7 @@ export const dataSlice = createSlice({
     }
 });
 
-export const { setData, setMode, toggleIsFullScreen, setPreset, setControl, setTime, setButtonValue, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis } = dataSlice.actions;
+export const { setData, setMode, toggleIsFullScreen, setPreset, setControl, setTime, setButtonActive, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis } = dataSlice.actions;
 
 export const getMode = (state: RootState) => state.data.mode;
 export const getDestination = (state: RootState) => state.data.destination;
@@ -199,7 +195,7 @@ export const getIsFullScreen = (state: RootState) => state.data.isFullScreen;
 export const getQubit = (state: RootState) => state.data.qubit;
 export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];
 export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.data, [state.data.leftA, state.data.rightA], [90, 270])
-export const getButtonValue = (button: 'rotate' | 'measure') => (state: RootState) => state.data.buttons[button];
+export const getButtonActive = (state: RootState) => state.data.buttons.active;
 export const getDisabledStatus = (state: RootState) => state.data.disabled
 export const getPresetNumber = (state: RootState) => state.data.preset
 export const getTimes = (state: RootState) => state.data.times

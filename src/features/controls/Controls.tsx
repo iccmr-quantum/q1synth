@@ -6,7 +6,7 @@ import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { 
     toggleIsFullScreen, 
-    getButtonValue, 
+    getButtonActive, 
     getDisabledStatus, 
     incrementXAxis, 
     incrementYAxis, 
@@ -20,7 +20,7 @@ import {
     setData,
     setButtonsDisabled, 
     setButtonsActive, 
-    setButtonValue,
+    setButtonActive,
     getDestination
 } from '../../data/dataSlice';
 
@@ -40,8 +40,7 @@ const mint = (destination: number, data: DataState) => {
 
 export function Controls() {
     const dispatch = useAppDispatch()
-    const measure = useAppSelector(getButtonValue('measure'));
-    const rotate = useAppSelector(getButtonValue('rotate'));
+    const buttonActive = useAppSelector(getButtonActive);
     const synthParams = useAppSelector(getSynthParams)
     const qubit = useAppSelector(getQubit)
     const disabled = useAppSelector(getDisabledStatus)
@@ -93,7 +92,7 @@ export function Controls() {
         Tone.Transport.start().stop(`+${time}`);
         Tone.Transport.once('stop', () => {
             setTimeout(() => {
-                dispatch(setButtonsActive()) && dispatch(setButtonValue({button: 'measure'}));
+                dispatch(setButtonsActive()) && dispatch(setButtonActive(null));
                 isFullScreen && mode !== 'presentation' && dispatch(toggleIsFullScreen());
                 window.qusynth && dispatch(setData(window.qusynth))
             }, 1000); 
@@ -101,12 +100,22 @@ export function Controls() {
     }
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
-        (button === 'measure' || button === 'rotate') && dispatch(setButtonValue({button}))
+        // const active = button === 'measure' 
+        //     ? 'measure'
+        //     : button === 'rotate'
+        //         ? 'rotate' 
+        //         : null
         
-        button === 'rotate' && !rotate && synth.on(synthParams);
-        button === 'rotate' && rotate && synth.off(synthParams);
-        button === 'measure' && !measure && handleMeasure()
-        button === 'measure' && measure && Tone.Transport.cancel() && synth.off(synthParams)
+        // dispatch(setButtonActive(active))
+
+        button === 'rotate' 
+            && (buttonActive !== 'rotate' 
+                ? dispatch(setButtonActive('rotate')) && synth.on(synthParams) 
+                : dispatch(setButtonActive(null)) && synth.off(synthParams))
+        button === 'measure' 
+            && (buttonActive !== 'measure'
+                ? dispatch(setButtonActive('measure')) && handleMeasure() 
+                : dispatch(setButtonActive(null)) && Tone.Transport.cancel() && synth.off(synthParams))
     }
 
     return (
@@ -133,14 +142,14 @@ export function Controls() {
                     name="rotate" 
                     activeName="stop"
                     onClick={handleButtonOnClick}
-                    isActive={rotate}
+                    isActive={buttonActive === 'rotate'}
                     disabled={disabled}
                 />}
                 <Button 
                     name="measure"
                     activeName="stop"
                     onClick={handleButtonOnClick}
-                    isActive={measure}
+                    isActive={buttonActive === 'measure'}
                     disabled={disabled}
                 />
             </div>

@@ -2,10 +2,10 @@ import React, { MouseEvent } from 'react'
 import styles from './Button.module.css';
 
 interface ButtonProps {
-    name: string,
-    activeName?: string,
-    isActive: boolean,
-    disabled: boolean,
+    name: string
+    activeName?: string
+    isActive: boolean
+    disabled: boolean
     onClick: (e: MouseEvent<HTMLButtonElement>, name: string) => void
 }
 
