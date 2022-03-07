@@ -100,14 +100,6 @@ export function Controls() {
     }
 
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
-        // const active = button === 'measure' 
-        //     ? 'measure'
-        //     : button === 'rotate'
-        //         ? 'rotate' 
-        //         : null
-        
-        // dispatch(setButtonActive(active))
-
         button === 'rotate' 
             && (buttonActive !== 'rotate' 
                 ? dispatch(setButtonActive('rotate')) && synth.on(synthParams) 
