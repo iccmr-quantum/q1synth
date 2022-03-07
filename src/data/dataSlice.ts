@@ -54,7 +54,7 @@ export interface Qubit {
 }
 
 export interface DataState extends Dictionary {
-    mode: 'interactive' | 'presentation'
+    mode: 'simple' | 'advanced' | 'presentation'
     isFullScreen: Boolean
     qubit: Qubit
     leftA: SynthSlider
@@ -69,7 +69,7 @@ export interface DataState extends Dictionary {
 }
 
 const initialState: DataState = {
-    mode: 'interactive',
+    mode: 'simple',
     destination: 0,
     isFullScreen: false,
     qubit: {
@@ -108,7 +108,7 @@ const initialState: DataState = {
         release: {value: 0.5, label: 'release', min: 0, max: 4}
     },
     buttons: {
-        rotate: false, measure: false, disabled: false
+        rotate: false, measure: false
     },
     disabled: false,
     times: {
@@ -124,7 +124,7 @@ export const dataSlice = createSlice({
         setData: (state, action: PayloadAction<DataState>) => {
             Object.entries(action.payload).map(([key,value]) => state[key] = value)
         },
-        setMode: (state, action: PayloadAction<'interactive' | 'presentation'>) => {
+        setMode: (state, action: PayloadAction<'simple' | 'advanced' | 'presentation'>) => {
             state.mode = action.payload
         },
         toggleIsFullScreen: (state) => {
@@ -213,7 +213,7 @@ export const getTime = (state: RootState) => {
 export const getMintData = (state: RootState) : DataState => {
     return {
         ...state.data,
-        mode: 'interactive',
+        mode: 'advanced',
         isFullScreen: true,
     }
 }

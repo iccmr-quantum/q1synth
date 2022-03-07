@@ -7,7 +7,8 @@ import {
     toggleIsFullScreen, 
     getIsFullScreen, 
     setData,
-    getMode
+    getMode,
+    setMode
 } from './data/dataSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
@@ -31,7 +32,7 @@ function App() {
 
     useEffect(() => {
         const handleFullScreen = (e: KeyboardEvent) : void => {
-            mode === 'interactive'
+            (mode === 'simple' || mode === 'advanced')
                 && e.key === 'f' 
                 && dispatch(toggleIsFullScreen())
         };
@@ -59,6 +60,13 @@ function App() {
                 {!isFullScreen &&
                     <div className="info">
                         <h1>Q1Synth</h1>
+                        <button 
+                            className={`btn-mode ${mode === 'simple' && 'btn-mode--active'}`}
+                            onClick={() => dispatch(setMode('simple'))}
+                        >Simple</button> | <button
+                            className={`btn-mode ${mode === 'advanced' && 'btn-mode--active'}`}
+                            onClick={() => dispatch(setMode('advanced'))}
+                        >Advanced</button>
                     </div>
                 }
                 <Controls />

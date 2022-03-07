@@ -104,7 +104,7 @@ export function Qubit({size = 350} : QubitProps) {
             onMouseDown={() => setIsClicked(true)}
             onMouseUp={() => setIsClicked(false)}
             onMouseLeave={() => setIsClicked(false)}
-            onMouseMove={(e) => isClicked && mode ==='interactive' && handleMouseMove(e)}
+            onMouseMove={(e) => isClicked && mode !== 'presentation' && handleMouseMove(e)}
         >
             {states.map(({id, label}) => <span key={id} className={`${styles.label} ${styles['label' + id]}`}>{`|${label}⟩`}</span>)}
             <ReactP5Wrapper 

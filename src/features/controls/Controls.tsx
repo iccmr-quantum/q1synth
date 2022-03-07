@@ -112,7 +112,7 @@ export function Controls() {
     return (
         <>
             <div className={styles.container}>
-                {!isFullScreen &&
+                {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
                         <Sliders group="leftA"/>
                     </section>
@@ -122,7 +122,7 @@ export function Controls() {
                 >
                     <Qubit size={isFullScreen ? 500 : 350}/>
                 </section>
-                {!isFullScreen &&
+                {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
                         <Sliders group="rightA"/>
                     </section>
