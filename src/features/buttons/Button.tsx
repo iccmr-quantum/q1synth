@@ -4,12 +4,12 @@ import styles from './Button.module.css';
 interface ButtonProps {
     name: string
     activeName?: string
-    isActive: boolean
-    disabled: boolean
+    isActive?: boolean
+    disabled?: boolean
     onClick: (e: MouseEvent<HTMLButtonElement>, name: string) => void
 }
 
-export function Button({name, activeName, isActive, disabled, onClick} : ButtonProps) {
+export function Button({name, activeName, isActive = false, disabled = false, onClick} : ButtonProps) {
     return (
         <button 
             className={`

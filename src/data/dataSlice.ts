@@ -183,11 +183,16 @@ export const dataSlice = createSlice({
             
             synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
             state.preset = action.payload
+        },
+        randomise: (state) => {
+            state.leftA = randomiseSynthSlider(state.leftA)
+            state.rightA = randomiseSynthSlider(state.rightA)
+            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
         }
     }
 });
 
-export const { setData, setMode, toggleIsFullScreen, setPreset, setControl, setTime, setButtonActive, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis } = dataSlice.actions;
+export const { setData, setMode, toggleIsFullScreen, setPreset, setControl, setTime, setButtonActive, setButtonsDisabled, setButtonsActive, incrementXAxis, incrementYAxis, incrementZAxis, randomise } = dataSlice.actions;
 
 export const getMode = (state: RootState) => state.data.mode;
 export const getDestination = (state: RootState) => state.data.destination;
@@ -254,5 +259,15 @@ const calculateParams = (state: DataState, sliders: SynthSlider[], points: numbe
         lfoDepth: calculateParam(zDegrees, 'lfoDepth', sliders, points), 
     }
 }
+
+const randomiseSynthSlider = (slider: SynthSlider) => ({
+    freq: {...slider.freq, value: Math.random()},
+    volume: {...slider.volume, value: Math.random()},
+    reverb: {...slider.reverb, value: Math.random()},
+    modulationIndex: {...slider.modulationIndex, value: Math.random()},
+    harmonicity: {...slider.harmonicity, value: Math.random()},
+    lfoFreq: {...slider.lfoFreq, value: Math.random()},
+    lfoDepth: {...slider.lfoDepth, value: Math.random()}
+})
 
 export default dataSlice.reducer;

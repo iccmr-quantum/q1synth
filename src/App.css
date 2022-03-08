@@ -56,6 +56,26 @@ body {
     opacity: 1;
 }
 
+
+.btn-randomise {
+    position: absolute;
+    margin-top: 2em;
+    width: 10em;
+}
+
+.btn-randomise button {
+    margin-bottom: 0em;
+}
+
+@media (max-width: 600px) {
+    .btn-randomise {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
+
 .fullscreen {
     display: flex;
     justify-content: center;
@@ -113,27 +133,6 @@ svg linearGradient {
 .download {
     padding: 1em 0 0 0;
 }
-
-.dial {
-    margin: 0 auto;
-}
-
-.dial g {
-    display: none;
-}
-
-.dial-svg {
-    margin: 0 auto;
-    width: 200px;
-    height: 200px;
-    position: absolute;
-}
-
-.dial-svg__circle-x {
-    transform: rotateX(70deg);
-}
-
-
 
 @media (max-width: 600px) {
     .sliders {

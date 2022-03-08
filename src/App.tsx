@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Controls } from './features/controls/Controls';
 import { SidePanel } from './features/sidePanel/SidePanel';
+import { Button } from './features/buttons/Button';
 import { enableMidi, getMidiStatus, getActiveMidiInput } from './midi/midiSlice';
 import { 
     setControl, 
@@ -8,7 +9,8 @@ import {
     getIsFullScreen, 
     setData,
     getMode,
-    setMode
+    setMode,
+    randomise
 } from './data/dataSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
@@ -67,6 +69,13 @@ function App() {
                             className={`btn-mode ${mode === 'advanced' && 'btn-mode--active'}`}
                             onClick={() => dispatch(setMode('advanced'))}
                         >Advanced</button>
+                        
+                        <div className='btn-randomise'>
+                            <Button 
+                                name="randomise"
+                                onClick={() => dispatch(randomise())}
+                            />
+                        </div>
                     </div>
                 }
                 <Controls />
