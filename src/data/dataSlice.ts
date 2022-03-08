@@ -261,8 +261,8 @@ const calculateParams = (state: DataState, sliders: SynthSlider[], points: numbe
 }
 
 const randomiseSynthSlider = (slider: SynthSlider) => ({
-    freq: {...slider.freq, value: Math.random()},
-    volume: {...slider.volume, value: Math.random()},
+    freq: {...slider.freq, value: Math.random() * 0.25},
+    volume: {...slider.volume, value: Math.random() * 0.5 + 0.5},
     reverb: {...slider.reverb, value: Math.random()},
     modulationIndex: {...slider.modulationIndex, value: Math.random()},
     harmonicity: {...slider.harmonicity, value: Math.random()},
