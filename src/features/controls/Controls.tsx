@@ -102,12 +102,13 @@ export function Controls() {
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
         button === 'rotate' 
             && (buttonActive !== 'rotate' 
-                ? dispatch(setButtonActive('rotate')) && synth.on(synthParams) 
-                : dispatch(setButtonActive(null)) && synth.off(synthParams))
+                ? dispatch(setButtonActive('rotate'))
+                : dispatch(setButtonActive(null)))
+
         button === 'measure' 
             && (buttonActive !== 'measure'
                 ? dispatch(setButtonActive('measure')) && handleMeasure() 
-                : dispatch(setButtonActive(null)) && Tone.Transport.cancel() && synth.off(synthParams))
+                : dispatch(setButtonActive(null)) && Tone.Transport.cancel() && synth.off())
     }
 
     return (

@@ -66,7 +66,7 @@ export const makeSynth = () => {
                 synthR.triggerAttack(freq, "+0.1")
                 return methods()
             },
-            off: (args: SynthArgs) => { 
+            off: () => { 
                 synthL.triggerRelease()  
                 synthR.triggerRelease()  
                 return methods()

@@ -134,32 +134,35 @@ export const dataSlice = createSlice({
         setControl: (state, action: PayloadAction<{group: string, key: string, value: number}>) => {
             const { group, key, value } = action.payload
 
-            state[group][key].value = value
-            
-            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
+            const hasChanged = state[group][key].value !== value
+
+            hasChanged && (state[group][key].value = value);
+            hasChanged && synth.set(calculateParams(state))
         },
         incrementXAxis: (state, action: PayloadAction<number>) => {
             const increment = action.payload
             const x = state.qubit.x.value
             state.qubit.x.value = x + increment
 
-            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
+            synth.set(calculateParams(state))
         },
         incrementYAxis: (state, action: PayloadAction<number>) => {
             const increment = action.payload
             const y = state.qubit.y.value
             state.qubit.y.value = y + increment
 
-            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
+            synth.set(calculateParams(state))
         },  
         incrementZAxis: (state, action: PayloadAction<number>) => {
             const increment = action.payload
             const z = state.qubit.z.value
             state.qubit.z.value = z + increment
 
-            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
+            synth.set(calculateParams(state))
         },        
         setButtonActive: (state, action: PayloadAction<'rotate' | 'measure' | null>) => {
+            action.payload === 'rotate' && synth.on(calculateParams(state));
+            action.payload === null && synth.off();
             state.buttons.active = action.payload
         },
         setButtonsDisabled: (state) => {
@@ -181,13 +184,13 @@ export const dataSlice = createSlice({
             state.env = preset.env
             state.modEnv = preset.modEnv
             
-            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
+            synth.set(calculateParams(state))
             state.preset = action.payload
         },
         randomise: (state) => {
             state.leftA = randomiseSynthSlider(state.leftA)
             state.rightA = randomiseSynthSlider(state.rightA)
-            synth.set(calculateParams(state, [state.leftA, state.rightA], [90, 270]))
+            synth.set(calculateParams(state))
         }
     }
 });
@@ -199,7 +202,7 @@ export const getDestination = (state: RootState) => state.data.destination;
 export const getIsFullScreen = (state: RootState) => state.data.isFullScreen;
 export const getQubit = (state: RootState) => state.data.qubit;
 export const getSlidersValue = (group: string) => (state: RootState) => state.data[group];
-export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.data, [state.data.leftA, state.data.rightA], [90, 270])
+export const getSynthParams = (state: RootState) : SynthArgs => calculateParams(state.data)
 export const getButtonActive = (state: RootState) => state.data.buttons.active;
 export const getDisabledStatus = (state: RootState) => state.data.disabled
 export const getPresetNumber = (state: RootState) => state.data.preset
@@ -222,11 +225,10 @@ export const getMintData = (state: RootState) : DataState => {
 const calculateParam = (
     position: number, 
     key: string, 
-    sliders: SynthSlider[],
-    points: number[]
+    sliders: SynthSlider[]
 ) => {
     return mapToRange(
-        blendBetweenValues(position, sliders.map(slider => slider[key].value), points), 
+        blendBetweenValues(position, sliders.map(slider => slider[key].value), [90, 270]), 
         0, 1, sliders[0][key].min, sliders[0][key].max
     )
 }
@@ -240,23 +242,24 @@ const calculateEnvelope = (
     release: mapToRange(env.release.value, 0, 1, 0, 4)
 })
 
-const calculateParams = (state: DataState, sliders: SynthSlider[], points: number[]) : SynthArgs => {
-    const { env, modEnv } = state
+const calculateParams = (state: DataState) : SynthArgs => {
+    const { env, modEnv, leftA, rightA } = state
+    const sliders = [leftA, rightA]
     const xDegrees = state.qubit.x.value * 360
     const yDegrees = state.qubit.y.value * 360
     const zDegrees = state.qubit.z.value * 360
 
     return { 
-        freq: calculateParam(yDegrees, 'freq', sliders, points), 
-        volume: calculateParam(yDegrees, 'volume', sliders, points), 
-        reverb: calculateParam(yDegrees, 'reverb', sliders, points), 
-        modulationIndex: calculateParam(xDegrees, 'modulationIndex', sliders, points), 
-        harmonicity: calculateParam(xDegrees, 'harmonicity', sliders, points), 
+        freq: calculateParam(yDegrees, 'freq', sliders), 
+        volume: calculateParam(yDegrees, 'volume', sliders), 
+        reverb: calculateParam(yDegrees, 'reverb', sliders), 
+        modulationIndex: calculateParam(xDegrees, 'modulationIndex', sliders), 
+        harmonicity: calculateParam(xDegrees, 'harmonicity', sliders), 
         envelope: calculateEnvelope(env),
         modulationEnvelope: calculateEnvelope(modEnv),
         blend: blendBetweenValues(yDegrees, [0, 1], [90, 270]),
-        lfoFreq: calculateParam(zDegrees, 'lfoFreq', sliders, points), 
-        lfoDepth: calculateParam(zDegrees, 'lfoDepth', sliders, points), 
+        lfoFreq: calculateParam(zDegrees, 'lfoFreq', sliders), 
+        lfoDepth: calculateParam(zDegrees, 'lfoDepth', sliders), 
     }
 }
 

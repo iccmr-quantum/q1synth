@@ -10,7 +10,8 @@ import {
     setData,
     getMode,
     setMode,
-    randomise
+    randomise,
+    setPreset
 } from './data/dataSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
@@ -52,8 +53,10 @@ function App() {
             const { value } = e
             const { number } = e.controller
             const map = midiMap(number)
-            map && value
-                && dispatch(setControl({ group: map.group, key: map.key, value: +value }))
+            if(!map || !value) return
+            map.group === 'preset'
+                ? dispatch(setPreset(+map.key))
+                : dispatch(setControl({ group: map.group, key: map.key, value: +value }))
         });
 
     return (

@@ -37,6 +37,7 @@ export const midiMap = (cc: number) : {group: string, key: string} => {
         31: {group: 'preset', key: '5'},
         32: {group: 'preset', key: '6'},
         33: {group: 'preset', key: '7'},
+        34: {group: 'action', key: 'rotate'},
     }
     return map[cc]
 }
