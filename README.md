@@ -5,29 +5,39 @@ A midi input device can be chosen from the dropdown in the config panel. QuSynth
 
 ### Midi Mapping
 Control change messages are mapped to the following controls.
-* 0 - dial degrees
-* 1 - qubit x axis
-* 2 - qubit y axis
-* 3 - qubit z axis
-* 4 - left synth frequency
-* 5 - left synth volume
-* 6 - left synth reverb
-* 7 - left synth modulation index
-* 8 - left synth harmonicity
-* 9 - right synth frequency
-* 10 - right synth volume
-* 11 - right synth reverb
-* 12 - right synth modulation index
-* 13 - right synth harmonicity
-* 14 - envelope attack
-* 15 - envelope decay
-* 16 - envelope sustain
-* 17 - envelope release
-* 18 - modulation envelope attack
-* 19 - modulation envelope decay
-* 20 - modulation envelope sustain
-* 21 - modulation envelope release
-
+* 1 - x
+* 2 - y
+* 3 - z
+* 4 - freq
+* 5 - volume
+* 6 - reverb
+* 7 - modulationIndex
+* 8 - harmonicity
+* 9 - lfoFreq
+* 10 - lfoDepth
+* 11 - freq
+* 12 - volume
+* 13 - reverb
+* 14 - modulationIndex
+* 15 - harmonicity
+* 16 - lfoFreq
+* 17 - lfoDepth
+* 18 - attack
+* 19 - decay
+* 20 - sustain
+* 21 - release
+* 22 - attack
+* 23 - decay
+* 24 - sustain
+* 25 - release
+* 26 - preset 0
+* 27 - preset 1
+* 28 - preset 2
+* 29 - preset 3
+* 30 - preset 4
+* 31 - preset 5
+* 32 - preset 6
+* 33 - preset 7
 
 ## Further Development
 
