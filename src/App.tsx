@@ -11,7 +11,8 @@ import {
     getMode,
     setMode,
     randomise,
-    setPreset
+    setPreset,
+    setButtonActive
 } from './data/dataSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
@@ -54,9 +55,15 @@ function App() {
             const { number } = e.controller
             const map = midiMap(number)
             if(!map || !value) return
-            map.group === 'preset'
-                ? dispatch(setPreset(+map.key))
-                : dispatch(setControl({ group: map.group, key: map.key, value: +value }))
+            map.group === 'action' 
+                ? map.key === 'play' 
+                    ? dispatch(setButtonActive("rotate")) 
+                    : map.key === 'stop'
+                        ? dispatch(setButtonActive(null))
+                        : dispatch(randomise())
+                : map.group === 'preset'
+                    ? dispatch(setPreset(+map.key))
+                    : dispatch(setControl({ group: map.group, key: map.key, value: +value }))
         });
 
     return (

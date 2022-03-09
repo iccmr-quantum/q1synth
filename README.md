@@ -38,7 +38,9 @@ Control change messages are mapped to the following controls.
 * 31 - preset 5
 * 32 - preset 6
 * 33 - preset 7
-* 33 - rotate
+* 34 - play
+* 35 - stop
+* 36 - randomise
 
 ## Further Development
 
