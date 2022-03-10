@@ -57,6 +57,9 @@ const sketch: Sketch = p => {
         p.noFill()
         p.stroke('rgba(255,255,255,0.1)')
         p.sphere(radius, 20, 20);
+        p.translate(0, -radius - 2.5);
+        p.stroke('red')
+        p.sphere(2.5);
     }
 }
 
