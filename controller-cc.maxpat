@@ -40,6 +40,32 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-13",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 166.5, 323.0, 150.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 180.071428571428555, 325.0, 35.0, 20.0 ],
+					"text" : "rand"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-1",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 128.5, 327.0, 150.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 113.5, 325.0, 59.0, 20.0 ],
+					"text" : "measure"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-34",
 					"maxclass" : "comment",
 					"numinlets" : 1,
