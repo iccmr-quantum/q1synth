@@ -1,4 +1,4 @@
-import React, { useState, useRef, MouseEvent } from 'react'
+import React, { useState, useRef, MouseEvent, TouchEvent } from 'react'
 import { ReactP5Wrapper, Sketch } from "react-p5-wrapper";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { 
@@ -82,17 +82,22 @@ export function Qubit({size = 350} : QubitProps) {
         {id: 'minusi', label: '-i'},
     ]
 
-    const handleMouseMove = (e: MouseEvent) => {
-
+    const getQubitDimensions = () => {
         const rect = qubitRef.current?.getBoundingClientRect()
         const left = rect?.left || 0
         const top = rect?.top || 0
         const width = rect?.width || 0
         const height = rect?.height || 0
+        return { left, top, width, height }
+    }
 
-        const x = e.clientX - left
-        const y = e.clientY - top
-        
+    const handleMove = (e: MouseEvent | TouchEvent<HTMLDivElement>, clientX: number, clientY: number) => {
+        if(!isClicked || mode === 'presentation') return
+
+        const { left, top, width, height } = getQubitDimensions()
+        const x = clientX - left
+        const y = clientY - top
+
         dispatch(setControl({group: 'qubit', key: 'y', value: mapToRange((x/width), 0, 1, -0.5, 0.5)}));
         dispatch(setControl({group: 'qubit', key: e.shiftKey ? 'z' : 'x', value: mapToRange((y/height), 0, 1, 0.5, -0.5)}));
     }
@@ -104,7 +109,13 @@ export function Qubit({size = 350} : QubitProps) {
             onMouseDown={() => setIsClicked(true)}
             onMouseUp={() => setIsClicked(false)}
             onMouseLeave={() => setIsClicked(false)}
-            onMouseMove={(e) => isClicked && mode !== 'presentation' && handleMouseMove(e)}
+            onMouseMove={e => handleMove(e, e.clientX, e.clientY)}
+            onTouchStart={() => setIsClicked(true)}
+            onTouchEnd={() => setIsClicked(false)}
+            onTouchMove={e => {
+                const { clientX, clientY } = e.nativeEvent.touches[0]
+                handleMove(e, clientX, clientY)
+            }}
         >
             {states.map(({id, label}) => <span key={id} className={`${styles.label} ${styles['label' + id]}`}>{`|${label}⟩`}</span>)}
             <ReactP5Wrapper 
