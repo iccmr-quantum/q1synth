@@ -44,6 +44,7 @@ export const getMidiInputs = (state: RootState) => state.midi.inputs;
 export const getActiveMidiInput = (state: RootState) => state.midi.activeInputID;
 
 export const enableMidi = (): AppThunk => async dispatch => {
+    if(!navigator.requestMIDIAccess) return 
     await WebMidi.enable()
     dispatch(setMidiStatus(WebMidi.enabled))
     WebMidi.enabled 
