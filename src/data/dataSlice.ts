@@ -161,7 +161,13 @@ export const dataSlice = createSlice({
             synth.set(calculateParams(state))
         },        
         setButtonActive: (state, action: PayloadAction<'rotate' | 'measure' | null>) => {
-            action.payload === 'rotate' && synth.on(calculateParams(state));
+            action.payload === 'rotate' 
+                && (state.qubit = {
+                    x: {value: 0},
+                    y: {value: 0},
+                    z: {value: 0},
+                })
+                && synth.on(calculateParams(state));
             action.payload === null && synth.off();
             state.buttons.active = action.payload
         },
