@@ -40,7 +40,11 @@ function App() {
                 && e.key === 'f' 
                 && dispatch(toggleIsFullScreen())
         };
+        const handleResize = () => window.innerWidth < 600 && mode !== 'simple' && dispatch(setMode('simple'))
+
         window.addEventListener('keydown', handleFullScreen)
+        window.addEventListener('resize', handleResize)
+        
         return () => window.removeEventListener('keydown', handleFullScreen) 
     });
     
