@@ -21,7 +21,7 @@ import {
     setButtonsDisabled, 
     setButtonsActive, 
     setButtonActive,
-    getDestination
+    getDestination,
 } from '../../data/dataSlice';
 
 import styles from './Controls.module.css';
