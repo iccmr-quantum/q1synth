@@ -44,7 +44,7 @@ function App() {
 
         window.addEventListener('keydown', handleFullScreen)
         window.addEventListener('resize', handleResize)
-        
+
         return () => window.removeEventListener('keydown', handleFullScreen) 
     });
     
@@ -76,13 +76,15 @@ function App() {
                 {!isFullScreen &&
                     <div className="info">
                         <h1>Q1Synth</h1>
-                        <button 
-                            className={`btn-mode ${mode === 'simple' && 'btn-mode--active'}`}
-                            onClick={() => dispatch(setMode('simple'))}
-                        >Simple</button> | <button
-                            className={`btn-mode ${mode === 'advanced' && 'btn-mode--active'}`}
-                            onClick={() => dispatch(setMode('advanced'))}
-                        >Advanced</button>
+                        <div className="modes">
+                            <button 
+                                className={`btn-mode ${mode === 'simple' && 'btn-mode--active'}`}
+                                onClick={() => dispatch(setMode('simple'))}
+                            >Simple</button> | <button
+                                className={`btn-mode ${mode === 'advanced' && 'btn-mode--active'}`}
+                                onClick={() => dispatch(setMode('advanced'))}
+                            >Advanced</button>
+                        </div>
                         
                         <div className='btn-randomise'>
                             <Button 

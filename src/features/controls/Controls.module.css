@@ -11,6 +11,10 @@
     justify-content: center;
 }
 
+@media (max-width: 600px) {
+    .buttons { width: 100% }
+}
+
 .sliders {
     display: flex;
     flex-direction: column;

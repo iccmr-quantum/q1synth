@@ -56,6 +56,9 @@ body {
     opacity: 1;
 }
 
+@media (max-width: 600px) {
+    .modes { display: none }
+}
 
 .btn-randomise {
     position: absolute;
