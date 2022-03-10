@@ -41,6 +41,7 @@ Control change messages are mapped to the following controls.
 * 34 - play
 * 35 - stop
 * 36 - randomise
+* 37 - measure
 
 ## Further Development
 

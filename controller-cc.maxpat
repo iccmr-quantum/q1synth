@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 64.0, 87.0, 1582.0, 697.0 ],
+		"rect" : [ 31.0, 87.0, 1582.0, 697.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -215,7 +215,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 239.571428571428555, 145.666666666666686, 150.0, 20.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 286.178571428571502, 130.666666666666686, 34.214285714285666, 20.0 ],
+					"presentation_rect" : [ 286.178571428571502, 130.666666666666686, 35.0, 20.0 ],
 					"text" : "modi"
 				}
 
@@ -922,8 +922,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 823.0, 403.333333333333371, 70.0, 22.0 ],
-					"text" : "loadmess 1"
+					"patching_rect" : [ 823.0, 403.333333333333371, 77.0, 22.0 ],
+					"text" : "loadmess 37"
 				}
 
 			}
@@ -3776,7 +3776,7 @@
 					"fontname" : "Arial",
 					"fontsize" : 13.0,
 					"id" : "obj-52",
-					"items" : [ "AU DLS Synth 1", ",", "IAC Driver Tidal1", ",", "IAC Driver Tidal2", ",", "Sensel Morph", ",", "from Max 1", ",", "from Max 2" ],
+					"items" : [ "AU DLS Synth 1", ",", "IAC Driver Tidal1", ",", "IAC Driver Tidal2", ",", "from Max 1", ",", "from Max 2" ],
 					"labelclick" : 1,
 					"maxclass" : "umenu",
 					"numinlets" : 1,
@@ -3830,7 +3830,7 @@
 					"fontname" : "Arial",
 					"fontsize" : 13.0,
 					"id" : "obj-2",
-					"items" : [ "AU DLS Synth 1", ",", "IAC Driver Tidal1", ",", "IAC Driver Tidal2", ",", "Sensel Morph", ",", "from Max 1", ",", "from Max 2" ],
+					"items" : [ "AU DLS Synth 1", ",", "IAC Driver Tidal1", ",", "IAC Driver Tidal2", ",", "from Max 1", ",", "from Max 2" ],
 					"labelclick" : 1,
 					"maxclass" : "umenu",
 					"numinlets" : 1,
