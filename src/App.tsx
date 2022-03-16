@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 import { Controls } from './features/controls/Controls';
 import { SidePanel } from './features/sidePanel/SidePanel';
 import { Button } from './features/buttons/Button';
@@ -31,6 +32,8 @@ function App() {
     const mode = useAppSelector(getMode)
     const dispatch = useAppDispatch()
 
+    const search = useLocation().search;
+    const useQasm = new URLSearchParams(search).get('qasm');
     
     // enable midi | dispatch state string if exists | connect to python server if exists
     useEffect(() => {
@@ -42,8 +45,7 @@ function App() {
             alert(`${status ? 'Connected to ' : 'Disconnected from'} QASM server ${id ? id : ''}`)
             dispatch(setQasmStatus(status))
         }
-        const handleQasmResponse = (data: any) => console.log(data)
-        connect(handleQasmConnection, handleQasmResponse)
+        useQasm && connect(handleQasmConnection);
     }, [dispatch,])
 
     // fullscreen handling

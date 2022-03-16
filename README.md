@@ -1,4 +1,17 @@
-# QuSynth
+# Q1Synth
+
+Rotate the qubit to interpolate between different synthesis parameters on each axis. Measure the qubit for it to collapse to either 1 or 0. At the time of writing, this app is hosted [here](https://qusynth.cephasteom.co.uk/).
+
+## Local Setup
+* clone this repo and navigate to directory root
+* `nvm use` - use node version manager to switch to correct node version
+* `yarn` - install node packages
+* `yarn start` - spin up the app
+
+## Measurement
+By default, qubit measurement is simply handled by a local, weighted coin toss function. To connect to a QASM simulator or a real quantum computer, you will need to set up a local python server running a socket/qasm script. See ICCMR's [socket-qasm](https://github.com/iccmr-quantum/SOC-Qasm) implementation.
+
+Once socket-qasm is up and running, include the query parameter `?qasm` in the app url. For example, locally -> `http://localhost:3000/?qasm=true`. Successful connection should print an alert in your browser.
 
 ## Midi Input
 A midi input device can be chosen from the dropdown in the config panel. QuSynth listens for control change messages on any midi channel of the selected device.

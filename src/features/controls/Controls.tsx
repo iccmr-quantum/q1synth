@@ -22,6 +22,7 @@ import {
     setButtonsActive, 
     setButtonActive,
     getDestination,
+    getQasmStatus
 } from '../../data/dataSlice';
 
 import styles from './Controls.module.css';
@@ -49,9 +50,10 @@ export function Controls() {
     const mintData = useAppSelector(getMintData)
     const mode = useAppSelector(getMode)
     const storedDestination = useAppSelector(getDestination)
+    const useQasm = useAppSelector(getQasmStatus)
 
+    // TODO: this should all go in an async reducer action or somewhere else - rather than it sitting in a template...?
     function handleMeasure() {
-        // TODO: this should all go in an async reducer action - rather than it sitting in a template...
         Tone.Transport.cancel(0)
         dispatch(setButtonsDisabled())
         !isFullScreen && dispatch(toggleIsFullScreen());
@@ -66,11 +68,13 @@ export function Controls() {
 
         const destination = mode === 'presentation'
             ? storedDestination
-            : tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) 
-                ? z > 180
-                    ? 360 
-                    : 0 
-                    : 180
+            : useQasm 
+                ? 1 // async?
+                : tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) 
+                    ? z > 180
+                        ? 360 
+                        : 0 
+                        : 180
         
         mint(destination, mintData)
 
