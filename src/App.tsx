@@ -12,12 +12,14 @@ import {
     setMode,
     randomise,
     setPreset,
-    setButtonActive
+    setButtonActive,
+    setQasmStatus
 } from './data/dataSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
 import { WebMidi } from 'webmidi';
 import { midiMap } from './midi/midiMap'
+import { connect } from './qasm/socket'
 
 declare global {
     interface Window {
@@ -29,11 +31,20 @@ function App() {
     const mode = useAppSelector(getMode)
     const dispatch = useAppDispatch()
 
-    // enable midi | dispatch state string if exists
+    
+    // enable midi | dispatch state string if exists | connect to python server if exists
     useEffect(() => {
         dispatch(enableMidi())
+
         window.qusynth && dispatch(setData(window.qusynth));
-    }, [dispatch])
+
+        const handleQasmConnection = (status: boolean, id?: string) => {
+            alert(`${status ? 'Connected to ' : 'Disconnected from'} QASM server ${id ? id : ''}`)
+            dispatch(setQasmStatus(status))
+        }
+        const handleQasmResponse = (data: any) => console.log(data)
+        connect(handleQasmConnection, handleQasmResponse)
+    }, [dispatch,])
 
     // fullscreen handling
     useEffect(() => {
