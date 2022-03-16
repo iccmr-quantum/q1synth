@@ -29,11 +29,13 @@ function App() {
     const mode = useAppSelector(getMode)
     const dispatch = useAppDispatch()
 
+    // enable midi | dispatch state string if exists
     useEffect(() => {
         dispatch(enableMidi())
         window.qusynth && dispatch(setData(window.qusynth));
     }, [dispatch])
 
+    // fullscreen handling
     useEffect(() => {
         const handleFullScreen = (e: KeyboardEvent) : void => {
             (mode === 'simple' || mode === 'advanced')
@@ -52,6 +54,7 @@ function App() {
     const midiInput = useAppSelector(getActiveMidiInput)
     const isFullScreen = useAppSelector(getIsFullScreen)
     
+    // midi input
     midiIsEnabled 
         && midiInput
         && WebMidi.getInputById(midiInput).addListener('controlchange', e => {
