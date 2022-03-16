@@ -55,7 +55,6 @@ export interface Qubit {
 
 export interface DataState extends Dictionary {
     mode: 'simple' | 'advanced' | 'presentation'
-    qasmStatus: boolean
     isFullScreen: Boolean
     qubit: Qubit
     leftA: SynthSlider
@@ -71,7 +70,6 @@ export interface DataState extends Dictionary {
 
 const initialState: DataState = {
     mode: 'simple',
-    qasmStatus: false,
     isFullScreen: false,
     qubit: {
         x: {value: 0},
@@ -129,9 +127,6 @@ export const dataSlice = createSlice({
         },
         setMode: (state, action: PayloadAction<'simple' | 'advanced' | 'presentation'>) => {
             state.mode = action.payload
-        },
-        setQasmStatus: (state, action: PayloadAction<boolean>) => {
-            state.qasmStatus = action.payload
         },
         toggleIsFullScreen: (state) => {
             state.isFullScreen = !state.isFullScreen
@@ -209,7 +204,6 @@ export const dataSlice = createSlice({
 export const { 
     setData, 
     setMode, 
-    setQasmStatus,
     toggleIsFullScreen, 
     setPreset, 
     setControl, 
@@ -224,7 +218,6 @@ export const {
 } = dataSlice.actions;
 
 export const getMode = (state: RootState) => state.data.mode;
-export const getQasmStatus = (state: RootState) => state.data.qasmStatus;
 export const getDestination = (state: RootState) => state.data.destination;
 export const getIsFullScreen = (state: RootState) => state.data.isFullScreen;
 export const getQubit = (state: RootState) => state.data.qubit;

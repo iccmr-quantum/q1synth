@@ -13,9 +13,10 @@ import {
     setMode,
     randomise,
     setPreset,
-    setButtonActive,
-    setQasmStatus
+    setButtonActive
 } from './data/dataSlice';
+
+import { setQasmStatus } from './qasm/qasmSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
 import { WebMidi } from 'webmidi';

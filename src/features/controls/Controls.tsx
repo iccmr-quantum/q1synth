@@ -22,8 +22,9 @@ import {
     setButtonsActive, 
     setButtonActive,
     getDestination,
-    getQasmStatus
+    
 } from '../../data/dataSlice';
+import { getQasmStatus } from '../../qasm/qasmSlice';
 
 import styles from './Controls.module.css';
 import { synth } from '../sound';
