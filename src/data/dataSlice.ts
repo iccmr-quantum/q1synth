@@ -65,7 +65,7 @@ export interface DataState extends Dictionary {
     times: Times
     disabled: boolean
     preset: number
-    destination: number
+    destination: 0 | 1
 }
 
 const initialState: DataState = {

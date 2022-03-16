@@ -53,6 +53,18 @@ export function Controls() {
     const storedDestination = useAppSelector(getDestination)
     const useQasm = useAppSelector(getQasmStatus)
 
+    function measure(z: number) : 0 | 1 {
+        const weight = z > 180 
+            ? 360 - z
+            : z
+
+        return mode === 'presentation'
+            ? storedDestination
+            : useQasm
+                ? 0
+                : tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) ? 1 : 0
+    }
+    
     // TODO: this should all go in an async reducer action or somewhere else - rather than it sitting in a template...?
     function handleMeasure() {
         Tone.Transport.cancel(0)
@@ -63,19 +75,7 @@ export function Controls() {
         const y = qubit.y.value * 360
         const z = qubit.z.value * 360
 
-        const weight = z > 180 
-            ? 360 - z
-            : z
-
-        const destination = mode === 'presentation'
-            ? storedDestination
-            : useQasm 
-                ? 1 // async?
-                : tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) 
-                    ? z > 180
-                        ? 360 
-                        : 0 
-                        : 180
+        const destination = measure(z) * 180
         
         mint(destination, mintData)
 

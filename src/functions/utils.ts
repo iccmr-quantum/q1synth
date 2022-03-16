@@ -41,4 +41,4 @@ export function blendBetweenValues(
 
 export const tossCoin = () => Math.floor(Math.random() * 2) === 0
 
-export const tossWeightedCoin = (weightHeads: number) => Math.random() > weightHeads
+export const tossWeightedCoin = (weightHeads: number) : boolean => Math.random() > weightHeads
