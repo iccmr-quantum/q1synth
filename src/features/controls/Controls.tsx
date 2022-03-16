@@ -60,7 +60,7 @@ export function Controls() {
 
         return mode === 'presentation'
             ? storedDestination
-            : useQasm
+            : useQasm // this is where we need to inject the await function???
                 ? 0
                 : tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) ? 1 : 0
     }
