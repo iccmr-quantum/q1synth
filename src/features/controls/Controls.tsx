@@ -1,4 +1,5 @@
 import React, { MouseEvent } from 'react'
+
 import * as Tone from 'tone'
 import { Sliders } from '../sliders/Sliders';
 import { Qubit } from '../qubit/Qubit';
@@ -25,20 +26,9 @@ import {
     
 } from '../../data/dataSlice';
 import { getQasmStatus } from '../../qasm/qasmSlice';
+import { handleMeasure } from '../../qasm/measure';
 
 import styles from './Controls.module.css';
-import { synth } from '../sound';
-import { shortestAngle, tossWeightedCoin, mapToRange } from '../../functions/utils';
-import { DataState } from '../../data/dataSlice';
-
-const mint = (destination: number, data: DataState) => {
-    console.log(JSON.stringify(
-        {
-            ...data, 
-            mode: 'presentation',
-            destination: destination === 180 ? 1 : 0
-        }))
-}
 
 export function Controls() {
     const dispatch = useAppDispatch()
@@ -53,57 +43,6 @@ export function Controls() {
     const storedDestination = useAppSelector(getDestination)
     const useQasm = useAppSelector(getQasmStatus)
 
-    function measure(z: number) : 0 | 1 {
-        const weight = z > 180 
-            ? 360 - z
-            : z
-
-        return mode === 'presentation'
-            ? storedDestination
-            : useQasm // this is where we need to inject the await function???
-                ? 0
-                : tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) ? 1 : 0
-    }
-    
-    // TODO: this should all go in an async reducer action or somewhere else - rather than it sitting in a template...?
-    function handleMeasure() {
-        Tone.Transport.cancel(0)
-        dispatch(setButtonsDisabled())
-        !isFullScreen && dispatch(toggleIsFullScreen());
-
-        const x = qubit.x.value * 360
-        const y = qubit.y.value * 360
-        const z = qubit.z.value * 360
-
-        const destination = measure(z) * 180
-        
-        mint(destination, mintData)
-
-        const xAngle = shortestAngle(x, 0)
-        const yAngle = shortestAngle(y, 0)
-        const zAngle = shortestAngle(z, destination)
-        const xStep = (xAngle / (time * 64)) * (x < 0 ? +1 : -1) / 360
-        const yStep = (yAngle / (time * 64)) * (y < 0 ? +1 : -1) / 360
-        const zStep = (zAngle / (time * 64)) * (z < destination ? +1 : -1) / 360
-
-        Tone.Transport.scheduleOnce(() => synth.play(synthParams, time, mode !== 'presentation'), 0)
-        
-        Tone.Transport.scheduleRepeat(() => {
-            dispatch(incrementXAxis(xStep))
-            dispatch(incrementYAxis(yStep))
-            dispatch(incrementZAxis(zStep))
-        }, "128n", 0);
-
-        Tone.Transport.start().stop(`+${time}`);
-        Tone.Transport.once('stop', () => {
-            setTimeout(() => {
-                dispatch(setButtonsActive()) && dispatch(setButtonActive(null));
-                isFullScreen && mode !== 'presentation' && dispatch(toggleIsFullScreen());
-                window.qusynth && dispatch(setData(window.qusynth))
-            }, 1000); 
-        })
-    }
-
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
         button === 'rotate' 
             && (buttonActive !== 'rotate' 
@@ -111,9 +50,21 @@ export function Controls() {
                 : dispatch(setButtonActive(null)))
 
         button === 'measure' 
-            && (buttonActive !== 'measure'
-                ? dispatch(setButtonActive('measure')) && handleMeasure() 
-                : dispatch(setButtonActive(null)) && Tone.Transport.cancel() && synth.off())
+            && dispatch(setButtonsDisabled())
+            && dispatch(setButtonActive('measure')) 
+            && handleMeasure(
+                qubit.x.value * 360,
+                qubit.y.value * 360,
+                qubit.z.value * 360,
+                time,
+                mode,
+                synthParams,
+                isFullScreen,
+                storedDestination,
+                useQasm,
+                mintData,
+                dispatch
+            );
     }
 
     return (

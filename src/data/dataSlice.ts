@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Value, Slider, Dictionary } from '../types';
 import { RootState } from '../app/store';
 import { mapToRange, blendBetweenValues } from '../functions/utils';
-import { synth, SynthArgs } from '../features/sound';
+import { synth, SynthArgs } from '../sound';
 import preset0 from './presets/preset0'
 import preset1 from './presets/preset1'
 import preset2 from './presets/preset2'
@@ -53,9 +53,11 @@ export interface Qubit {
     z: Value
 }
 
+export type Mode = 'simple' | 'advanced' | 'presentation'
+
 export interface DataState extends Dictionary {
-    mode: 'simple' | 'advanced' | 'presentation'
-    isFullScreen: Boolean
+    mode: Mode
+    isFullScreen: boolean
     qubit: Qubit
     leftA: SynthSlider
     rightA: SynthSlider
@@ -125,7 +127,7 @@ export const dataSlice = createSlice({
         setData: (state, action: PayloadAction<DataState>) => {
             Object.entries(action.payload).map(([key,value]) => state[key] = value)
         },
-        setMode: (state, action: PayloadAction<'simple' | 'advanced' | 'presentation'>) => {
+        setMode: (state, action: PayloadAction<Mode>) => {
             state.mode = action.payload
         },
         toggleIsFullScreen: (state) => {

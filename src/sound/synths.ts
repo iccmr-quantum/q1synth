@@ -1,6 +1,6 @@
 import * as Tone from 'tone'
-import { mapToRange } from '../../functions/utils';
-import { SynthArgs } from './'
+import { mapToRange } from '../functions/utils';
+import { SynthArgs } from '.'
 
 export const makeSynth = () => {
     const limiter = new Tone.Limiter(-20)

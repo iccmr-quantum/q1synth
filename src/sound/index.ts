@@ -1,5 +1,5 @@
 import * as Tone from 'tone'
-import { Dictionary } from '../../types'
+import { Dictionary } from '../types'
 import { makeSynth } from './synths'
 
 export interface SynthArgs extends Dictionary {
