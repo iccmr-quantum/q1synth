@@ -1,30 +1,28 @@
 import React, { MouseEvent } from 'react'
 
-import * as Tone from 'tone'
 import { Sliders } from '../sliders/Sliders';
 import { Qubit } from '../qubit/Qubit';
 import { Button } from '../buttons/Button';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { 
-    toggleIsFullScreen, 
+    randomise,
+    setPreset,
+    setControl,
     getButtonActive, 
     getDisabledStatus, 
-    incrementXAxis, 
-    incrementYAxis, 
-    incrementZAxis, 
     getQubit,
     getSynthParams, 
     getTime, 
     getIsFullScreen, 
     getMintData, 
     getMode,
-    setData,
     setButtonsDisabled, 
-    setButtonsActive, 
     setButtonActive,
-    getDestination,
-    
+    getDestination
 } from '../../data/dataSlice';
+import { getMidiStatus, getActiveMidiInput } from '../../midi/midiSlice'
+import { midiMap } from '../../midi/midiMap'
+import { WebMidi } from 'webmidi';
 import { getQasmStatus } from '../../qasm/qasmSlice';
 import { handleMeasure } from '../../qasm/measure';
 
@@ -66,6 +64,26 @@ export function Controls() {
                 dispatch
             );
     }
+
+    const midiIsEnabled = useAppSelector(getMidiStatus)
+    const midiInput = useAppSelector(getActiveMidiInput)
+    
+    // midi input
+    midiIsEnabled 
+        && midiInput
+        && WebMidi.getInputById(midiInput).addListener('controlchange', e => {
+            const { value } = e
+            const { number } = e.controller
+            const map = midiMap(number)
+            if(!map || !value) return
+
+            map.key === 'play' && dispatch(setButtonActive('rotate'));
+            map.key === 'stop' && dispatch(setButtonActive(null));
+            // map.key === 'measure' && dispatch(setButtonActive('measure'));
+            map.key === 'randomise' && dispatch(randomise());
+            map.group === 'preset' && dispatch(setPreset(+map.key));
+            !['preset', 'action'].includes(map.group) && dispatch(setControl({ group: map.group, key: map.key, value: +value }));
+        });
 
     return (
         <>

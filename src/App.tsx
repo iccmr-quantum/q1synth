@@ -3,24 +3,19 @@ import { useLocation } from "react-router-dom";
 import { Controls } from './features/controls/Controls';
 import { SidePanel } from './features/sidePanel/SidePanel';
 import { Button } from './features/buttons/Button';
-import { enableMidi, getMidiStatus, getActiveMidiInput } from './midi/midiSlice';
+import { enableMidi } from './midi/midiSlice';
 import { 
-    setControl, 
     toggleIsFullScreen, 
     getIsFullScreen, 
     setData,
     getMode,
     setMode,
     randomise,
-    setPreset,
-    setButtonActive
 } from './data/dataSlice';
 
 import { setQasmStatus } from './qasm/qasmSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
-import { WebMidi } from 'webmidi';
-import { midiMap } from './midi/midiMap'
 import { connect } from './qasm/socket'
 
 declare global {
@@ -31,10 +26,12 @@ declare global {
 
 function App() {
     const mode = useAppSelector(getMode)
+    const isFullScreen = useAppSelector(getIsFullScreen)
     const dispatch = useAppDispatch()
 
     const search = useLocation().search;
     const useQasm = new URLSearchParams(search).get('qasm');
+    console.log(useQasm)
     
     // enable midi | dispatch state string if exists | connect to python server if exists
     useEffect(() => {
@@ -47,7 +44,7 @@ function App() {
             dispatch(setQasmStatus(status))
         }
         useQasm && connect(handleQasmConnection);
-    }, [dispatch,])
+    }, [dispatch])
 
     // fullscreen handling
     useEffect(() => {
@@ -63,27 +60,6 @@ function App() {
 
         return () => window.removeEventListener('keydown', handleFullScreen) 
     });
-    
-    const midiIsEnabled = useAppSelector(getMidiStatus)
-    const midiInput = useAppSelector(getActiveMidiInput)
-    const isFullScreen = useAppSelector(getIsFullScreen)
-    
-    // midi input
-    midiIsEnabled 
-        && midiInput
-        && WebMidi.getInputById(midiInput).addListener('controlchange', e => {
-            const { value } = e
-            const { number } = e.controller
-            const map = midiMap(number)
-            if(!map || !value) return
-
-            map.key === 'play' && dispatch(setButtonActive('rotate'));
-            map.key === 'stop' && dispatch(setButtonActive(null));
-            // map.key === 'measure' && dispatch(setButtonActive('measure'));
-            map.key === 'randomise' && dispatch(randomise());
-            map.group === 'preset' && dispatch(setPreset(+map.key));
-            !['preset', 'action'].includes(map.group) && dispatch(setControl({ group: map.group, key: map.key, value: +value }));
-        });
 
     return (
         <div className="App">
