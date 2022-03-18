@@ -15,6 +15,20 @@ import {
     
 } from '../data/dataSlice';
 
+export interface MeasureArgs {
+    x: number 
+    y: number 
+    z: number 
+    time: number
+    mode: Mode
+    synthParams: SynthArgs
+    isFullScreen: boolean
+    storedDestination: number
+    useQasm: boolean
+    mintData: DataState 
+    dispatch: AppDispatch
+}
+
 const mint = (destination: number, data: DataState) => {
     console.log(JSON.stringify(
         {
@@ -34,19 +48,9 @@ function measure(z: number, useQasm: boolean) : 0 | 1 {
         : tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) ? 1 : 0
 }
 
-export function handleMeasure(
-    x: number, 
-    y: number, 
-    z: number, 
-    time: number,
-    mode: Mode,
-    synthParams: SynthArgs,
-    isFullScreen: boolean,
-    storedDestination: number,
-    useQasm: boolean,
-    mintData: DataState, 
-    dispatch: AppDispatch
-) {
+export function handleMeasure(args: MeasureArgs) {
+    const { x, y, z, time, mode, synthParams, isFullScreen, storedDestination, useQasm, mintData, dispatch } = args
+    
     Tone.Transport.cancel(0)
     dispatch(setButtonsDisabled())
     !isFullScreen && dispatch(toggleIsFullScreen());

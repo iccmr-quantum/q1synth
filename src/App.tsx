@@ -31,7 +31,6 @@ function App() {
 
     const search = useLocation().search;
     const useQasm = new URLSearchParams(search).get('qasm');
-    console.log(useQasm)
     
     // enable midi | dispatch state string if exists | connect to python server if exists
     useEffect(() => {

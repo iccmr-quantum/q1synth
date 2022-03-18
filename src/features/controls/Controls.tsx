@@ -1,5 +1,4 @@
-import React, { MouseEvent } from 'react'
-
+import React, { MouseEvent, useEffect } from 'react'
 import { Sliders } from '../sliders/Sliders';
 import { Qubit } from '../qubit/Qubit';
 import { Button } from '../buttons/Button';
@@ -24,7 +23,7 @@ import { getMidiStatus, getActiveMidiInput } from '../../midi/midiSlice'
 import { midiMap } from '../../midi/midiMap'
 import { WebMidi } from 'webmidi';
 import { getQasmStatus } from '../../qasm/qasmSlice';
-import { handleMeasure } from '../../qasm/measure';
+import { handleMeasure, MeasureArgs } from '../../qasm/measure';
 
 import styles from './Controls.module.css';
 
@@ -41,6 +40,20 @@ export function Controls() {
     const storedDestination = useAppSelector(getDestination)
     const useQasm = useAppSelector(getQasmStatus)
 
+    const measureArgs: MeasureArgs = {
+        x: qubit.x.value * 360,
+        y: qubit.y.value * 360,
+        z: qubit.z.value * 360,
+        time,
+        mode,
+        synthParams,
+        isFullScreen,
+        storedDestination,
+        useQasm,
+        mintData,
+        dispatch
+    }
+
     function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
         button === 'rotate' 
             && (buttonActive !== 'rotate' 
@@ -50,40 +63,30 @@ export function Controls() {
         button === 'measure' 
             && dispatch(setButtonsDisabled())
             && dispatch(setButtonActive('measure')) 
-            && handleMeasure(
-                qubit.x.value * 360,
-                qubit.y.value * 360,
-                qubit.z.value * 360,
-                time,
-                mode,
-                synthParams,
-                isFullScreen,
-                storedDestination,
-                useQasm,
-                mintData,
-                dispatch
-            );
+            && handleMeasure(measureArgs);
     }
 
     const midiIsEnabled = useAppSelector(getMidiStatus)
     const midiInput = useAppSelector(getActiveMidiInput)
     
-    // midi input
-    midiIsEnabled 
-        && midiInput
-        && WebMidi.getInputById(midiInput).addListener('controlchange', e => {
-            const { value } = e
-            const { number } = e.controller
-            const map = midiMap(number)
-            if(!map || !value) return
-
-            map.key === 'play' && dispatch(setButtonActive('rotate'));
-            map.key === 'stop' && dispatch(setButtonActive(null));
-            // map.key === 'measure' && dispatch(setButtonActive('measure'));
-            map.key === 'randomise' && dispatch(randomise());
-            map.group === 'preset' && dispatch(setPreset(+map.key));
-            !['preset', 'action'].includes(map.group) && dispatch(setControl({ group: map.group, key: map.key, value: +value }));
-        });
+    useEffect(() => {
+        midiIsEnabled 
+            && midiInput
+            && WebMidi.getInputById(midiInput).addListener('controlchange', e => {
+                const { value } = e
+                const { number } = e.controller
+                console.log(value, number)
+                const map = midiMap(number)
+                if(!map || !value) return
+    
+                map.key === 'play' && dispatch(setButtonActive('rotate'));
+                map.key === 'stop' && dispatch(setButtonActive(null));
+                map.key === 'measure' && dispatch(setButtonsDisabled()) && dispatch(setButtonActive('measure')) && handleMeasure(measureArgs);
+                map.key === 'randomise' && dispatch(randomise());
+                map.group === 'preset' && dispatch(setPreset(+map.key));
+                !['preset', 'action'].includes(map.group) && dispatch(setControl({ group: map.group, key: map.key, value: +value }));
+            });
+    }, [midiIsEnabled, midiInput])
 
     return (
         <>
