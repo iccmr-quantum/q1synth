@@ -10,11 +10,13 @@ export interface QasmResponse {
 export interface QasmState extends Dictionary {
     qasmStatus: boolean
     responses: QasmResponse[]
+    isMeasuring: boolean
 }
 
 const initialState: QasmState = {
     qasmStatus: false,
-    responses: []
+    responses: [],
+    isMeasuring: false
 };
 
 export const qasmSlice = createSlice({
@@ -29,16 +31,21 @@ export const qasmSlice = createSlice({
                 ...state.responses,
                 action.payload
             ]
-        }
+        },
+        setIsMeasuring: (state, action: PayloadAction<boolean>) => {
+            state.isMeasuring = action.payload
+        },
     }
 });
 
 export const { 
     setQasmStatus,
-    setQasmResponse
+    setQasmResponse,
+    setIsMeasuring
 } = qasmSlice.actions;
 
 export const getQasmStatus = (state: RootState) => state.qasm.qasmStatus;
+export const getIsMeasuring = (state: RootState) => state.qasm.isMeasuring;
 export const getQasmResponseByID = (i: number) => (state: RootState) => {
     return state.qasm.responses.find(({id}) => id === i) || false
 };

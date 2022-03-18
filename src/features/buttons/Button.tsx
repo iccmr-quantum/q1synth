@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react'
+import React, { MouseEvent, Dispatch, SetStateAction } from 'react'
 import styles from './Button.module.css';
 
 interface ButtonProps {
@@ -7,9 +7,10 @@ interface ButtonProps {
     isActive?: boolean
     disabled?: boolean
     onClick: (e: MouseEvent<HTMLButtonElement>, name: string) => void
+    setButtonRef?: Dispatch<SetStateAction<HTMLButtonElement | null | undefined>>
 }
 
-export function Button({name, activeName, isActive = false, disabled = false, onClick} : ButtonProps) {
+export function Button({name, activeName, isActive = false, disabled = false, onClick, setButtonRef} : ButtonProps) {
     return (
         <button 
             className={`
@@ -18,6 +19,7 @@ export function Button({name, activeName, isActive = false, disabled = false, on
             `}
             onClick={(e) => onClick(e, name)}
             disabled={disabled}
+            ref={node => setButtonRef && setButtonRef(node)}
         >
             { isActive && activeName ? activeName : name }
         </button>

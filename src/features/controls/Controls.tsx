@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect } from 'react'
+import React, { MouseEvent, useEffect, useState } from 'react'
 import { Sliders } from '../sliders/Sliders';
 import { Qubit } from '../qubit/Qubit';
 import { Button } from '../buttons/Button';
@@ -40,6 +40,8 @@ export function Controls() {
     const storedDestination = useAppSelector(getDestination)
     const useQasm = useAppSelector(getQasmStatus)
 
+    const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>()
+
     const measureArgs: MeasureArgs = {
         x: qubit.x.value * 360,
         y: qubit.y.value * 360,
@@ -75,13 +77,13 @@ export function Controls() {
             && WebMidi.getInputById(midiInput).addListener('controlchange', e => {
                 const { value } = e
                 const { number } = e.controller
-                console.log(value, number)
+                console.log(measureArgs)
                 const map = midiMap(number)
                 if(!map || !value) return
     
                 map.key === 'play' && dispatch(setButtonActive('rotate'));
                 map.key === 'stop' && dispatch(setButtonActive(null));
-                map.key === 'measure' && dispatch(setButtonsDisabled()) && dispatch(setButtonActive('measure')) && handleMeasure(measureArgs);
+                map.key === 'measure' && buttonRef?.click()
                 map.key === 'randomise' && dispatch(randomise());
                 map.group === 'preset' && dispatch(setPreset(+map.key));
                 !['preset', 'action'].includes(map.group) && dispatch(setControl({ group: map.group, key: map.key, value: +value }));
@@ -121,6 +123,7 @@ export function Controls() {
                     onClick={handleButtonOnClick}
                     isActive={buttonActive === 'measure'}
                     disabled={disabled}
+                    setButtonRef={setButtonRef}
                 />
             </div>
         </>

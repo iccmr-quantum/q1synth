@@ -43,8 +43,6 @@ function measure(z: number, useQasm: boolean) : 0 | 1 {
         ? 360 - z
         : z
 
-    console.log(tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)))
-
     return useQasm // this is where we need to inject the await function???
         ? 0
         : tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) ? 0 : 1
