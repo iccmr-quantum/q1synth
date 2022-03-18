@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 1144.0, 87.0, 546.0, 697.0 ],
+		"rect" : [ 1076.0, 88.0, 546.0, 697.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -2842,7 +2842,6 @@
 						"style" : "",
 						"subpatcher_template" : "",
 						"assistshowspatchername" : 0,
-						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-17",
@@ -4962,7 +4961,7 @@
 					"parameter_enable" : 0,
 					"patching_rect" : [ 979.0, 306.333333333333371, 412.0, 21.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 230.428571428571445, 216.666666666666686, 201.0, 40.0 ]
+					"presentation_rect" : [ 228.000000000000114, 216.666666666666686, 201.0, 40.0 ]
 				}
 
 			}
