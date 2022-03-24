@@ -14,7 +14,7 @@ By default, qubit measurement is simply handled by a local, weighted coin toss f
 Once socket-qasm is up and running, include the query parameter `?qasm` in the app url. For example, locally -> `http://localhost:3000/?qasm=true`. Successful connection should print an alert in your browser.
 
 ## Midi Input
-A midi input device can be chosen from the dropdown in the config panel. QuSynth listens for control change messages on any midi channel of the selected device.
+A midi input device can be chosen from the dropdown in the config panel. QuSynth listens for control change messages on any midi channel of the selected device. A Max patch is included in this repo to map controls to a midi controller.
 
 ### Midi Mapping
 Control change messages are mapped to the following controls.
