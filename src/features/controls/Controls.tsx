@@ -77,7 +77,6 @@ export function Controls() {
             && WebMidi.getInputById(midiInput).addListener('controlchange', e => {
                 const { value } = e
                 const { number } = e.controller
-                console.log(measureArgs)
                 const map = midiMap(number)
                 if(!map || !value) return
     

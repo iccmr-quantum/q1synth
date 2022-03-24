@@ -38,17 +38,31 @@ const mint = (destination: number, data: DataState) => {
         }))
 }
 
-function measure(z: number, useQasm: boolean) : 0 | 1 {
+function measureWithQasm(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function qasmResult(response: any) {
+    console.log(response)
+    return 0
+}
+
+function qasmError(error: any) {
+    console.log(error)
+    return 0
+}
+
+function measure(z: number, useQasm: boolean): 0 | 1 | Promise<number> {
     const weight = z > 180 
         ? 360 - z
         : z
 
-    return useQasm // this is where we need to inject the await function???
-        ? 0
+    return useQasm
+        ? measureWithQasm(1000).then(qasmResult).catch(qasmError)
         : tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) ? 0 : 1
 }
 
-export function handleMeasure(args: MeasureArgs) {
+export async function handleMeasure(args: MeasureArgs) {
     const { x, y, z, time, mode, synthParams, isFullScreen, storedDestination, useQasm, mintData, dispatch } = args
     
     Tone.Transport.cancel(0)
@@ -57,7 +71,7 @@ export function handleMeasure(args: MeasureArgs) {
 
     const destination = mode === 'presentation' 
         ? storedDestination
-        : measure(z, useQasm) * 180
+        : await measure(z, useQasm) * 180
 
     console.log(destination)
     
