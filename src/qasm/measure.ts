@@ -42,8 +42,12 @@ const mint = (destination: number, data: DataState) => {
 
 function measureWithQasm(z: number) {
     return new Promise((resolve, reject) => {
-        receive(resolve)
-        send(z)
+        // Show loading for at least 2 seconds
+        setTimeout(() => {
+            receive(resolve, reject)
+            send(z)
+        }, 2000)
+        // Time out if it takes more than 10 seconds
         setTimeout(() => reject('Couldn\'t talk to quantum computer.'), 10000) // TODO: is 10 seconds long enough?
     });
 }

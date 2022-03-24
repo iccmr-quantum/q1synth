@@ -19,9 +19,10 @@ export function send(z: number) {
     socket.emit('QuTune', qasmCode, 1, 'qasm_simulator')
 }
 
-export function receive(resolve: PromiseCallback) {
-    socket.once('response', data => {
-        console.log(data)
-        resolve(data)
+export function receive(resolve: PromiseCallback, reject: PromiseCallback) {
+    socket.on('response', data => {
+        // data[0] === 'info' && // TODO: append to loading?
+        data[0] === 'error' && reject(data);
+        data[0] === 'counts' && resolve(data)
     });
 }
