@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Controls } from './features/controls/Controls';
 import { SidePanel } from './features/sidePanel/SidePanel';
 import { Button } from './features/buttons/Button';
+import { Loading } from './features/loading/Loading';
 import { enableMidi } from './midi/midiSlice';
 import { 
     toggleIsFullScreen, 
@@ -13,7 +14,7 @@ import {
     randomise,
 } from './data/dataSlice';
 
-import { setQasmStatus } from './qasm/qasmSlice';
+import { setQasmStatus, getIsMeasuring } from './qasm/qasmSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
 import { connect } from './qasm/socket'
@@ -27,6 +28,7 @@ declare global {
 function App() {
     const mode = useAppSelector(getMode)
     const isFullScreen = useAppSelector(getIsFullScreen)
+    const isMeasuring = useAppSelector(getIsMeasuring)
     const dispatch = useAppDispatch()
 
     const search = useLocation().search;
@@ -87,6 +89,7 @@ function App() {
                 <Controls />
             </div>
             {!isFullScreen && <SidePanel />}
+            {!isMeasuring && <Loading />}
         </div>
     );
 }

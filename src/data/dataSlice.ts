@@ -71,12 +71,12 @@ export interface DataState extends Dictionary {
 }
 
 const initialState: DataState = {
-    mode: 'simple',
+    mode: 'advanced',
     isFullScreen: false,
     qubit: {
         x: {value: 0},
         y: {value: 0},
-        z: {value: 0},
+        z: {value: 0.25},
     },
     leftA: {
         freq: {value: 0, label: 'freq', min: 70, max: 1000, title: '|-i⟩'},
@@ -114,7 +114,7 @@ const initialState: DataState = {
     },
     disabled: false,
     times: {
-        one: false, five: false, ten: true
+        one: true, five: false, ten: false
     },
     preset: 0,
     destination: 0

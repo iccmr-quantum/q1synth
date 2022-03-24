@@ -1,6 +1,6 @@
 import * as Tone from 'tone'
 import { shortestAngle, tossWeightedCoin, mapToRange } from '../functions/utils';
-import { DataState, Mode } from '../data/dataSlice';
+import { setIsMeasuring } from '../qasm/qasmSlice';
 import type { AppDispatch } from '../app/store';
 import { synth, SynthArgs } from '../sound';
 import { 
@@ -12,7 +12,8 @@ import {
     setButtonsDisabled, 
     setButtonsActive, 
     setButtonActive,
-    
+    DataState, 
+    Mode
 } from '../data/dataSlice';
 
 export interface MeasureArgs {
@@ -69,11 +70,15 @@ export async function handleMeasure(args: MeasureArgs) {
     dispatch(setButtonsDisabled())
     !isFullScreen && dispatch(toggleIsFullScreen());
 
+    dispatch(setIsMeasuring(true))
+
     const destination = mode === 'presentation' 
         ? storedDestination
         : await measure(z, useQasm) * 180
 
     console.log(destination)
+
+    dispatch(setIsMeasuring(false))
     
     mint(destination, mintData)
 
