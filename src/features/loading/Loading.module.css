@@ -5,6 +5,57 @@
     left: 0;
     right: 0;
     z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay {
+    position: absolute;
+    width: 100vw;
+    height: 100%;
     background-color: blue;
-    opacity: 0.5;
+    opacity: 0.75;
+    z-index: -10;
+}
+
+.spinner {
+    z-index: 10;
+    height: 5em;
+    width: 5em;
+    animation: rotation 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.copy {
+    margin-top: 2em;
+    font-weight: bold;
+}
+
+.cursor {
+    animation: flash 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+
+@keyframes flash {
+    0% {
+        visibility: hidden;
+    }
+    50% {
+        visibility: hidden;
+    }
 }
