@@ -15,7 +15,7 @@ import {
     DataState, 
     Mode
 } from '../data/dataSlice';
-import { send, receive } from './qasm';
+import { send, receive } from './socket';
 
 export interface MeasureArgs {
     x: number 
