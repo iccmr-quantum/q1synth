@@ -88,8 +88,8 @@ function App() {
                 }
                 <Controls />
             </div>
-            {!isFullScreen && <SidePanel />}
-            {!isMeasuring && <Loading />}
+            {!isFullScreen && <SidePanel /> }
+            { isMeasuring && <Loading /> }
         </div>
     );
 }
