@@ -15,6 +15,7 @@ import {
     DataState, 
     Mode
 } from '../data/dataSlice';
+import { send, receive } from './qasm';
 
 export interface MeasureArgs {
     x: number 
@@ -39,18 +40,12 @@ const mint = (destination: number, data: DataState) => {
         }))
 }
 
-function measureWithQasm(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function qasmResult(response: any) {
-    console.log(response)
-    return 0
-}
-
-function qasmError(error: any) {
-    console.log(error)
-    return 0
+function measureWithQasm(z: number) {
+    return new Promise((resolve, reject) => {
+        receive(resolve)
+        send(z)
+        setTimeout(() => reject('Couldn\'t talk to quantum computer.'), 10000) // TODO: is 10 seconds long enough?
+    });
 }
 
 function measure(z: number, useQasm: boolean): 0 | 1 | Promise<number> {
@@ -59,7 +54,15 @@ function measure(z: number, useQasm: boolean): 0 | 1 | Promise<number> {
         : z
 
     return useQasm
-        ? measureWithQasm(1000).then(qasmResult).catch(qasmError)
+        ? measureWithQasm(z)
+            .then(response => {
+                console.log(response)
+                return 0 // TODO: parse response
+            })
+            .catch(error => {
+                console.log(error + ' Calculating measurement locally.')
+                return tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) ? 0 : 1
+            })
         : tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) ? 0 : 1
 }
 
@@ -75,8 +78,6 @@ export async function handleMeasure(args: MeasureArgs) {
     const destination = mode === 'presentation' 
         ? storedDestination
         : await measure(z, useQasm) * 180
-
-    console.log(destination)
 
     dispatch(setIsMeasuring(false))
     
@@ -101,7 +102,7 @@ export async function handleMeasure(args: MeasureArgs) {
     Tone.Transport.once('stop', () => {
         setTimeout(() => {
             dispatch(setButtonsActive()) && dispatch(setButtonActive(null));
-            isFullScreen && mode !== 'presentation' && dispatch(toggleIsFullScreen());
+            !isFullScreen && mode !== 'presentation' && dispatch(toggleIsFullScreen());
             window.qusynth && dispatch(setData(window.qusynth))
         }, 1000); 
     })

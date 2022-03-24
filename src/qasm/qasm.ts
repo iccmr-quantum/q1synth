@@ -1,6 +1,27 @@
-// import { socket } from './socket'
+import { socket } from './socket';
 
-export function send(qasmCode: string) {
-    // socket.emit('QuTune', qasmCode, 1, 'qasm_simulator')
-    // socket.on('response', data => console.log(data));
+const qasmCode = `
+OPENQASM 2.0;
+include "qelib1.inc"; 
+qreg q[2]; 
+creg c[2]; 
+h q[0]; 
+cx q[0],q[1]; 
+measure q[0] -> c[0]; 
+measure q[1] -> c[1];
+`
+
+interface PromiseCallback {
+    (anything: any) : any
+}
+
+export function send(z: number) {
+    socket.emit('QuTune', qasmCode, 1, 'qasm_simulator')
+}
+
+export function receive(resolve: PromiseCallback) {
+    socket.once('response', data => {
+        console.log(data)
+        resolve(data)
+    });
 }
