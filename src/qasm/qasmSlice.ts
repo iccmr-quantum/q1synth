@@ -14,7 +14,7 @@ export interface QasmState extends Dictionary {
 }
 
 const initialState: QasmState = {
-    qasmStatus: false,
+    qasmStatus: true, // TODO: set this to false
     responses: [],
     isMeasuring: false
 };

@@ -48,7 +48,7 @@ function measureWithQasm(z: number) {
             send(z)
         }, 2000)
         // Time out if it takes more than 10 seconds
-        setTimeout(() => reject('Couldn\'t talk to quantum computer.'), 10000) // TODO: is 10 seconds long enough?
+        setTimeout(() => reject('Couldn\'t talk to quantum computer.'), 3000) // TODO: how long should this be?
     });
 }
 
