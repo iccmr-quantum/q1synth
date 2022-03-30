@@ -1,4 +1,5 @@
 import { io } from 'socket.io-client';
+import { degreesToRadians as dtr } from '../functions/utils'
 
 type connectionHandler = (status: boolean, id?: string) => void
 interface PromiseCallback {
@@ -14,25 +15,15 @@ export function connect(
     socket.on('disconnect', () => handleConnection(false))
 }
 
-const qasmCode = `
-OPENQASM 2.0;
-include "qelib1.inc"; 
-qreg q[2]; 
-creg c[2]; 
-h q[0]; 
-cx q[0],q[1]; 
-measure q[0] -> c[0]; 
-measure q[1] -> c[1];
-`
-
-export function send(z: number) {
+export function send(x: number, y: number, z: number) {
+    const qasmCode = `OPENQASM 2.0;\ninclude "qelib1.inc";\nqreg q[1];\ncreg c[1];\nu(${dtr(x)},${dtr(y)},${dtr(z)}) q[0];\nmeasure q[0] -> c[0];\n`
     socket.emit('QuTune', qasmCode, 1, 'qasm_simulator')
 }
 
 export function receive(resolve: PromiseCallback, reject: PromiseCallback) {
     socket.on('response', data => {
-        // data[0] === 'info' && // TODO: append to loading?
+        console.log(data)
         data[0] === 'error' && reject(data);
-        data[0] === 'counts' && resolve(data)
+        data[0] === 'counts' && resolve(parseInt(data[1].charAt(0)))
     });
 }

@@ -32,33 +32,34 @@ export interface MeasureArgs {
 }
 
 const mint = (destination: number, data: DataState) => {
-    console.log(JSON.stringify(
-        {
-            ...data, 
-            mode: 'presentation',
-            destination: destination === 180 ? 1 : 0
-        }))
+    // console.log(JSON.stringify(
+    //     {
+    //         ...data, 
+    //         mode: 'presentation',
+    //         destination: destination === 180 ? 1 : 0
+    //     }))
 }
 
-function measureWithQasm(z: number) {
+function measureWithQasm(x: number, y: number, z: number) {
+    console.log(x, y, z)
     return new Promise((resolve, reject) => {
         // Show loading for at least 2 seconds
         setTimeout(() => {
             receive(resolve, reject)
-            send(z)
+            send(x, y, z)
         }, 2000)
         // Time out if it takes more than 10 seconds
         setTimeout(() => reject('Couldn\'t talk to quantum computer.'), 3000) // TODO: how long should this be?
     });
 }
 
-function measure(z: number, useQasm: boolean): 0 | 1 | Promise<number> {
+function measure(x: number, y: number, z: number, useQasm: boolean): 0 | 1 | Promise<number> {
     const weight = z > 180 
         ? 360 - z
         : z
 
     return useQasm
-        ? measureWithQasm(z)
+        ? measureWithQasm(x, y, z)
             .then(response => {
                 console.log(response)
                 return 0 // TODO: parse response
@@ -81,7 +82,7 @@ export async function handleMeasure(args: MeasureArgs) {
 
     const destination = mode === 'presentation' 
         ? storedDestination
-        : await measure(z, useQasm) * 180
+        : await measure(x, y, z, useQasm) * 180
 
     dispatch(setIsMeasuring(false))
     
