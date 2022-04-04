@@ -45,8 +45,8 @@
     position: absolute;
     top: 0;
     min-width: 20em;
-    padding: 4em;
-    min-height: calc(100% - 8em);
+    padding: 2em;
+    min-height: calc(100% - 4em);
 }
 
 .contentActive {
@@ -56,7 +56,7 @@
 .sidePanelOpen {
     position: absolute;
     right: 0;
-    width: 28em;
+    width: 24em;
     transition: 0.5s all ease-out;
 }
 
@@ -68,7 +68,7 @@
     @media (max-width: 1200px) {
         position: absolute;
         right: 0;
-        max-width: calc(100vw - 38px);
+        max-width: calc(100vw - 34px);
     }
 }
 

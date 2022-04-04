@@ -12,7 +12,7 @@ interface selectProps {
 
 export function Select({options, title, onChange} : selectProps) {
     return (
-        <div>
+        <div className={styles.container}>
             { title && <h2>{ title }</h2> }
             <select 
                 className={styles.select}

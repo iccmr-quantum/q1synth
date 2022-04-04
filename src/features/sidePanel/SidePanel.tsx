@@ -2,11 +2,13 @@ import React, { MouseEvent, useState, useEffect} from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Sliders } from '../sliders/Sliders';
 import { Select } from '../select/Select';
+import { Input } from '../input/Input';
 import { Button } from '../buttons/Button';
 import { Presets } from '../presets/Presets';
 import { getMode, getTimes, setTime, getDisabledStatus } from '../../data/dataSlice';
 import { getMidiInputs, setActiveInput } from '../../midi/midiSlice';
 import styles from './SidePanel.module.css'
+import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
 
 export function SidePanel() {
     const dispatch = useAppDispatch()
@@ -14,6 +16,8 @@ export function SidePanel() {
     const mode = useAppSelector(getMode)
     const disabled = useAppSelector(getDisabledStatus)
     const midiInputs = useAppSelector(getMidiInputs)
+    const useQasm = useAppSelector(getUseQasm)
+    const qasmBackend = useAppSelector(getBackend)
     const [active, setActive] = useState(0)
     const [show, setShow] = useState(false)
 
@@ -39,6 +43,10 @@ export function SidePanel() {
 
     function handleMidiSelect(e: React.ChangeEvent<HTMLSelectElement>) {
         dispatch(setActiveInput(e.target.value))
+    }
+
+    function handleBackendInput(e: React.ChangeEvent<HTMLInputElement>) {
+        dispatch(setBackend(e.target.value))
     }
 
     return (
@@ -82,6 +90,11 @@ export function SidePanel() {
                         options={midiInputs.map(({id, name}) => ({id, label: name}))} 
                         onChange={handleMidiSelect}
                     />
+                    { useQasm && <Input
+                        title="Qasm Backend" 
+                        value={qasmBackend}
+                        onChange={handleBackendInput}
+                    /> }
                 </div>
             }   
         </aside>

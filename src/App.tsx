@@ -14,7 +14,7 @@ import {
     randomise,
 } from './data/dataSlice';
 
-import { setQasmStatus, getIsMeasuring } from './qasm/qasmSlice';
+import { setUseQasm, setQasmStatus, getIsMeasuring } from './qasm/qasmSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
 import { connect } from './qasm/socket'
@@ -33,6 +33,7 @@ function App() {
 
     const search = useLocation().search;
     const useQasm = new URLSearchParams(search).get('qasm');
+    console.log(useQasm && 'blah')
     
     // enable midi | dispatch state string if exists | connect to python server if exists
     useEffect(() => {
@@ -44,6 +45,8 @@ function App() {
             alert(`${status ? 'Connected to ' : 'Disconnected from'} QASM server ${id ? id : ''}`)
             dispatch(setQasmStatus(status))
         }
+        
+        useQasm && dispatch(setUseQasm(true));
         useQasm && connect(handleQasmConnection);
     }, [dispatch])
 

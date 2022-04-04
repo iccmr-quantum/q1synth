@@ -41,7 +41,6 @@ const mint = (destination: number, data: DataState) => {
 }
 
 function measureWithQasm(x: number, y: number, z: number) {
-    console.log(x, y, z)
     return new Promise((resolve, reject) => {
         // Show loading for at least 2 seconds
         setTimeout(() => {
@@ -49,20 +48,20 @@ function measureWithQasm(x: number, y: number, z: number) {
             send(x, y, z)
         }, 2000)
         // Time out if it takes more than 10 seconds
-        setTimeout(() => reject('Couldn\'t talk to quantum computer.'), 3000) // TODO: how long should this be?
+        // setTimeout(() => reject('Couldn\'t talk to quantum computer.'), 200000) // TODO: how long should this be?
     });
 }
 
-function measure(x: number, y: number, z: number, useQasm: boolean): 0 | 1 | Promise<number> {
+function measure(x: number, y: number, z: number, useQasm: boolean): any {
     const weight = z > 180 
         ? 360 - z
         : z
 
     return useQasm
-        ? measureWithQasm(x, y, z)
+        ? measureWithQasm(z, y, x)
             .then(response => {
                 console.log(response)
-                return 0 // TODO: parse response
+                return response // TODO: parse response
             })
             .catch(error => {
                 console.log(error + ' Calculating measurement locally.')

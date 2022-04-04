@@ -6,11 +6,12 @@ interface PromiseCallback {
     (anything: any) : any
 }
 
-const socket = io('http://127.0.0.1:5000', {reconnectionAttempts: 1});
+const socket = io('http://127.0.0.1:5000', {reconnectionAttempts: 1, timeout: Infinity});
 
 export function connect(
     handleConnection : connectionHandler
 ) {    
+    console.log('yes')
     socket.on('connect', () => handleConnection(true, socket.id))
     socket.on('disconnect', () => handleConnection(false))
 }
@@ -22,7 +23,6 @@ export function send(x: number, y: number, z: number) {
 
 export function receive(resolve: PromiseCallback, reject: PromiseCallback) {
     socket.on('response', data => {
-        console.log(data)
         data[0] === 'error' && reject(data);
         data[0] === 'counts' && resolve(parseInt(data[1].charAt(0)))
     });

@@ -1,13 +1,9 @@
-.container {
-    margin-bottom: 0.75em;
-}
-
-.select {
-    width: 100%;
+.input {
+    width: calc(100% - 2.35em);
     padding: 1em;
     font-weight: 900;
     font-family: 'Source Code Pro', monospace;
 }
-.select:focus {
+.input:focus {
     outline: black;
 }
