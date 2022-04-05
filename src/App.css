@@ -25,7 +25,7 @@ body {
 
 .main {
     flex-basis: 100%;
-    padding: 4em;
+    padding: 2em 4em;
     display: flex;
     flex-direction: column;
     position: relative;

@@ -15,7 +15,7 @@ const initialState: QasmState = {
     qasmStatus: false,
     responses: [],
     isMeasuring: false,
-    backend: 'ibmq_santiago'
+    backend: 'qasm_simulator'
 };
 
 export const qasmSlice = createSlice({
