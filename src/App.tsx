@@ -40,9 +40,9 @@ function App() {
 
         window.qusynth && dispatch(setData(window.qusynth));
 
-        const handleQasmConnection = (status: boolean, id?: string) => {
-            alert(`${status ? 'Connected to ' : 'Disconnected from'} QASM server ${id ? id : ''}`)
-            dispatch(setQasmStatus(status))
+        const handleQasmConnection = (id?: string) => {
+            alert(`Connected to QASM server ${id ? id : ''}`)
+            dispatch(setQasmStatus(true))
         }
         
         useQasm && dispatch(setUseQasm(true));

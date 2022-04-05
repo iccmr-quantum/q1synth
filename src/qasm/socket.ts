@@ -3,19 +3,19 @@ import { degreesToRadians as dtr } from '../functions/utils'
 import type { AppDispatch } from '../app/store';
 import { setQasmResponse } from './qasmSlice'
 
-type connectionHandler = (status: boolean, id?: string) => void
+type connectionHandler = (id?: string) => void
 interface PromiseCallback {
     (anything: any) : any
 }
 
-const socket = io('http://127.0.0.1:5000', {reconnectionAttempts: 1, timeout: Infinity});
+const socket = io('http://127.0.0.1:5000', {reconnectionAttempts: 10, timeout: Infinity});
 
 export function connect(
     handleConnection : connectionHandler,
     dispatch: AppDispatch
 ) {
-    socket.on('connect', () => handleConnection(true, socket.id))
-    socket.on('disconnect', () => handleConnection(false))
+    socket.on('connect', () => handleConnection(socket.id))
+    socket.on('disconnect', () => dispatch(setQasmResponse('Qasm backend disconnected. \rPress escape to simulate calculation')))
     socket.on('response', data => data[0] === 'info' && dispatch(setQasmResponse(data[1])))
 }
 
@@ -24,7 +24,7 @@ export function send(x: number, y: number, z: number, backend: string) {
     socket.emit('QuTune', qasmCode, 1, backend)
 }
 
-export function receive(resolve: PromiseCallback, reject: PromiseCallback,) {
+export function receive(resolve: PromiseCallback, reject: PromiseCallback) {
     socket.on('response', data => {
         data[0] === 'error' && setTimeout(() => reject(data), 3000);
         data[0] === 'counts' && setTimeout(() => resolve(parseInt(data[1].charAt(0))), 3000);

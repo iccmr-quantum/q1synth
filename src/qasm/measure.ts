@@ -50,6 +50,7 @@ function measureWithQasm(
     return new Promise((resolve, reject) => {
         receive(resolve, reject)
         send(x, y, z, backend)
+        window.addEventListener('keydown', e => e.key === 'Escape' && reject())
         // Time out if it takes more than 10 seconds
         // setTimeout(() => reject('Couldn\'t talk to quantum computer.'), 200000) // TODO: how long should this be?
     });
