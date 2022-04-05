@@ -33,7 +33,6 @@ function App() {
 
     const search = useLocation().search;
     const useQasm = new URLSearchParams(search).get('qasm');
-    console.log(useQasm && 'blah')
     
     // enable midi | dispatch state string if exists | connect to python server if exists
     useEffect(() => {
@@ -55,6 +54,7 @@ function App() {
         const handleFullScreen = (e: KeyboardEvent) : void => {
             (mode === 'simple' || mode === 'advanced')
                 && e.key === 'f' 
+                && (e.target as HTMLElement).nodeName.toLowerCase() !== 'input'
                 && dispatch(toggleIsFullScreen())
         };
         const handleResize = () => window.innerWidth < 600 && mode !== 'simple' && dispatch(setMode('simple'))

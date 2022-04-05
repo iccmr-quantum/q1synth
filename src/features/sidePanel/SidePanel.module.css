@@ -29,8 +29,10 @@
 
 .sidePanel {
     position: relative;
+    top: 0;
+    bottom: 0;
     background-color: #323232;
-    border-left: 2px solid white;
+    /* border-left: 2px solid white; */
     min-height: 100vh;
 }
 
@@ -47,10 +49,12 @@
     min-width: 20em;
     padding: 2em;
     min-height: calc(100% - 4em);
+    border-left: 2px solid white;
 }
 
 .contentActive {
     z-index: 10;
+    
 }
 
 .sidePanelOpen {

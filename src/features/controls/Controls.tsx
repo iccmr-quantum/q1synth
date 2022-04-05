@@ -22,7 +22,7 @@ import {
 import { getMidiStatus, getActiveMidiInput } from '../../midi/midiSlice'
 import { midiMap } from '../../midi/midiMap'
 import { WebMidi } from 'webmidi';
-import { getQasmStatus } from '../../qasm/qasmSlice';
+import { getBackend, getQasmStatus } from '../../qasm/qasmSlice';
 import { handleMeasure, MeasureArgs } from '../../qasm/measure';
 
 import styles from './Controls.module.css';
@@ -39,6 +39,7 @@ export function Controls() {
     const mode = useAppSelector(getMode)
     const storedDestination = useAppSelector(getDestination)
     const useQasm = useAppSelector(getQasmStatus)
+    const backend = useAppSelector(getBackend)
 
     const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>()
 
@@ -53,6 +54,7 @@ export function Controls() {
         storedDestination,
         useQasm,
         mintData,
+        backend,
         dispatch
     }
 

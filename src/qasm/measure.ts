@@ -27,7 +27,8 @@ export interface MeasureArgs {
     isFullScreen: boolean
     storedDestination: number
     useQasm: boolean
-    mintData: DataState 
+    mintData: DataState
+    backend: string
     dispatch: AppDispatch
 }
 
@@ -40,25 +41,25 @@ const mint = (destination: number, data: DataState) => {
     //     }))
 }
 
-function measureWithQasm(x: number, y: number, z: number) {
+function measureWithQasm(x: number, y: number, z: number, backend: string) {
     return new Promise((resolve, reject) => {
         // Show loading for at least 2 seconds
         setTimeout(() => {
             receive(resolve, reject)
-            send(x, y, z)
+            send(x, y, z, backend)
         }, 2000)
         // Time out if it takes more than 10 seconds
         // setTimeout(() => reject('Couldn\'t talk to quantum computer.'), 200000) // TODO: how long should this be?
     });
 }
 
-function measure(x: number, y: number, z: number, useQasm: boolean): any {
+function measure(x: number, y: number, z: number, useQasm: boolean, backend: string): any {
     const weight = z > 180 
         ? 360 - z
         : z
 
     return useQasm
-        ? measureWithQasm(z, y, x)
+        ? measureWithQasm(z, y, x, backend)
             .then(response => {
                 console.log(response)
                 return response // TODO: parse response
@@ -71,7 +72,7 @@ function measure(x: number, y: number, z: number, useQasm: boolean): any {
 }
 
 export async function handleMeasure(args: MeasureArgs) {
-    const { x, y, z, time, mode, synthParams, isFullScreen, storedDestination, useQasm, mintData, dispatch } = args
+    const { x, y, z, time, mode, synthParams, isFullScreen, storedDestination, useQasm, mintData, backend, dispatch } = args
     
     Tone.Transport.cancel(0)
     dispatch(setButtonsDisabled())
@@ -81,7 +82,7 @@ export async function handleMeasure(args: MeasureArgs) {
 
     const destination = mode === 'presentation' 
         ? storedDestination
-        : await measure(x, y, z, useQasm) * 180
+        : await measure(x, y, z, useQasm, backend) * 180
 
     dispatch(setIsMeasuring(false))
     
