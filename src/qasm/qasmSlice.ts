@@ -2,15 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Dictionary } from '../types';
 import { RootState } from '../app/store';
 
-export interface QasmResponse {
-    id: number
-    data: any
-}
-
 export interface QasmState extends Dictionary {
     useQasm: boolean
     qasmStatus: boolean
-    responses: QasmResponse[]
+    responses: string[]
     isMeasuring: boolean
     backend: string
 }
@@ -20,7 +15,7 @@ const initialState: QasmState = {
     qasmStatus: false,
     responses: [],
     isMeasuring: false,
-    backend: 'qasm_simulator'
+    backend: 'simulator_statevector'
 };
 
 export const qasmSlice = createSlice({
@@ -33,11 +28,14 @@ export const qasmSlice = createSlice({
         setQasmStatus: (state, action: PayloadAction<boolean>) => {
             state.qasmStatus = action.payload
         },
-        setQasmResponse: (state, action: PayloadAction<QasmResponse>) => {
+        setQasmResponse: (state, action: PayloadAction<string>) => {
             state.responses = [
                 ...state.responses,
                 action.payload
             ]
+        },
+        clearQasmResponses: state => {
+            state.responses = []
         },
         setIsMeasuring: (state, action: PayloadAction<boolean>) => {
             state.isMeasuring = action.payload
@@ -52,6 +50,7 @@ export const {
     setUseQasm,
     setQasmStatus,
     setQasmResponse,
+    clearQasmResponses,
     setIsMeasuring,
     setBackend
 } = qasmSlice.actions;
@@ -60,8 +59,6 @@ export const getUseQasm = (state: RootState) => state.qasm.useQasm;
 export const getQasmStatus = (state: RootState) => state.qasm.qasmStatus;
 export const getIsMeasuring = (state: RootState) => state.qasm.isMeasuring;
 export const getBackend = (state: RootState) => state.qasm.backend;
-export const getQasmResponseByID = (i: number) => (state: RootState) => {
-    return state.qasm.responses.find(({id}) => id === i) || false
-};
+export const getQasmResponses = (state: RootState) => state.qasm.responses
 
 export default qasmSlice.reducer;

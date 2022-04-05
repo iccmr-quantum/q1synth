@@ -1,6 +1,6 @@
 import * as Tone from 'tone'
 import { shortestAngle, tossWeightedCoin, mapToRange } from '../functions/utils';
-import { setIsMeasuring } from '../qasm/qasmSlice';
+import { setIsMeasuring, clearQasmResponses } from '../qasm/qasmSlice';
 import type { AppDispatch } from '../app/store';
 import { synth, SynthArgs } from '../sound';
 import { 
@@ -41,29 +41,34 @@ const mint = (destination: number, data: DataState) => {
     //     }))
 }
 
-function measureWithQasm(x: number, y: number, z: number, backend: string) {
+function measureWithQasm(
+    x: number, 
+    y: number, 
+    z: number, 
+    backend: string
+) {
     return new Promise((resolve, reject) => {
-        // Show loading for at least 2 seconds
-        setTimeout(() => {
-            receive(resolve, reject)
-            send(x, y, z, backend)
-        }, 2000)
+        receive(resolve, reject)
+        send(x, y, z, backend)
         // Time out if it takes more than 10 seconds
         // setTimeout(() => reject('Couldn\'t talk to quantum computer.'), 200000) // TODO: how long should this be?
     });
 }
 
-function measure(x: number, y: number, z: number, useQasm: boolean, backend: string): any {
+function measure(
+    x: number, 
+    y: number, 
+    z: number, 
+    useQasm: boolean, 
+    backend: string
+) : any {
     const weight = z > 180 
         ? 360 - z
         : z
 
     return useQasm
         ? measureWithQasm(z, y, x, backend)
-            .then(response => {
-                console.log(response)
-                return response // TODO: parse response
-            })
+            .then(response => response)
             .catch(error => {
                 console.log(error + ' Calculating measurement locally.')
                 return tossWeightedCoin(mapToRange(weight, 0, 180, 0, 1)) ? 0 : 1
@@ -79,6 +84,7 @@ export async function handleMeasure(args: MeasureArgs) {
     !isFullScreen && dispatch(toggleIsFullScreen());
 
     dispatch(setIsMeasuring(true))
+    dispatch(clearQasmResponses())
 
     const destination = mode === 'presentation' 
         ? storedDestination

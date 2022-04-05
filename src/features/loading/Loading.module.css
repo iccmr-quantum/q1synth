@@ -29,17 +29,22 @@
     animation-iteration-count: infinite;
 }
 
-.copy {
+.responses {
+    list-style: none;
+    padding-left: 0;
+}
+
+.response {
     margin-top: 2em;
     font-weight: bold;
 }
 
-.cursor {
+.response:last-of-type::after {
+    content: "_";
     animation: flash 1s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
 }
-
 
 @keyframes rotation {
     from {

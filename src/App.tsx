@@ -46,7 +46,7 @@ function App() {
         }
         
         useQasm && dispatch(setUseQasm(true));
-        useQasm && connect(handleQasmConnection);
+        useQasm && connect(handleQasmConnection, dispatch);
     }, [dispatch])
 
     // fullscreen handling
