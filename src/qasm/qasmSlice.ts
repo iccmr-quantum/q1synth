@@ -15,7 +15,7 @@ const initialState: QasmState = {
     qasmStatus: false,
     responses: [],
     isMeasuring: false,
-    backend: 'simulator_statevector'
+    backend: 'qasm_simulator'
 };
 
 export const qasmSlice = createSlice({
