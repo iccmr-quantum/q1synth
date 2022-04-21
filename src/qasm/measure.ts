@@ -63,12 +63,13 @@ function measure(
     useQasm: boolean, 
     backend: string
 ) : any {
+    // TODO: how to internally fake this?
     const weight = z > 180 
         ? 360 - z
         : z
 
     return useQasm
-        ? measureWithQasm(z, y, x, backend)
+        ? measureWithQasm(x, y, z, backend)
             .then(response => response)
             .catch(error => {
                 console.log(error + ' Calculating measurement locally.')

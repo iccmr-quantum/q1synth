@@ -15,10 +15,11 @@
 .label0 { top: 0 }
 .label1 { bottom: 0 }
 
-.labelminus, .labeli { top: 60% }
-.labelminus { left: -1em }
-.labeli { right: -1em }
+.labelplus, .labeli { top: 60% }
+.labelminus, .labelminusi { bottom: 57.5%; transform: scale(0.75) }
 
-.labelplus, .labelminusi { bottom: 57.5%; transform: scale(0.75) }
-.labelplus { right: 1em }
+.labelminus { right: 1em }
 .labelminusi { left: 0.5em }
+
+.labelplus { left: -1em }
+.labeli { right: -1em }

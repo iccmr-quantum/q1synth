@@ -35,24 +35,32 @@ const sketch: Sketch = p => {
     p.draw = () => {
         p.angleMode(p.DEGREES)
         p.background('#323232');
-
+        
+        p.rotateX(-10)
         p.noStroke()
         p.fill('white')
         
         p.push()
-        p.cylinder(2, 2.5 * radius)
+        p.rotateY(-45)
+        p.rotateX(90)
+        p.cylinder(2, 2* radius) // x axis
+        p.pop()
+
+        p.push()
         p.rotateY(45)
-        p.rotateX(-10)
-        p.rotateZ(-10)
-        p.rotateX(90);
-        p.cylinder(1, 2.5 * radius)
-        p.rotateZ(90);
-        p.cylinder(1, 2.5 * radius)
+        p.rotateX(90)
+        p.cylinder(2, 2* radius) // y axis
+        p.pop()
+
+        p.push()
+        p.cylinder(2, 2 * radius) // z axis
         p.pop()
         
+        
+        p.rotateY(45)
         p.rotateX(x);
-        p.rotateY(y);
-        p.rotateZ(z);
+        p.rotateY(z); // axis different 
+        p.rotateZ(y); // axis different 
         
         p.noFill()
         p.stroke('rgba(255,255,255,0.1)')
@@ -79,8 +87,8 @@ export function Qubit({size = 350} : QubitProps) {
     const states = [
         {id: '0', label: '0'},
         {id: '1', label: '1'},
-        {id: 'plus', label: '+'},
         {id: 'minus', label: '-'},
+        {id: 'plus', label: '+'},
         {id: 'i', label: 'i'},
         {id: 'minusi', label: '-i'},
     ]
@@ -101,8 +109,8 @@ export function Qubit({size = 350} : QubitProps) {
         const x = clientX - left
         const y = clientY - top
 
-        dispatch(setControl({group: 'qubit', key: 'y', value: mapToRange((x/width), 0, 1, -0.5, 0.5)}));
-        dispatch(setControl({group: 'qubit', key: e.shiftKey ? 'z' : 'x', value: mapToRange((y/height), 0, 1, 0.5, -0.5)}));
+        dispatch(setControl({group: 'qubit', key: !e.shiftKey ? 'x' : 'y', value: mapToRange((y/height), 0, 1, 0.5, -0.5)}));
+        dispatch(setControl({group: 'qubit', key: 'z', value: mapToRange((x/width), 0, 1, -0.5, 0.5)}));
     }
       
     return (

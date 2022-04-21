@@ -20,7 +20,8 @@ export function connect(
 }
 
 export function send(x: number, y: number, z: number, backend: string) {
-    const qasmCode = `OPENQASM 2.0;\ninclude "qelib1.inc";\nqreg q[1];\ncreg c[1];\nu(${dtr(x)},${dtr(y)},${dtr(z)}) q[0];\nmeasure q[0] -> c[0];\n`
+    // TODO: what is going on here?
+    const qasmCode = `OPENQASM 2.0;\ninclude "qelib1.inc";\nqreg q[1];\ncreg c[1];\nu(${dtr(x)}/2,${dtr(y)}/2,${dtr(z)/2}) q[0];\nmeasure q[0] -> c[0];\n`
     socket.emit('QuTune', qasmCode, 1, backend)
 }
 
