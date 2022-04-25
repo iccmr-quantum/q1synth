@@ -22,10 +22,11 @@ import {
 import { getMidiStatus, getActiveMidiInput, getMidiInputs } from '../../midi/midiSlice'
 import { midiMap } from '../../midi/midiMap'
 import { WebMidi } from 'webmidi';
-import { getBackend, getQasmStatus } from '../../qasm/qasmSlice';
+import { getBackend, getIsCollapsing, getIsMeasuring, getQasmStatus } from '../../qasm/qasmSlice';
 import { handleMeasure, MeasureArgs } from '../../qasm/measure';
 
 import styles from './Controls.module.css';
+import { is } from 'immer/dist/internal';
 
 export function Controls() {
     const dispatch = useAppDispatch()
@@ -73,6 +74,8 @@ export function Controls() {
     const midiIsEnabled = useAppSelector(getMidiStatus)
     const midiInput = useAppSelector(getActiveMidiInput)
     const allMidiInputs = useAppSelector(getMidiInputs)
+    const isCollapsing = useAppSelector(getIsCollapsing)
+    const isMeasuring = useAppSelector(getIsMeasuring)
     const removeListeners = () => allMidiInputs.map(({id}) => WebMidi.getInputById(id).removeListener())
     
     useEffect(() => {
@@ -83,7 +86,7 @@ export function Controls() {
                 const { value } = e
                 const { number } = e.controller
                 const map = midiMap(number)
-                if(!map || !value) return
+                if(!map || !value || isMeasuring || isCollapsing) return
     
                 map.key === 'play' && dispatch(setButtonActive('rotate'));
                 map.key === 'stop' && dispatch(setButtonActive(null));
@@ -92,7 +95,7 @@ export function Controls() {
                 map.group === 'preset' && dispatch(setPreset(+map.key));
                 !['preset', 'action'].includes(map.group) && dispatch(setControl({ group: map.group, key: map.key, value: +value }));
             });
-    }, [midiIsEnabled, midiInput])
+    }, [midiIsEnabled, midiInput, isMeasuring, isCollapsing])
 
     return (
         <>
