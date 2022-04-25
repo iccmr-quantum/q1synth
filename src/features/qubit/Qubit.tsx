@@ -9,6 +9,7 @@ import {
     getButtonActive
 } from '../../data/dataSlice';
 import { mapToRange } from '../../functions/utils';
+import { getIsCollapsing } from '../../qasm/qasmSlice';
 import { DataStream } from '../dataStream/DataStream';
 import styles from './Qubit.module.css';
 
@@ -81,7 +82,7 @@ export function Qubit({size = 350} : QubitProps) {
     const dispatch = useAppDispatch()
     const { x, y, z } = useAppSelector(getQubit);
     const mode = useAppSelector(getMode)
-    const isActive = useAppSelector(getButtonActive)
+    const isCollapsing = useAppSelector(getIsCollapsing)
 
     const [isClicked, setIsClicked] = useState(false)
 
@@ -106,7 +107,7 @@ export function Qubit({size = 350} : QubitProps) {
     }
 
     const handleMove = (e: MouseEvent | TouchEvent<HTMLDivElement>, clientX: number, clientY: number) => {
-        if(!isClicked || mode === 'presentation' || isActive) return
+        if(!isClicked || mode === 'presentation' || isCollapsing) return
 
         const { left, top, width, height } = getQubitDimensions()
         const x = clientX - left
@@ -117,6 +118,7 @@ export function Qubit({size = 350} : QubitProps) {
     }
 
     const handleStateClick = (e: MouseEvent, id: string) => {
+        if(isCollapsing) return
         e.stopPropagation()
         dispatch(setQubitState(id))
     }

@@ -85,7 +85,7 @@ const initialState: DataState = {
         modulationIndex: {value: 0, label: 'mod index', min: 0, max: 20, title: '|-i⟩'},
         harmonicity: {value: 0.05, label: 'harmonicity', min: 1, max: 20},
         lfoFreq: {value: 0.05, label: 'lfo freq', min: 0, max: 100, title: '-90°'},
-        lfoDepth: {value: 0.2, label: 'lfo depth', min: 0, max: 1},
+        lfoDepth: {value: 0.2, label: 'lfo depth', min: 0, max: 5},
     },
     rightA: {
         freq: {value: 0.2, label: 'freq', min: 70, max: 1000, title: '|-⟩'},
@@ -94,7 +94,7 @@ const initialState: DataState = {
         modulationIndex: {value: 1, label: 'mod index', min: 0, max: 20, title: '|i⟩'},
         harmonicity: {value: 1, label: 'harmonicity', min: 1, max: 20},
         lfoFreq: {value: 0.1, label: 'lfo freq', min: 0, max: 100, title: '90°'},
-        lfoDepth: {value: 1, label: 'lfo depth', min: 0, max: 1},
+        lfoDepth: {value: 1, label: 'lfo depth', min: 0, max: 5},
     },
     env: {
         attack: {value: 0.25, label: 'attack', min: 0, max: 1},
@@ -175,6 +175,7 @@ export const dataSlice = createSlice({
                 y: {value: xyz.y},
                 z: {value: xyz.z},
             }
+            synth.set(calculateParams(state))
         },
         setButtonActive: (state, action: PayloadAction<'rotate' | 'measure' | null>) => {
             action.payload === 'rotate' 
@@ -262,10 +263,11 @@ export const getMintData = (state: RootState) : DataState => {
 const calculateParam = (
     position: number, 
     key: string, 
-    sliders: SynthSlider[]
+    sliders: SynthSlider[],
+    points: number[] = [90,270]
 ) => {
     return mapToRange(
-        blendBetweenValues(position, sliders.map(slider => slider[key].value), [90, 270]), 
+        blendBetweenValues(position, sliders.map(slider => slider[key].value), points), 
         0, 1, sliders[0][key].min, sliders[0][key].max
     )
 }
@@ -281,10 +283,9 @@ const calculateEnvelope = (
 
 const calculateParams = (state: DataState) : SynthArgs => {
     const { env, modEnv, leftA, rightA } = state
-    const sliders = [leftA, rightA]
-    const xDegrees = state.qubit.x.value * 360
-    const yDegrees = state.qubit.y.value * 360
-    const zDegrees = state.qubit.z.value * 360
+    const xDegrees = mapToRange(state.qubit.x.value, -1, 1, 0, 360)
+    const yDegrees = mapToRange(state.qubit.y.value, -1, 1, 0, 360)
+    const zDegrees = mapToRange(state.qubit.z.value, -1, 1, 0, 360)
 
     return { 
         freq: calculateParam(yDegrees, 'freq', [leftA, rightA]), 
@@ -295,8 +296,8 @@ const calculateParams = (state: DataState) : SynthArgs => {
         envelope: calculateEnvelope(env),
         modulationEnvelope: calculateEnvelope(modEnv),
         blend: blendBetweenValues(yDegrees, [0, 1], [90, 270]),
-        lfoFreq: calculateParam(zDegrees, 'lfoFreq', sliders), 
-        lfoDepth: calculateParam(zDegrees, 'lfoDepth', sliders), 
+        lfoFreq: calculateParam(zDegrees, 'lfoFreq', [rightA, leftA]), 
+        lfoDepth: calculateParam(zDegrees, 'lfoDepth', [rightA, leftA]), 
     }
 }
 

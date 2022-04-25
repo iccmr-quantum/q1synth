@@ -1,6 +1,6 @@
 import * as Tone from 'tone'
 import { shortestAngle, tossWeightedCoin, mapToRange } from '../functions/utils';
-import { setIsMeasuring, clearQasmResponses } from '../qasm/qasmSlice';
+import { setIsMeasuring, clearQasmResponses, setIsCollapsing } from '../qasm/qasmSlice';
 import type { AppDispatch } from '../app/store';
 import { synth, SynthArgs } from '../sound';
 import { 
@@ -90,6 +90,7 @@ export async function handleMeasure(args: MeasureArgs) {
         : await measure(x, y, z, useQasm, backend) * (x < 1 ? -180 : 180)
 
     dispatch(setIsMeasuring(false))
+    dispatch(setIsCollapsing(true))
     
     mint(destination, mintData)
 
@@ -109,6 +110,7 @@ export async function handleMeasure(args: MeasureArgs) {
     Tone.Transport.once('stop', () => {
         setTimeout(() => {
             dispatch(setButtonsActive()) && dispatch(setButtonActive(null));
+            dispatch(setIsCollapsing(false))
             !isFullScreen && mode !== 'presentation' && dispatch(toggleIsFullScreen());
             window.qusynth && dispatch(setData(window.qusynth))
         }, 1000); 

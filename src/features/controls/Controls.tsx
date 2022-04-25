@@ -26,7 +26,6 @@ import { getBackend, getQasmStatus } from '../../qasm/qasmSlice';
 import { handleMeasure, MeasureArgs } from '../../qasm/measure';
 
 import styles from './Controls.module.css';
-import { mapToRange } from '../../functions/utils';
 
 export function Controls() {
     const dispatch = useAppDispatch()

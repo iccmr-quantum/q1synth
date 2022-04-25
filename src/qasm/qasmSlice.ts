@@ -7,6 +7,7 @@ export interface QasmState extends Dictionary {
     qasmStatus: boolean
     responses: string[]
     isMeasuring: boolean
+    isCollapsing: boolean
     backend: string
 }
 
@@ -15,6 +16,7 @@ const initialState: QasmState = {
     qasmStatus: false,
     responses: [],
     isMeasuring: false,
+    isCollapsing: false,
     backend: 'qasm_simulator'
 };
 
@@ -40,6 +42,9 @@ export const qasmSlice = createSlice({
         setIsMeasuring: (state, action: PayloadAction<boolean>) => {
             state.isMeasuring = action.payload
         },
+        setIsCollapsing: (state, action: PayloadAction<boolean>) => {
+            state.isCollapsing = action.payload
+        },
         setBackend: (state, action: PayloadAction<string>) => {
             state.backend = action.payload
         },
@@ -52,12 +57,14 @@ export const {
     setQasmResponse,
     clearQasmResponses,
     setIsMeasuring,
+    setIsCollapsing,
     setBackend
 } = qasmSlice.actions;
 
 export const getUseQasm = (state: RootState) => state.qasm.useQasm;
 export const getQasmStatus = (state: RootState) => state.qasm.qasmStatus;
 export const getIsMeasuring = (state: RootState) => state.qasm.isMeasuring;
+export const getIsCollapsing = (state: RootState) => state.qasm.isCollapsing;
 export const getBackend = (state: RootState) => state.qasm.backend;
 export const getQasmResponses = (state: RootState) => state.qasm.responses
 
