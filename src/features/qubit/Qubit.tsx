@@ -109,8 +109,8 @@ export function Qubit({size = 350} : QubitProps) {
         const x = clientX - left
         const y = clientY - top
 
-        dispatch(setControl({group: 'qubit', key: !e.shiftKey ? 'x' : 'y', value: mapToRange((y/height), 0, 1, 0.5, -0.5)}));
-        dispatch(setControl({group: 'qubit', key: 'z', value: mapToRange((x/width), 0, 1, -0.5, 0.5)}));
+        dispatch(setControl({group: 'qubit', key: !e.shiftKey ? 'x' : 'y', value: mapToRange((y/height), 0, 1, -1, 1)}));
+        dispatch(setControl({group: 'qubit', key: 'z', value: mapToRange((x/width), 0, 1, -1, 1)}));
     }
       
     return (
@@ -131,9 +131,9 @@ export function Qubit({size = 350} : QubitProps) {
             {states.map(({id, label}) => <span key={id} className={`${styles.label} ${styles['label' + id]}`}>{`|${label}⟩`}</span>)}
             <ReactP5Wrapper 
                 sketch={sketch} 
-                x={x.value * 360}
-                y={y.value * 360}
-                z={z.value * 360}
+                x={x.value * -180}
+                y={y.value * -180}
+                z={z.value * 180}
                 size={window.innerWidth < 450 ? window.innerWidth - 100 : size}
             />
             <DataStream />

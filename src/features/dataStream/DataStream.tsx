@@ -20,7 +20,7 @@ export function DataStream() {
                     className={styles.item}
                     key={i}
                 >
-                    {[x,z,y].map(({value}, v) => <span key={`${i}_${v}`} className={styles.vector}>{value.toFixed(3)}</span>)}
+                    {[x,y,z].map(({value}, v) => <span key={`${i}_${v}`} className={styles.vector}>{value.toFixed(3)}</span>)}
                 </li>
             ))}
         </ul>
