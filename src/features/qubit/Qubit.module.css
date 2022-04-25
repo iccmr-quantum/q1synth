@@ -10,6 +10,8 @@
 
 .label {
     position: absolute;
+    z-index: 100;
+    cursor: pointer;
 }
 
 .label0 { top: 0 }

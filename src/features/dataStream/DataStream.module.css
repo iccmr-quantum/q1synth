@@ -1,7 +1,7 @@
 .ul {
     position: absolute;
     right: -40%;
-    top: 0;
+    bottom: 0;
     list-style: none;
     padding-left: none;
     color: #03A062;

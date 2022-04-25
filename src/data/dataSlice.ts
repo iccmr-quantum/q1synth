@@ -161,7 +161,21 @@ export const dataSlice = createSlice({
             state.qubit.z.value = z + increment
 
             synth.set(calculateParams(state))
-        },        
+        },
+        setQubitState: (state, action: PayloadAction<string>) => {
+            const position = action.payload
+            const xyz = (position === '0' && {x: 0, y: 0, z: 0})
+                || (position === 'minus' && {x: 0, y: -0.5, z: 0})
+                || (position === 'plus' && {x: 0, y: 0.5, z: 0})
+                || (position === 'i' && {x: 0.5, y: 0, z: 0})
+                || (position === 'minusi' && {x: -0.5, y: 0, z: 0})
+                || {x: 0, y: 0, z: 0} // ??? this should be position '1', not sure as yet what this should be...
+            state.qubit = {
+                x: {value: xyz.x},
+                y: {value: xyz.y},
+                z: {value: xyz.z},
+            }
+        },
         setButtonActive: (state, action: PayloadAction<'rotate' | 'measure' | null>) => {
             action.payload === 'rotate' 
                 && (state.qubit = {
@@ -216,7 +230,8 @@ export const {
     incrementXAxis, 
     incrementYAxis, 
     incrementZAxis, 
-    randomise 
+    randomise,
+    setQubitState
 } = dataSlice.actions;
 
 export const getMode = (state: RootState) => state.data.mode;

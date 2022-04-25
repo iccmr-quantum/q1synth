@@ -4,7 +4,8 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { 
     getQubit, 
     setControl, 
-    getMode
+    getMode,
+    setQubitState
 } from '../../data/dataSlice';
 import { mapToRange } from '../../functions/utils';
 import { DataStream } from '../dataStream/DataStream';
@@ -67,7 +68,7 @@ const sketch: Sketch = p => {
         p.sphere(radius, 20, 20);
         p.translate(0, -radius - 2.5);
         p.stroke('red')
-        p.sphere(2.5);
+        p.sphere(4);
     }
 }
 
@@ -112,6 +113,11 @@ export function Qubit({size = 350} : QubitProps) {
         dispatch(setControl({group: 'qubit', key: !e.shiftKey ? 'x' : 'y', value: mapToRange((y/height), 0, 1, -1, 1)}));
         dispatch(setControl({group: 'qubit', key: 'z', value: mapToRange((x/width), 0, 1, -1, 1)}));
     }
+
+    const handleStateClick = (e: MouseEvent, id: string) => {
+        e.stopPropagation()
+        dispatch(setQubitState(id))
+    }
       
     return (
         <div 
@@ -128,7 +134,15 @@ export function Qubit({size = 350} : QubitProps) {
                 handleMove(e, clientX, clientY)
             }}
         >
-            {states.map(({id, label}) => <span key={id} className={`${styles.label} ${styles['label' + id]}`}>{`|${label}⟩`}</span>)}
+            {states.map(({id, label}) => (
+                <span 
+                    key={id} 
+                    className={`${styles.label} ${styles['label' + id]}`}
+                    onClick={e => handleStateClick(e, id)}
+                >
+                    {`|${label}⟩`}
+                </span>
+            ))}
             <ReactP5Wrapper 
                 sketch={sketch} 
                 x={x.value * -180}
