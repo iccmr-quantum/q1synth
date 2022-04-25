@@ -5,7 +5,8 @@ import {
     getQubit, 
     setControl, 
     getMode,
-    setQubitState
+    setQubitState,
+    getButtonActive
 } from '../../data/dataSlice';
 import { mapToRange } from '../../functions/utils';
 import { DataStream } from '../dataStream/DataStream';
@@ -80,6 +81,7 @@ export function Qubit({size = 350} : QubitProps) {
     const dispatch = useAppDispatch()
     const { x, y, z } = useAppSelector(getQubit);
     const mode = useAppSelector(getMode)
+    const isActive = useAppSelector(getButtonActive)
 
     const [isClicked, setIsClicked] = useState(false)
 
@@ -104,7 +106,7 @@ export function Qubit({size = 350} : QubitProps) {
     }
 
     const handleMove = (e: MouseEvent | TouchEvent<HTMLDivElement>, clientX: number, clientY: number) => {
-        if(!isClicked || mode === 'presentation') return
+        if(!isClicked || mode === 'presentation' || isActive) return
 
         const { left, top, width, height } = getQubitDimensions()
         const x = clientX - left
