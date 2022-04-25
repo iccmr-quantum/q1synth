@@ -19,7 +19,7 @@ import {
     setButtonActive,
     getDestination
 } from '../../data/dataSlice';
-import { getMidiStatus, getActiveMidiInput } from '../../midi/midiSlice'
+import { getMidiStatus, getActiveMidiInput, getMidiInputs } from '../../midi/midiSlice'
 import { midiMap } from '../../midi/midiMap'
 import { WebMidi } from 'webmidi';
 import { getBackend, getQasmStatus } from '../../qasm/qasmSlice';
@@ -73,8 +73,11 @@ export function Controls() {
 
     const midiIsEnabled = useAppSelector(getMidiStatus)
     const midiInput = useAppSelector(getActiveMidiInput)
+    const allMidiInputs = useAppSelector(getMidiInputs)
+    const removeListeners = () => allMidiInputs.map(({id}) => WebMidi.getInputById(id).removeListener())
     
     useEffect(() => {
+        midiIsEnabled && removeListeners();
         midiIsEnabled 
             && midiInput
             && WebMidi.getInputById(midiInput).addListener('controlchange', e => {
