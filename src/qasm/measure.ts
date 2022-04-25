@@ -63,10 +63,7 @@ function measure(
     useQasm: boolean, 
     backend: string
 ) : any {
-    // TODO: how to internally fake this?
-    const weight = z > 180 
-        ? 360 - z
-        : z
+    const weight = Math.abs(x)
 
     return useQasm
         ? measureWithQasm(x, y, z, backend)
@@ -90,19 +87,16 @@ export async function handleMeasure(args: MeasureArgs) {
 
     const destination = mode === 'presentation' 
         ? storedDestination
-        : await measure(x, y, z, useQasm, backend) * 180
+        : await measure(x, y, z, useQasm, backend) * (x < 1 ? -180 : 180)
 
     dispatch(setIsMeasuring(false))
     
     mint(destination, mintData)
 
-    const xAngle = shortestAngle(x, 0)
-    const yAngle = shortestAngle(y, 0)
-    const zAngle = shortestAngle(z, destination)
-    const xStep = (xAngle / (time * 64)) * (x < 0 ? +1 : -1) / 360
-    const yStep = (yAngle / (time * 64)) * (y < 0 ? +1 : -1) / 360
-    const zStep = (zAngle / (time * 64)) * (z < destination ? +1 : -1) / 360
-
+    const xStep = ((destination - x) / (time * 64))/180
+    const yStep = (y / (time * 64))/180
+    const zStep = (z / (time * 64))/180
+    
     Tone.Transport.scheduleOnce(() => synth.play(synthParams, time, mode !== 'presentation'), 0)
     
     Tone.Transport.scheduleRepeat(() => {

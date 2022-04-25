@@ -26,6 +26,7 @@ import { getBackend, getQasmStatus } from '../../qasm/qasmSlice';
 import { handleMeasure, MeasureArgs } from '../../qasm/measure';
 
 import styles from './Controls.module.css';
+import { mapToRange } from '../../functions/utils';
 
 export function Controls() {
     const dispatch = useAppDispatch()
@@ -44,9 +45,9 @@ export function Controls() {
     const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>()
 
     const measureArgs: MeasureArgs = {
-        x: qubit.x.value * 360,
-        y: qubit.y.value * 360,
-        z: qubit.z.value * 360,
+        x: qubit.x.value * 180,
+        y: qubit.y.value * 180,
+        z: qubit.z.value * 180,
         time,
         mode,
         synthParams,
