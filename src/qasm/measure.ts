@@ -85,18 +85,23 @@ export async function handleMeasure(args: MeasureArgs) {
     dispatch(setIsMeasuring(true))
     dispatch(clearQasmResponses())
 
-    const destination = mode === 'presentation' 
+    const xDestination = mode === 'presentation' 
         ? storedDestination
-        : await measure(x, y, z, useQasm, backend) * (x < 1 ? -180 : 180)
+        : await measure(x, y, z, useQasm, backend) * (x < 0 ? -180 : 180)
+
+    const yDestination = (y < 0 ? 0 : -0)
+    const zDestination = (z < 0 ? 0 : -0)
 
     dispatch(setIsMeasuring(false))
     dispatch(setIsCollapsing(true))
     
-    mint(destination, mintData)
+    mint(xDestination, mintData)
 
-    const xStep = ((destination - x) / (time * 64))/180
-    const yStep = (y / (time * 64))/180
-    const zStep = (z / (time * 64))/180
+    const xStep = ((xDestination - x) / (time * 64))/180
+    const yStep = ((yDestination - y) / (time * 64))/180
+    const zStep = ((zDestination - z) / (time * 64))/180
+
+    console.log(x, xStep, y, yStep, z, zStep)
     
     Tone.Transport.scheduleOnce(() => synth.play(synthParams, time, mode !== 'presentation'), 0)
     
