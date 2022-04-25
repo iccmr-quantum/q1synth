@@ -101,8 +101,6 @@ export async function handleMeasure(args: MeasureArgs) {
     const yStep = ((yDestination - y) / (time * 64))/180
     const zStep = ((zDestination - z) / (time * 64))/180
 
-    console.log(x, xStep, y, yStep, z, zStep)
-    
     Tone.Transport.scheduleOnce(() => synth.play(synthParams, time, mode !== 'presentation'), 0)
     
     Tone.Transport.scheduleRepeat(() => {
