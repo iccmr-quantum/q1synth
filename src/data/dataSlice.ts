@@ -169,7 +169,7 @@ export const dataSlice = createSlice({
                 || (position === 'plus' && {x: 0, y: 0.5, z: 0})
                 || (position === 'i' && {x: 0.5, y: 0, z: 0})
                 || (position === 'minusi' && {x: -0.5, y: 0, z: 0})
-                || {x: 0, y: 0, z: 0} // ??? this should be position '1', not sure as yet what this should be...
+                || {x: 1, y: 0, z: 0}
             state.qubit = {
                 x: {value: xyz.x},
                 y: {value: xyz.y},
