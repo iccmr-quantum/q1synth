@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Value, Slider, Dictionary } from '../types';
 import { RootState } from '../app/store';
-import { mapToRange, blendBetweenValues } from '../functions/utils';
+import { mapToRange, blendBetweenValues, getPolar } from '../functions/utils';
 import { synth, SynthArgs } from '../sound';
 import preset0 from './presets/preset0'
 import preset1 from './presets/preset1'
@@ -175,6 +175,8 @@ export const dataSlice = createSlice({
                 y: {value: xyz.y},
                 z: {value: xyz.z},
             }
+            const {x,y,z} = state.qubit
+            console.log(getPolar(x.value, y.value, z.value))
             synth.set(calculateParams(state))
         },
         setButtonActive: (state, action: PayloadAction<'rotate' | 'measure' | null>) => {

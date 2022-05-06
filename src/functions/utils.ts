@@ -44,3 +44,14 @@ export const tossCoin = () => Math.floor(Math.random() * 2) === 0
 export const tossWeightedCoin = (weightHeads: number) : boolean => Math.random() > weightHeads
 
 export const degreesToRadians = (degrees: number) => degrees * (Math.PI/180)
+
+export function getPolar(x: number, y: number, z: number) {
+    const xR = degreesToRadians(360)
+    const yR = degreesToRadians(360)
+    const zR = degreesToRadians(360)
+    return Math.atan(
+        Math.sqrt(
+            Math.pow(xR, 2) + Math.pow(yR, 2)
+        ) / zR
+    )
+}

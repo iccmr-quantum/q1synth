@@ -5,8 +5,7 @@ import {
     getQubit, 
     setControl, 
     getMode,
-    setQubitState,
-    getButtonActive
+    setQubitState
 } from '../../data/dataSlice';
 import { mapToRange } from '../../functions/utils';
 import { getIsCollapsing } from '../../qasm/qasmSlice';
@@ -61,10 +60,20 @@ const sketch: Sketch = p => {
         
         
         p.rotateY(45)
-        p.rotateX(x);
-        p.rotateY(z); // axis different 
-        p.rotateZ(y); // axis different 
         
+        
+        // p.rotateX(x);
+        // p.rotateY(z); // axis different 
+        p.rotateY(y); // axis different 
+        let cos_x = p.cos(x);
+        let sin_x = p.sin(x);
+        p.applyMatrix(cos_x, sin_x, -sin_x, cos_x, 0, 0);
+
+        let cos_z = p.cos(z);
+        let sin_z = p.sin(z);
+        // @ts-expect-error
+        p.applyMatrix(cos_z, 0.0,  sin_z,  0.0, 0.0, 1.0, 0.0,  0.0, -sin_z, 0.0,  cos_z,  0.0, 0.0, 0.0, 0.0,  1.0);
+
         p.noFill()
         p.stroke('rgba(255,255,255,0.1)')
         p.sphere(radius, 20, 20);
@@ -112,9 +121,13 @@ export function Qubit({size = 350} : QubitProps) {
         const { left, top, width, height } = getQubitDimensions()
         const x = clientX - left
         const y = clientY - top
-
-        dispatch(setControl({group: 'qubit', key: !e.shiftKey ? 'x' : 'y', value: mapToRange((y/height), 0, 1, -1, 1)}));
-        dispatch(setControl({group: 'qubit', key: 'z', value: mapToRange((x/width), 0, 1, -1, 1)}));
+        if(e.shiftKey) {
+            dispatch(setControl({group: 'qubit', key: 'z', value: mapToRange((x/width), 0, 1, -1, 1)}));
+        } else {
+            dispatch(setControl({group: 'qubit', key: 'x', value: mapToRange((y/height), 0, 1, -1, 1)}));
+            dispatch(setControl({group: 'qubit', key: 'y', value: mapToRange((x/width), 0, 1, -1, 1)}));
+        }
+        
     }
 
     const handleStateClick = (e: MouseEvent, id: string) => {
