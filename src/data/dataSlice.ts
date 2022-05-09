@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Value, Slider, Dictionary } from '../types';
 import { RootState } from '../app/store';
-import { mapToRange, blendBetweenValues, getPolar } from '../functions/utils';
+import { mapToRange, blendBetweenValues } from '../functions/utils';
 import { synth, SynthArgs } from '../sound';
 import preset0 from './presets/preset0'
 import preset1 from './presets/preset1'
@@ -79,19 +79,19 @@ const initialState: DataState = {
         z: {value: 0},
     },
     leftA: {
-        freq: {value: 0, label: 'freq', min: 70, max: 1000, title: '|+⟩'},
+        freq: {value: 0, label: 'freq', min: 70, max: 1000, title: '|0⟩'},
         volume: {value: 1, label: 'amp', min: -50, max: -3},
         reverb: {value: 0.8, label: 'reverb', min: 0, max: 0.8},
-        modulationIndex: {value: 0, label: 'mod index', min: 0, max: 20, title: '|-i⟩'},
+        modulationIndex: {value: 0, label: 'mod index', min: 0, max: 20, title: '|+⟩'},
         harmonicity: {value: 0.05, label: 'harmonicity', min: 1, max: 20},
         lfoFreq: {value: 0.05, label: 'lfo freq', min: 0, max: 100, title: '-90°'},
         lfoDepth: {value: 0.2, label: 'lfo depth', min: 0, max: 5},
     },
     rightA: {
-        freq: {value: 0.2, label: 'freq', min: 70, max: 1000, title: '|-⟩'},
+        freq: {value: 0.2, label: 'freq', min: 70, max: 1000, title: '|1⟩'},
         volume: {value: 0.5, label: 'amp', min: -50, max: -3},
         reverb: {value: 1, label: 'reverb', min: 0, max: 0.8},
-        modulationIndex: {value: 1, label: 'mod index', min: 0, max: 20, title: '|i⟩'},
+        modulationIndex: {value: 1, label: 'mod index', min: 0, max: 20, title: '|-⟩'},
         harmonicity: {value: 1, label: 'harmonicity', min: 1, max: 20},
         lfoFreq: {value: 0.1, label: 'lfo freq', min: 0, max: 100, title: '90°'},
         lfoDepth: {value: 1, label: 'lfo depth', min: 0, max: 5},
@@ -165,18 +165,16 @@ export const dataSlice = createSlice({
         setQubitState: (state, action: PayloadAction<string>) => {
             const position = action.payload
             const xyz = (position === '0' && {x: 0, y: 0, z: 0})
-                || (position === 'minus' && {x: 0, y: -0.5, z: 0})
-                || (position === 'plus' && {x: 0, y: 0.5, z: 0})
-                || (position === 'i' && {x: 0.5, y: 0, z: 0})
-                || (position === 'minusi' && {x: -0.5, y: 0, z: 0})
+                || (position === 'minus' && {x: 0.5, y: 1, z: 0})
+                || (position === 'plus' && {x: 0.5, y: 0, z: 0})
+                || (position === 'i' && {x: 0.5, y: 0.5, z: 0})
+                || (position === 'minusi' && {x: 0.5, y: -0.5, z: 0})
                 || {x: 1, y: 0, z: 0}
             state.qubit = {
                 x: {value: xyz.x},
                 y: {value: xyz.y},
                 z: {value: xyz.z},
             }
-            const {x,y,z} = state.qubit
-            console.log(getPolar(x.value, y.value, z.value))
             synth.set(calculateParams(state))
         },
         setButtonActive: (state, action: PayloadAction<'rotate' | 'measure' | null>) => {
@@ -266,7 +264,7 @@ const calculateParam = (
     position: number, 
     key: string, 
     sliders: SynthSlider[],
-    points: number[] = [90,270]
+    points: number[] = [0,180]
 ) => {
     return mapToRange(
         blendBetweenValues(position, sliders.map(slider => slider[key].value), points), 
@@ -290,14 +288,14 @@ const calculateParams = (state: DataState) : SynthArgs => {
     const zDegrees = mapToRange(state.qubit.z.value, -1, 1, 0, 360)
 
     return { 
-        freq: calculateParam(yDegrees, 'freq', [leftA, rightA]), 
-        volume: calculateParam(yDegrees, 'volume', [leftA, rightA]), 
-        reverb: calculateParam(yDegrees, 'reverb', [leftA, rightA]), 
-        modulationIndex: calculateParam(xDegrees, 'modulationIndex', [rightA, leftA]), 
-        harmonicity: calculateParam(xDegrees, 'harmonicity', [rightA, leftA]), 
+        freq: calculateParam(xDegrees, 'freq', [leftA, rightA]), 
+        volume: calculateParam(xDegrees, 'volume', [leftA, rightA]), 
+        reverb: calculateParam(xDegrees, 'reverb', [leftA, rightA]), 
+        modulationIndex: calculateParam(yDegrees, 'modulationIndex', [leftA, rightA]), 
+        harmonicity: calculateParam(yDegrees, 'harmonicity', [leftA, rightA]), 
         envelope: calculateEnvelope(env),
         modulationEnvelope: calculateEnvelope(modEnv),
-        blend: blendBetweenValues(yDegrees, [0, 1], [90, 270]),
+        blend: blendBetweenValues(xDegrees, [0, 1], [0, 180]),
         lfoFreq: calculateParam(zDegrees, 'lfoFreq', [rightA, leftA]), 
         lfoDepth: calculateParam(zDegrees, 'lfoDepth', [rightA, leftA]), 
     }

@@ -61,16 +61,17 @@ const sketch: Sketch = p => {
         
         p.rotateY(45)
         
-        
-        // p.rotateX(x);
-        // p.rotateY(z); // axis different 
-        p.rotateY(y); // axis different 
-        let cos_x = p.cos(x);
-        let sin_x = p.sin(x);
+        // Azimuth
+        p.rotateY(y); 
+
+        // Inclination
+        const cos_x = p.cos(x);
+        const sin_x = p.sin(x);
         p.applyMatrix(cos_x, sin_x, -sin_x, cos_x, 0, 0);
 
-        let cos_z = p.cos(z);
-        let sin_z = p.sin(z);
+        // Phase
+        const cos_z = p.cos(z);
+        const sin_z = p.sin(z);
         // @ts-expect-error
         p.applyMatrix(cos_z, 0.0,  sin_z,  0.0, 0.0, 1.0, 0.0,  0.0, -sin_z, 0.0,  cos_z,  0.0, 0.0, 0.0, 0.0,  1.0);
 
@@ -163,7 +164,7 @@ export function Qubit({size = 350} : QubitProps) {
             <ReactP5Wrapper 
                 sketch={sketch} 
                 x={x.value * -180}
-                y={y.value * -180}
+                y={y.value * 180}
                 z={z.value * 180}
                 size={window.innerWidth < 450 ? window.innerWidth - 100 : size}
             />
