@@ -1,5 +1,5 @@
 import * as Tone from 'tone'
-import { shortestAngle, tossWeightedCoin, mapToRange } from '../functions/utils';
+import { tossWeightedCoin, mapToRange } from '../functions/utils';
 import { setIsMeasuring, clearQasmResponses, setIsCollapsing } from '../qasm/qasmSlice';
 import type { AppDispatch } from '../app/store';
 import { synth, SynthArgs } from '../sound';

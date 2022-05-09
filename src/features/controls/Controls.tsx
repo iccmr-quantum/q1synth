@@ -27,6 +27,7 @@ import { handleMeasure, MeasureArgs } from '../../qasm/measure';
 
 import styles from './Controls.module.css';
 import { is } from 'immer/dist/internal';
+import { mapToRange } from '../../functions/utils';
 
 export function Controls() {
     const dispatch = useAppDispatch()
@@ -93,7 +94,8 @@ export function Controls() {
                 map.key === 'measure' && buttonRef?.click()
                 map.key === 'randomise' && dispatch(randomise());
                 map.group === 'preset' && dispatch(setPreset(+map.key));
-                !['preset', 'action'].includes(map.group) && dispatch(setControl({ group: map.group, key: map.key, value: +value }));
+                map.group === 'qubit' && dispatch(setControl({ group: 'qubit', key: map.key, value: mapToRange(+value, 0, 1, -1, 1) }))
+                !['preset', 'action', 'qubit'].includes(map.group) && dispatch(setControl({ group: map.group, key: map.key, value: +value }));
             });
     }, [midiIsEnabled, midiInput, isMeasuring, isCollapsing])
 
