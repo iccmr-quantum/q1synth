@@ -60,7 +60,10 @@ export function SidePanel() {
                     <h2>Q1Synth</h2>
                     <p>Interdisciplinary Centre For Computer Music Research (ICCMR).</p>
                     <p>Rotate and measure the qubit to quantum-design a sound.</p>
-                    <p>f for fullscreen. shift + mouseY to rotate Y.</p>
+                    <p>MouseY for angle of inclination (θ).</p>
+                    <p>MouseX for azimuth (φ).</p>
+                    <p>shift + mouseX for sphere phase.</p>
+                    <p>f for fullscreen.</p>
                 </div>
             </div>
             {mode === 'advanced' && 

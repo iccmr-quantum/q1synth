@@ -16,6 +16,13 @@ export function DataStream() {
 
     return (
         <ul className={styles.ul}>
+            <li key='labels'>
+                {['θ','φ','λ'].map(symbol => (
+                    <span key={symbol} className={styles.label}>
+                        {symbol}
+                    </span>
+                ))}
+            </li>
             {data.slice(0).reverse().map(({x, y, z}, i) => (
                 <li 
                     className={styles.item}

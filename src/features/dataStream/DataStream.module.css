@@ -1,13 +1,17 @@
 .ul {
     position: absolute;
     right: -40%;
-    bottom: 0;
+    top: 0;
+    margin-top: 0;
     list-style: none;
     padding-left: none;
     color: #03A062;
-    opacity: 0.4;
     height: 100%;
     overflow: hidden;
+}
+
+.item {
+    opacity: 0.4;
 }
 
 @media (max-width: 786px) {
@@ -24,4 +28,13 @@
 
 .vector:last-of-type {
     padding-right: 0;
+}
+
+.label {
+    color: white;
+    text-align: center;
+    display: inline-block;
+    padding-right: 0.5em;
+    min-width: 4em;
+    user-select: none;
 }
