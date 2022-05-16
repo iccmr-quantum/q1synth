@@ -17,7 +17,8 @@ import {
     getMode,
     setButtonsDisabled, 
     setButtonActive,
-    getDestination
+    getDestination,
+    setTime
 } from '../../data/dataSlice';
 import { getMidiStatus, getActiveMidiInput, getMidiInputs } from '../../midi/midiSlice'
 import { midiMap } from '../../midi/midiMap'
@@ -93,9 +94,10 @@ export function Controls() {
                 map.key === 'stop' && dispatch(setButtonActive(null));
                 map.key === 'measure' && buttonRef?.click()
                 map.key === 'randomise' && dispatch(randomise());
+                map.group === 'time' && dispatch(setTime({button: map.key}));
                 map.group === 'preset' && dispatch(setPreset(+map.key));
                 map.group === 'qubit' && dispatch(setControl({ group: 'qubit', key: map.key, value: mapToRange(+value, 0, 1, -1, 1) }))
-                !['preset', 'action', 'qubit'].includes(map.group) && dispatch(setControl({ group: map.group, key: map.key, value: +value }));
+                !['preset', 'action', 'qubit', 'time'].includes(map.group) && dispatch(setControl({ group: map.group, key: map.key, value: +value }));
             });
     }, [midiIsEnabled, midiInput, isMeasuring, isCollapsing])
 

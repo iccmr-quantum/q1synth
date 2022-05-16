@@ -194,7 +194,7 @@ export const dataSlice = createSlice({
         setButtonsActive: (state) => {
             state.disabled = false
         },
-        setTime: (state, action: PayloadAction<{button: 'one' | 'five' | 'ten' }>) => {
+        setTime: (state, action: PayloadAction<{button: string }>) => {
             const { button } = action.payload
             const reset = {one: false, five: false, ten: false}
             state.times = {...reset, [button]: true}
