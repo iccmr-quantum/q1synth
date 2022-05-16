@@ -68,6 +68,7 @@ export interface DataState extends Dictionary {
     disabled: boolean
     preset: number
     destination: 0 | 1
+    shouldRecord: boolean
 }
 
 const initialState: DataState = {
@@ -117,7 +118,8 @@ const initialState: DataState = {
         one: false, five: true, ten: false
     },
     preset: 0,
-    destination: 0
+    destination: 0,
+    shouldRecord: false
 };
 
 export const dataSlice = createSlice({
@@ -214,6 +216,9 @@ export const dataSlice = createSlice({
             state.leftA = randomiseSynthSlider(state.leftA)
             state.rightA = randomiseSynthSlider(state.rightA)
             synth.set(calculateParams(state))
+        },
+        setShouldRecord: (state, action: PayloadAction<boolean>) => {
+            state.shouldRecord = action.payload
         }
     }
 });
@@ -232,7 +237,8 @@ export const {
     incrementYAxis, 
     incrementZAxis, 
     randomise,
-    setQubitState
+    setQubitState,
+    setShouldRecord
 } = dataSlice.actions;
 
 export const getMode = (state: RootState) => state.data.mode;
@@ -259,6 +265,7 @@ export const getMintData = (state: RootState) : DataState => {
         isFullScreen: true,
     }
 }
+export const getShouldRecord = (state: RootState) => state.data.shouldRecord
 
 const calculateParam = (
     position: number, 

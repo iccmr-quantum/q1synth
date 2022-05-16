@@ -29,6 +29,7 @@ export interface MeasureArgs {
     useQasm: boolean
     mintData: DataState
     backend: string
+    shouldRecord: boolean
     dispatch: AppDispatch
 }
 
@@ -76,7 +77,7 @@ function measure(
 }
 
 export async function handleMeasure(args: MeasureArgs) {
-    const { x, y, z, time, mode, synthParams, isFullScreen, storedDestination, useQasm, mintData, backend, dispatch } = args
+    const { x, y, z, time, mode, synthParams, isFullScreen, storedDestination, useQasm, mintData, backend, shouldRecord, dispatch } = args
     
     Tone.Transport.cancel(0)
     dispatch(setButtonsDisabled())
@@ -101,7 +102,7 @@ export async function handleMeasure(args: MeasureArgs) {
     const yStep = ((yDestination - y) / (time * 64))/180
     const zStep = ((zDestination - z) / (time * 64))/180
 
-    Tone.Transport.scheduleOnce(() => synth.play(synthParams, time, mode !== 'presentation'), 0)
+    Tone.Transport.scheduleOnce(() => synth.play(synthParams, time, mode !== 'presentation' && shouldRecord), 0)
     
     Tone.Transport.scheduleRepeat(() => {
         dispatch(incrementXAxis(xStep))

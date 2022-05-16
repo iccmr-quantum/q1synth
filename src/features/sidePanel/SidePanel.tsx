@@ -5,7 +5,7 @@ import { Select } from '../select/Select';
 import { Input } from '../input/Input';
 import { Button } from '../buttons/Button';
 import { Presets } from '../presets/Presets';
-import { getMode, getTimes, setTime, getDisabledStatus } from '../../data/dataSlice';
+import { getMode, getTimes, setTime, getDisabledStatus, getShouldRecord, setShouldRecord } from '../../data/dataSlice';
 import { getMidiInputs, setActiveInput } from '../../midi/midiSlice';
 import styles from './SidePanel.module.css'
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
@@ -20,6 +20,7 @@ export function SidePanel() {
     const qasmBackend = useAppSelector(getBackend)
     const [active, setActive] = useState(0)
     const [show, setShow] = useState(false)
+    const shouldRecord = useAppSelector(getShouldRecord)
 
     useEffect(() => {
         const handleKeyDownRun = (e: KeyboardEvent) => e.code === 'Escape' && setShow(false) && e.preventDefault();
@@ -73,8 +74,18 @@ export function SidePanel() {
                         onClick={() => handleHideShow(1)}
                     >Config</span>
                     <Presets />
-                    <div className={styles.buttonsContainer}></div>
-                    <h2>Duration of Measurement</h2>
+                    <div className={styles.measureContainer}>
+                        <h2>Duration of Measurement</h2> 
+                        <label className={styles.checkboxLabel}>
+                            Record?
+                            <input 
+                                className={styles.checkbox} 
+                                type="checkbox"
+                                checked={shouldRecord}
+                                onClick={() => dispatch(setShouldRecord(!shouldRecord))}
+                            />
+                        </label>
+                    </div>
                     <div className={styles.buttons}>
                         {Object.entries(times).map(([time, isActive]) => (
                             <Button 

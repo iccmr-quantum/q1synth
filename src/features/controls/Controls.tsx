@@ -18,7 +18,8 @@ import {
     setButtonsDisabled, 
     setButtonActive,
     getDestination,
-    setTime
+    setTime,
+    getShouldRecord
 } from '../../data/dataSlice';
 import { getMidiStatus, getActiveMidiInput, getMidiInputs } from '../../midi/midiSlice'
 import { midiMap } from '../../midi/midiMap'
@@ -43,6 +44,7 @@ export function Controls() {
     const storedDestination = useAppSelector(getDestination)
     const useQasm = useAppSelector(getQasmStatus)
     const backend = useAppSelector(getBackend)
+    const shouldRecord = useAppSelector(getShouldRecord)
 
     const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>()
 
@@ -58,6 +60,7 @@ export function Controls() {
         useQasm,
         mintData,
         backend,
+        shouldRecord,
         dispatch
     }
 
