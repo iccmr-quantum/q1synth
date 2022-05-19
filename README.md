@@ -1,4 +1,5 @@
 # Q1Synth
+A built version of this app is hosted at [https://iccmr-q1synth-proto.cephasteom.co.uk/](https://iccmr-q1synth-proto.cephasteom.co.uk/).
 
 Rotate the qubit to interpolate between different synthesis parameters on each axis. Measure the qubit for it to collapse to either 1 or 0. At the time of writing, this app is hosted [here](https://qusynth.cephasteom.co.uk/).
 
