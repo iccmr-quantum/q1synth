@@ -20,16 +20,23 @@ export function SidePanel() {
     const qasmBackend = useAppSelector(getBackend)
     const [active, setActive] = useState(0)
     const [show, setShow] = useState(false)
+    // const [canScroll, setCanScroll] = useState(true)
     const shouldRecord = useAppSelector(getShouldRecord)
 
     useEffect(() => {
         const handleKeyDownRun = (e: KeyboardEvent) => e.code === 'Escape' && setShow(false) && e.preventDefault();
         const handleResize = () => setShow(false)
+        // const disableScroll = () => setCanScroll(false)
+        // const enableScroll = () => setCanScroll(true)
         window.addEventListener('keydown', handleKeyDownRun)
         window.addEventListener('resize', handleResize)
+        // window.addEventListener('mousedown', disableScroll)
+        // window.addEventListener('mouseup', enableScroll)
         return () => {
             window.removeEventListener('keydown', handleKeyDownRun) 
             window.removeEventListener('resize', handleResize)
+            // window.removeEventListener('mousedown', disableScroll)
+            // window.removeEventListener('mouseup', enableScroll)
         }
     }, []);
 

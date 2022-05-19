@@ -21,6 +21,7 @@ body {
     overflow: hidden;
     min-height: 100vh;
     justify-content: center;
+    overflow-y: scroll;
 }
 
 .main {
