@@ -58,11 +58,13 @@ const sketch: Sketch = p => {
         p.cylinder(2, 2 * radius) // z axis
         p.pop()
         
-        
         p.rotateY(45)
         
         // Azimuth
-        p.rotateY(y); 
+        const cos_y = p.cos(-y);
+        const sin_y = p.sin(-y);
+        // @ts-expect-error
+        p.applyMatrix(cos_y, 0.0, sin_y, 0.0, 0.0, 1.0, 0.0, 0.0, -sin_y, 0.0, cos_y, 0.0, 0.0, 0.0, 0.0, 1.0);
 
         // Inclination
         const cos_x = p.cos(x);
@@ -73,7 +75,7 @@ const sketch: Sketch = p => {
         const cos_z = p.cos(z);
         const sin_z = p.sin(z);
         // @ts-expect-error
-        p.applyMatrix(cos_z, 0.0,  sin_z,  0.0, 0.0, 1.0, 0.0,  0.0, -sin_z, 0.0,  cos_z,  0.0, 0.0, 0.0, 0.0,  1.0);
+        p.applyMatrix(cos_z, 0.0, sin_z, 0.0, 0.0, 1.0, 0.0, 0.0, -sin_z, 0.0, cos_z, 0.0, 0.0, 0.0, 0.0, 1.0);
 
         p.noFill()
         p.stroke('rgba(255,255,255,0.1)')
