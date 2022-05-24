@@ -202,15 +202,21 @@ export const dataSlice = createSlice({
             state.times = {...reset, [button]: true}
         },
         setPreset: (state, action: PayloadAction<number>) => {
-            const presets = [preset0, preset1, preset2, preset3, preset4, preset5, preset6, preset7]
+            const stored = localStorage.getItem('q1synth') || "{}"
+            
+            const presets = {
+                0: preset0, 1: preset1, 2: preset2, 3: preset3, 4: preset4, 5: preset5, 6: preset6, 7: preset7,
+                ...JSON.parse(stored)
+            }
+
             const preset = presets[action.payload]
             state.leftA = preset.leftA
             state.rightA = preset.rightA
             state.env = preset.env
             state.modEnv = preset.modEnv
             
-            synth.set(calculateParams(state))
             state.preset = action.payload
+            synth.set(calculateParams(state))
         },
         randomise: (state) => {
             state.leftA = randomiseSynthSlider(state.leftA)
@@ -265,6 +271,11 @@ export const getMintData = (state: RootState) : DataState => {
         isFullScreen: true,
     }
 }
+
+export const getData = (state: RootState) : DataState => {
+    return {...state.data}
+}
+
 export const getShouldRecord = (state: RootState) => state.data.shouldRecord
 
 const calculateParam = (

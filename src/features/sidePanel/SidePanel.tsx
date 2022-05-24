@@ -26,17 +26,12 @@ export function SidePanel() {
     useEffect(() => {
         const handleKeyDownRun = (e: KeyboardEvent) => e.code === 'Escape' && setShow(false) && e.preventDefault();
         const handleResize = () => setShow(false)
-        // const disableScroll = () => setCanScroll(false)
-        // const enableScroll = () => setCanScroll(true)
+
         window.addEventListener('keydown', handleKeyDownRun)
         window.addEventListener('resize', handleResize)
-        // window.addEventListener('mousedown', disableScroll)
-        // window.addEventListener('mouseup', enableScroll)
         return () => {
             window.removeEventListener('keydown', handleKeyDownRun) 
             window.removeEventListener('resize', handleResize)
-            // window.removeEventListener('mousedown', disableScroll)
-            // window.removeEventListener('mouseup', enableScroll)
         }
     }, []);
 
@@ -72,6 +67,7 @@ export function SidePanel() {
                     <p>MouseX for azimuth (φ).</p>
                     <p>shift + mouseX for sphere phase.</p>
                     <p>f for fullscreen.</p>
+                    <p>Shift and click on presets to save current app state.</p>
                 </div>
             </div>
             {mode === 'advanced' && 
@@ -89,7 +85,7 @@ export function SidePanel() {
                                 className={styles.checkbox} 
                                 type="checkbox"
                                 checked={shouldRecord}
-                                onClick={() => dispatch(setShouldRecord(!shouldRecord))}
+                                onChange={() => dispatch(setShouldRecord(!shouldRecord))}
                             />
                         </label>
                     </div>

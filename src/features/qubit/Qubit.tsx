@@ -130,7 +130,6 @@ export function Qubit({size = 350} : QubitProps) {
             dispatch(setControl({group: 'qubit', key: 'x', value: mapToRange((y/height), 0, 1, -1, 1)}));
             dispatch(setControl({group: 'qubit', key: 'y', value: mapToRange((x/width), 0, 1, -1, 1)}));
         }
-        
     }
 
     const handleStateClick = (e: MouseEvent, id: string) => {
