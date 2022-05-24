@@ -67,6 +67,7 @@ export function SidePanel() {
                     <p>MouseX for azimuth (φ).</p>
                     <p>shift + mouseX for sphere phase.</p>
                     <p>f for fullscreen.</p>
+                    <p>Shift and click on presets to save current app state.</p>
                 </div>
             </div>
             {mode === 'advanced' && 

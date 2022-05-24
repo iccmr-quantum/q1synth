@@ -72,7 +72,7 @@ export interface DataState extends Dictionary {
 }
 
 const initialState: DataState = {
-    mode: 'advanced',
+    mode: 'simple',
     isFullScreen: false,
     qubit: {
         x: {value: 0},
@@ -208,7 +208,7 @@ export const dataSlice = createSlice({
                 0: preset0, 1: preset1, 2: preset2, 3: preset3, 4: preset4, 5: preset5, 6: preset6, 7: preset7,
                 ...JSON.parse(stored)
             }
-            
+
             const preset = presets[action.payload]
             state.leftA = preset.leftA
             state.rightA = preset.rightA
