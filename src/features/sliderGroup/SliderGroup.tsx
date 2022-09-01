@@ -1,7 +1,7 @@
 import React, {  } from 'react'
 import { Param } from '../../synthesis/synthesisSlice';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getSlidersValue, setControl, getDisabledStatus } from '../../data/dataSlice';
+import { useAppSelector } from '../../app/hooks';
+import { getDisabledStatus } from '../../data/dataSlice';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
@@ -23,7 +23,7 @@ export function SliderGroup({id, label, params, valuesI = 0, invert = false, onC
             { label && <h2 className={invert ? styles.textrightA : ''}>{ label }</h2> }
             
             {params.map(({type, min, max, step, values}, i) => (
-                <div key={i} className={styles.container}>
+                <div key={`${id}${i}`} className={styles.container}>
                     <Slider
                         className={styles.slider}
                         min={min} 

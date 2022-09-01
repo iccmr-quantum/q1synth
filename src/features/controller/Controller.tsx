@@ -24,7 +24,7 @@ import {
     // getShouldRecord
 } from '../../data/dataSlice';
 
-import { getXParams, getYParams, getZParams, setXParam, setYParam, setZParam } from '../../synthesis/synthesisSlice';
+import { getXParams, getYParams, getZParams, setParam } from '../../synthesis/synthesisSlice';
 
 import styles from './Controller.module.css';
 
@@ -52,18 +52,8 @@ export function Controller() {
             // && handleMeasure(measureArgs);
     }
 
-    function handleParamChange(groupId: string, paramType: string, valuesI: number, value: number) {
-        switch (groupId) {
-            case 'x':
-                dispatch(setXParam({type: paramType, valuesI, value}))
-                break;
-            case 'y':
-                dispatch(setYParam({type: paramType, valuesI, value}))
-                break;
-            case 'z':
-                dispatch(setZParam({type: paramType, valuesI, value}))
-                break;
-        }
+    function handleParamChange(key: string, type: string, valuesI: number, value: number) {
+        dispatch(setParam({key, type, valuesI, value}))
     }
     
     return (
@@ -72,9 +62,9 @@ export function Controller() {
             <div className={styles.container}>
                 {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
-                        <SliderGroup id="x" label="|0⟩" params={xParams} onChange={handleParamChange} />
-                        <SliderGroup id="y" label="|+⟩" params={yParams} onChange={handleParamChange} />
-                        <SliderGroup id="z" label="λ" params={zParams} onChange={handleParamChange} />
+                        <SliderGroup id="xParams" label="|0⟩" params={xParams} onChange={handleParamChange} />
+                        <SliderGroup id="yParams" label="|+⟩" params={yParams} onChange={handleParamChange} />
+                        <SliderGroup id="zParams" label="λ" params={zParams} onChange={handleParamChange} />
                     </section>
                 }
                 <section 
@@ -84,9 +74,9 @@ export function Controller() {
                 </section>
                 {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
-                        <SliderGroup id="x" label="|1⟩" params={xParams} valuesI={1} onChange={handleParamChange} />
-                        <SliderGroup id="y" label="|-⟩" params={yParams} valuesI={1} onChange={handleParamChange} />
-                        <SliderGroup id="z" label="λ" params={zParams} valuesI={1} onChange={handleParamChange} />
+                        <SliderGroup id="xParams" label="|1⟩" params={xParams} valuesI={1} onChange={handleParamChange} />
+                        <SliderGroup id="yParams" label="|-⟩" params={yParams} valuesI={1} onChange={handleParamChange} />
+                        <SliderGroup id="zParams" label="λ" params={zParams} valuesI={1} onChange={handleParamChange} />
                     </section>
                 }
             </div>

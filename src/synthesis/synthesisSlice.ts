@@ -13,27 +13,30 @@ export interface Param {
     step: number
     values: number[]
 }
-export interface SynthesisState extends Dictionary {
+export interface SynthesisState {
     synth: SynthType
-    xParams: Param[];
-    yParams: Param[];
-    zParams: Param[];
+    params: {
+        [key: string]: Param[]
+    }
+    
 }
 
 const initialSynth = 'fm'
 
 const initialState: SynthesisState = {
     synth: initialSynth,
-    xParams: [
-        { type: 'note', min: 0, max: 8, step: 1, values: [0, 8] },
-        { type: 'detune', min: -12000, max: 12000, step: 0, values: [-12000, 12000] },
-        { type: 'gain', min: 0, max: 1, step: 0, values: [0, 1] },
-    ],
-    yParams: synthesisParams[initialSynth],
-    zParams: [
-        { type: 'reverb', min: 0, max: 1, step: 0, values: [0, 0] },
-        { type: 'delay', min: 0, max: 1, step: 0, values: [0, 0] }
-    ]
+    params: {
+        xParams: [
+            { type: 'note', min: 0, max: 8, step: 1, values: [0, 8] },
+            { type: 'detune', min: -12000, max: 12000, step: 0, values: [-12000, 12000] },
+            { type: 'gain', min: 0, max: 1, step: 0, values: [0, 1] },
+        ],
+        yParams: synthesisParams[initialSynth],
+        zParams: [
+            { type: 'reverb', min: 0, max: 1, step: 0, values: [0, 0] },
+            { type: 'delay', min: 0, max: 1, step: 0, values: [0, 0] }
+        ]
+    }
 };
 
 export const synthesisSlice = createSlice({
@@ -44,41 +47,25 @@ export const synthesisSlice = createSlice({
             state.synth = action.payload;
         },
         setCustomParams: (state, action: PayloadAction<Param[]>) => {
-            state.yParams = action.payload;
+            state.params.yParams = action.payload;
         },
-        // setParam: (state, action: PayloadAction<{axis: string, type: string, valuesI: number, value: number}>) => {
-
-        // },
-        setXParam: (state, action: PayloadAction<{type: string, valuesI: number, value: number}>) => {
-            const { type, valuesI, value } = action.payload;
-            const param = state.xParams.find(p => p.type === type);
+        setParam: (state, action: PayloadAction<{key: string, type: string, valuesI: number, value: number}>) => {
+            const { key, type, valuesI, value } = action.payload;
+            const param = state.params[key].find(p => p.type === type);
             param && (param.values[valuesI] = value);
-        },
-        setYParam: (state, action: PayloadAction<{type: string, valuesI: number, value: number}>) => {
-            const { type, valuesI, value } = action.payload;
-            const param = state.yParams.find(p => p.type === type);
-            param && (param.values[valuesI] = value);
-        },
-        setZParam: (state, action: PayloadAction<{type: string, valuesI: number, value: number}>) => {
-            console.log('changingZ')
-            const { type, valuesI, value } = action.payload;
-            const param = state.zParams.find(p => p.type === type);
-            param && (param.values[valuesI] = value);
-        },
+        }
     }
 });
 
 export const getSynth = (state: RootState) => state.synthesis.synth;
-export const getXParams = (state: RootState) => state.synthesis.xParams;
-export const getYParams = (state: RootState) => state.synthesis.yParams;
-export const getZParams = (state: RootState) => state.synthesis.zParams;
+export const getXParams = (state: RootState) => state.synthesis.params.xParams;
+export const getYParams = (state: RootState) => state.synthesis.params.yParams;
+export const getZParams = (state: RootState) => state.synthesis.params.zParams;
 
 export const { 
     setSynth,
     setCustomParams,
-    setXParam,
-    setYParam,
-    setZParam
+    setParam,
 } = synthesisSlice.actions;
 
 
