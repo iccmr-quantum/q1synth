@@ -1,4 +1,5 @@
 // TODO: Measure and MIDI
+// TODO: Prune Controls, Sliders, etc.
 
 import React, { MouseEvent, useEffect, useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
@@ -25,6 +26,7 @@ import {
 } from '../../data/dataSlice';
 
 import { getXParams, getYParams, getZParams, setParam } from '../../synthesis/synthesisSlice';
+import synthesis from '../../synthesis/synthesis';
 
 import styles from './Controller.module.css';
 
@@ -39,21 +41,15 @@ export function Controller() {
     const zParams = useAppSelector(getZParams)
 
     const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>()
-
-    function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
-        button === 'rotate' 
-            && (buttonActive !== 'rotate' 
-                ? dispatch(setButtonActive('rotate'))
-                : dispatch(setButtonActive(null)))
-
-        button === 'measure' 
-            && dispatch(setButtonsDisabled())
-            && dispatch(setButtonActive('measure')) 
-            // && handleMeasure(measureArgs);
-    }
+    const [isPlaying, setIsPlaying] = useState(false)
 
     function handleParamChange(key: string, type: string, valuesI: number, value: number) {
         dispatch(setParam({key, type, valuesI, value}))
+    }
+
+    function togglePlay() {
+        setIsPlaying(!isPlaying)
+        isPlaying ? synthesis.stop() : synthesis.play()
     }
     
     return (
@@ -87,14 +83,14 @@ export function Controller() {
                 {mode !== 'presentation' && <Button 
                     name="play" 
                     activeName="stop"
-                    onClick={handleButtonOnClick}
-                    isActive={buttonActive === 'rotate'}
+                    onClick={togglePlay}
+                    isActive={isPlaying}
                     disabled={disabled}
                 />}
                 <Button 
                     name="measure"
                     activeName="stop"
-                    onClick={handleButtonOnClick}
+                    onClick={() => null}
                     isActive={buttonActive === 'measure'}
                     disabled={disabled}
                     setButtonRef={setButtonRef}
