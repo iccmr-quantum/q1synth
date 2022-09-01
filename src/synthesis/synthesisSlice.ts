@@ -28,7 +28,7 @@ const initialState: SynthesisState = {
     synth: initialSynth,
     params: {
         xParams: [
-            { type: 'note', id: 'n', min: 7, max: 7, step: 1, values: [7] },
+            { type: 'note', id: 'n', min: 0, max: 7, step: 1, values: [0, 7] },
             { type: 'detune', id: 'detune', min: -12000, max: 12000, step: 0, values: [-12000, 12000] },
             { type: 'gain', id: 'amp', min: 0, max: 1, step: 0, values: [0, 1] },
         ],
@@ -38,14 +38,14 @@ const initialState: SynthesisState = {
             { type: 'delay', id: 'delay', min: 0, max: 1, step: 0, values: [0, 0] }
         ],
         envParams: [
-            { type: 'attack', id: 'a', min: 0, max: 1, step: 0, values: [0.01] },
-            { type: 'decay', id: 'd', min: 0, max: 1, step: 0, values: [0.1] },
+            { type: 'attack', id: 'a', min: 0, max: 1, step: 0, values: [0.1] },
+            { type: 'decay', id: 'd', min: 0, max: 1, step: 0, values: [0.2] },
             { type: 'sustain', id: 's', min: 0, max: 1, step: 0, values: [0.5] },
             { type: 'release', id: 'r', min: 0, max: 1, step: 0, values: [1] }
         ],
         modEnvParams: [
-            { type: 'attack', id: 'moda', min: 0, max: 1, step: 0, values: [0.01] },
-            { type: 'decay', id: 'modd', min: 0, max: 1, step: 0, values: [0.1] },
+            { type: 'attack', id: 'moda', min: 0, max: 1, step: 0, values: [0.1] },
+            { type: 'decay', id: 'modd', min: 0, max: 1, step: 0, values: [0.2] },
             { type: 'sustain', id: 'mods', min: 0, max: 1, step: 0, values: [0.5] },
             { type: 'release', id: 'modr', min: 0, max: 1, step: 0, values: [1] }
         ],
@@ -58,6 +58,7 @@ export const synthesisSlice = createSlice({
     reducers: {
         setSynth: (state, action: PayloadAction<SynthType>) => {
             state.synth = action.payload;
+            synthesis.setType(action.payload);
         },
         setCustomParams: (state, action: PayloadAction<Param[]>) => {
             state.params.yParams = action.payload;
