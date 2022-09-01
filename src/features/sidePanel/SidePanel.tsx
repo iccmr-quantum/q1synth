@@ -6,7 +6,8 @@ import { Input } from '../input/Input';
 import { Button } from '../buttons/Button';
 import { Presets } from '../presets/Presets';
 import { getMode, getTimes, setTime, getDisabledStatus, getShouldRecord, setShouldRecord } from '../../data/dataSlice';
-import { synthTypes, getSynth, setSynth } from '../../synthesis/synthesisSlice';
+import { SynthType, synthTypes, setSynth, setCustomParams } from '../../synthesis/synthesisSlice';
+import { synthesisParams } from '../../synthesis/params';
 import { getMidiInputs, setActiveInput } from '../../midi/midiSlice';
 import styles from './SidePanel.module.css'
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
@@ -19,7 +20,6 @@ export function SidePanel() {
     const midiInputs = useAppSelector(getMidiInputs)
     const useQasm = useAppSelector(getUseQasm)
     const qasmBackend = useAppSelector(getBackend)
-    const synth = useAppSelector(getSynth)
     const [active, setActive] = useState(0)
     const [show, setShow] = useState(false)
     // const [canScroll, setCanScroll] = useState(true)
@@ -54,6 +54,12 @@ export function SidePanel() {
         dispatch(setBackend(e.target.value))
     }
 
+    function handleChangeSynth(e: React.ChangeEvent<HTMLSelectElement>) {
+        const type = e.target.value as SynthType
+        dispatch(setSynth(type))
+        dispatch(setCustomParams(synthesisParams[type]))
+    }
+
     return (
         <aside className={`${styles.sidePanel} ${show ? styles.sidePanelOpen : styles.sidePanelClosed}`}>
             <div className={`${styles.sidePanel__content} ${active === 0 && styles.contentActive}`}>
@@ -81,7 +87,7 @@ export function SidePanel() {
                     <Select 
                         title="Instrument" 
                         options={synthTypes.map((type) => ({id: type, label: type}))} 
-                        onChange={() => console.log('hello')}
+                        onChange={handleChangeSynth}
                     />                    
                     <Sliders group="env" title="Envelope"/>
                     <Sliders group="modEnv" title="Modulation Envelope"/>                    
