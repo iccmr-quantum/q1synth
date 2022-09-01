@@ -19,23 +19,27 @@ export function SliderGroup({label, params, valuesI = 0, invert = false} : slide
     return (
         <div className={styles.sliders}>
             { label && <h2 className={invert ? styles.textrightA : ''}>{ label }</h2> }
-            {params.map(({type, min, max, step, values}, i) => (
-                <div key={i} className={styles.container}>
-                    <Slider
-                        className={styles.slider}
-                        min={min} 
-                        max={max}
-                        onChange={val => console.log('changing')}
-                        step={step}
-                        disabled={disabled}
-                        value={values[valuesI]}
-                    />
-                    <p className={`
-                        ${styles.label} 
-                        ${invert ? styles.labelInvert : ''}
-                    `}>{ type }</p>
-                </div>
-            ))}
+            {params.map(({type, min, max, step, values}, i) => {
+                console.log(type, values[valuesI])
+                return (
+                    <div key={i} className={styles.container}>
+                        <Slider
+                            className={styles.slider}
+                            min={min} 
+                            max={max}
+                            onChange={val => console.log('changing')}
+                            step={step || 0.001}
+                            disabled={disabled}
+                            value={values[valuesI]}
+                        />
+                        <p className={`
+                            ${styles.label} 
+                            ${invert ? styles.labelInvert : ''}
+                        `}>{ type }</p>
+                    </div>
+
+                )
+            })}
         </div> 
     )
 }
