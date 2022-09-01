@@ -1,4 +1,4 @@
-import { Transport, Reverb, FeedbackDelay, immediate } from "tone";
+import { Transport, Reverb, FeedbackDelay, immediate, getDestination } from "tone";
 import { CtFMSynth, CtGranular, CtDualSynth } from "./ct-synths"; // TODO: replace this with node_module
 import { formatMutationParams } from "./utils";
 
@@ -7,7 +7,7 @@ const delay = new FeedbackDelay('4n', 0.5)
 
 const synthesis = () => {
     let synths = []
-    let params = {n: 48, dur: 1, amp: 0.5}
+    let params = {n: 36, dur: 1, amp: 0.5}
     let synthType = 'fm'
     let duration = 1;
     let count = -1
@@ -15,7 +15,7 @@ const synthesis = () => {
     Transport.scheduleRepeat((time) => {
         count++;
         synths && synths.map(s => s.mutate(formatMutationParams(params), immediate(), 0.01));
-        synths = synths.slice(0, 4);
+        synths = synths.slice(-4);
         
         if(count%Math.floor(48/duration)) return
 

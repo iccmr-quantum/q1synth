@@ -28,7 +28,7 @@ const initialState: SynthesisState = {
     synth: initialSynth,
     params: {
         xParams: [
-            { type: 'note', id: 'n', min: 0, max: 7, step: 1, values: [0, 7] },
+            { type: 'note', id: 'n', min: 7, max: 7, step: 1, values: [7] },
             { type: 'detune', id: 'detune', min: -12000, max: 12000, step: 0, values: [-12000, 12000] },
             { type: 'gain', id: 'amp', min: 0, max: 1, step: 0, values: [0, 1] },
         ],
