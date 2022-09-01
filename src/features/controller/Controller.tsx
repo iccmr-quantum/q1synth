@@ -24,7 +24,7 @@ import {
     // getShouldRecord
 } from '../../data/dataSlice';
 
-import { getXParams, getYParams, getZParams } from '../../synthesis/synthesisSlice';
+import { getXParams, getYParams, getZParams, setXParam, setYParam, setZParam } from '../../synthesis/synthesisSlice';
 
 import styles from './Controller.module.css';
 
@@ -51,6 +51,20 @@ export function Controller() {
             && dispatch(setButtonActive('measure')) 
             // && handleMeasure(measureArgs);
     }
+
+    function handleParamChange(groupId: string, paramType: string, valuesI: number, value: number) {
+        switch (groupId) {
+            case 'x':
+                dispatch(setXParam({type: paramType, valuesI, value}))
+                break;
+            case 'y':
+                dispatch(setYParam({type: paramType, valuesI, value}))
+                break;
+            case 'z':
+                dispatch(setZParam({type: paramType, valuesI, value}))
+                break;
+        }
+    }
     
     return (
         <>
@@ -58,9 +72,9 @@ export function Controller() {
             <div className={styles.container}>
                 {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
-                        <SliderGroup label="|0⟩" params={xParams} valuesI={0} />
-                        <SliderGroup label="|+⟩" params={yParams} valuesI={0} />
-                        <SliderGroup label="λ" params={zParams} valuesI={0} />
+                        <SliderGroup id="x" label="|0⟩" params={xParams} onChange={handleParamChange} />
+                        <SliderGroup id="y" label="|+⟩" params={yParams} onChange={handleParamChange} />
+                        <SliderGroup id="z" label="λ" params={zParams} onChange={handleParamChange} />
                     </section>
                 }
                 <section 
@@ -70,9 +84,9 @@ export function Controller() {
                 </section>
                 {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
-                        <SliderGroup label="|1⟩" params={xParams} valuesI={1} />
-                        <SliderGroup label="|-⟩" params={yParams} valuesI={1} />
-                        <SliderGroup label="λ" params={zParams} valuesI={1} />
+                        <SliderGroup id="x" label="|1⟩" params={xParams} valuesI={1} onChange={handleParamChange} />
+                        <SliderGroup id="y" label="|-⟩" params={yParams} valuesI={1} onChange={handleParamChange} />
+                        <SliderGroup id="z" label="λ" params={zParams} valuesI={1} onChange={handleParamChange} />
                     </section>
                 }
             </div>
