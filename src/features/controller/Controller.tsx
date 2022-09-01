@@ -67,11 +67,13 @@ export function Controller() {
                         <SliderGroup id="zParams" label="λ" params={zParams} onChange={handleParamChange} />
                     </section>
                 }
+                
                 <section 
                     className={`${styles.qubit} ${isFullScreen && styles.qubitFW}`}
                 >
                     <Qubit size={isFullScreen ? 500 : 350}/>
                 </section>
+                
                 {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
                         <SliderGroup id="xParams" label="|1⟩" params={xParams} valuesI={1} onChange={handleParamChange} />

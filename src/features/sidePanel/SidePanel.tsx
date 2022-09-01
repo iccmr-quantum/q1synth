@@ -1,6 +1,6 @@
 import React, { MouseEvent, useState, useEffect} from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { Sliders } from '../sliders/Sliders';
+import { SliderGroup } from '../sliderGroup/SliderGroup';
 import { Select } from '../select/Select';
 import { Input } from '../input/Input';
 import { Button } from '../buttons/Button';
@@ -9,8 +9,9 @@ import { getMode, getTimes, setTime, getDisabledStatus, getShouldRecord, setShou
 import { SynthType, synthTypes, setSynth, setCustomParams } from '../../synthesis/synthesisSlice';
 import { synthesisParams } from '../../synthesis/params';
 import { getMidiInputs, setActiveInput } from '../../midi/midiSlice';
-import styles from './SidePanel.module.css'
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
+import { getEnvParams, getModEnvParams, setParam } from '../../synthesis/synthesisSlice';
+import styles from './SidePanel.module.css'
 
 export function SidePanel() {
     const dispatch = useAppDispatch()
@@ -24,6 +25,8 @@ export function SidePanel() {
     const [show, setShow] = useState(false)
     // const [canScroll, setCanScroll] = useState(true)
     const shouldRecord = useAppSelector(getShouldRecord)
+    const envParams = useAppSelector(getEnvParams)
+    const modEnvParams = useAppSelector(getModEnvParams)
 
     useEffect(() => {
         const handleKeyDownRun = (e: KeyboardEvent) => e.code === 'Escape' && setShow(false) && e.preventDefault();
@@ -60,6 +63,10 @@ export function SidePanel() {
         dispatch(setCustomParams(synthesisParams[type]))
     }
 
+    function handleParamChange(key: string, type: string, valuesI: number, value: number) {
+        dispatch(setParam({key, type, valuesI, value}))
+    }
+
     return (
         <aside className={`${styles.sidePanel} ${show ? styles.sidePanelOpen : styles.sidePanelClosed}`}>
             <div className={`${styles.sidePanel__content} ${active === 0 && styles.contentActive}`}>
@@ -89,8 +96,10 @@ export function SidePanel() {
                         options={synthTypes.map((type) => ({id: type, label: type}))} 
                         onChange={handleChangeSynth}
                     />                    
-                    <Sliders group="env" title="Envelope"/>
-                    <Sliders group="modEnv" title="Modulation Envelope"/>                    
+
+                    <SliderGroup id="envParams" label="Envelope" params={envParams} onChange={handleParamChange} />
+                    <SliderGroup id="modEnvParams" label="Modulation Envelope" params={modEnvParams} onChange={handleParamChange} />
+
                     <Presets />
                     <div className={styles.measureContainer}>
                         <h2>Duration of Measurement</h2> 

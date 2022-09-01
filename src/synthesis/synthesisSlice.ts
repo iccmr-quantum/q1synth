@@ -18,7 +18,6 @@ export interface SynthesisState {
     params: {
         [key: string]: Param[]
     }
-    
 }
 
 const initialSynth = 'fm'
@@ -35,7 +34,19 @@ const initialState: SynthesisState = {
         zParams: [
             { type: 'reverb', min: 0, max: 1, step: 0, values: [0, 0] },
             { type: 'delay', min: 0, max: 1, step: 0, values: [0, 0] }
-        ]
+        ],
+        envParams: [
+            { type: 'attack', min: 0, max: 1, step: 0, values: [0.01] },
+            { type: 'decay', min: 0, max: 1, step: 0, values: [0.1] },
+            { type: 'sustain', min: 0, max: 1, step: 0, values: [0.5] },
+            { type: 'release', min: 0, max: 1, step: 0, values: [1] }
+        ],
+        modEnvParams: [
+            { type: 'attack', min: 0, max: 1, step: 0, values: [0.01] },
+            { type: 'decay', min: 0, max: 1, step: 0, values: [0.1] },
+            { type: 'sustain', min: 0, max: 1, step: 0, values: [0.5] },
+            { type: 'release', min: 0, max: 1, step: 0, values: [1] }
+        ],
     }
 };
 
@@ -61,12 +72,13 @@ export const getSynth = (state: RootState) => state.synthesis.synth;
 export const getXParams = (state: RootState) => state.synthesis.params.xParams;
 export const getYParams = (state: RootState) => state.synthesis.params.yParams;
 export const getZParams = (state: RootState) => state.synthesis.params.zParams;
+export const getEnvParams = (state: RootState) => state.synthesis.params.envParams;
+export const getModEnvParams = (state: RootState) => state.synthesis.params.modEnvParams;
 
 export const { 
     setSynth,
     setCustomParams,
     setParam,
 } = synthesisSlice.actions;
-
 
 export default synthesisSlice.reducer;
