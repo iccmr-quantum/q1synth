@@ -2,12 +2,14 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import dataReducer from '../data/dataSlice';
 import midiReducer from '../midi/midiSlice';
 import qasmReducer from '../qasm/qasmSlice';
+import synthesisReducer from '../synthesis/synthesisSlice';
 
 export const store = configureStore({
     reducer: {
         data: dataReducer,
         midi: midiReducer,
-        qasm: qasmReducer
+        qasm: qasmReducer,
+        synthesis: synthesisReducer
     },
 });
 
