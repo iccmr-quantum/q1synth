@@ -3,6 +3,7 @@
 import React, { MouseEvent, useEffect, useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Button } from '../buttons/Button';
+import { SliderGroup } from '../sliderGroup/SliderGroup';
 import { 
     // randomise,
     // setPreset,
@@ -22,6 +23,8 @@ import {
     // getShouldRecord
 } from '../../data/dataSlice';
 
+import { getXParams, getYParams, getZParams } from '../../synthesis/synthesisSlice';
+
 import styles from './Controller.module.css';
 
 export function Controller() {
@@ -30,6 +33,9 @@ export function Controller() {
     const disabled = useAppSelector(getDisabledStatus)
     const buttonActive = useAppSelector(getButtonActive);
     const isFullScreen = useAppSelector(getIsFullScreen)
+    const xParams = useAppSelector(getXParams)
+    const yParams = useAppSelector(getYParams)
+    const zParams = useAppSelector(getZParams)
 
     const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>()
 
@@ -51,7 +57,9 @@ export function Controller() {
             <div className={styles.container}>
                 {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
-                        {/* <Sliders group="leftA"/> */}
+                        <SliderGroup label="|0⟩" params={xParams} valuesI={0} />
+                        <SliderGroup label="|+⟩" params={yParams} valuesI={0} />
+                        <SliderGroup label="λ" params={zParams} valuesI={0} />
                     </section>
                 }
                 {/* <section 
@@ -61,7 +69,9 @@ export function Controller() {
                 </section> */}
                 {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
-                        {/* <Sliders group="rightA"/> */}
+                        <SliderGroup label="|1⟩" params={xParams} valuesI={1} invert={true} />
+                        <SliderGroup label="|-⟩" params={yParams} valuesI={1} invert={true} />
+                        <SliderGroup label="λ" params={zParams} valuesI={1} invert={true} />
                     </section>
                 }
             </div>
