@@ -3,6 +3,7 @@
 import React, { MouseEvent, useEffect, useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Button } from '../buttons/Button';
+import { Qubit } from '../qubit/Qubit';
 import { SliderGroup } from '../sliderGroup/SliderGroup';
 import { 
     // randomise,
@@ -62,16 +63,16 @@ export function Controller() {
                         <SliderGroup label="λ" params={zParams} valuesI={0} />
                     </section>
                 }
-                {/* <section 
+                <section 
                     className={`${styles.qubit} ${isFullScreen && styles.qubitFW}`}
                 >
                     <Qubit size={isFullScreen ? 500 : 350}/>
-                </section> */}
+                </section>
                 {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
-                        <SliderGroup label="|1⟩" params={xParams} valuesI={1} invert={true} />
-                        <SliderGroup label="|-⟩" params={yParams} valuesI={1} invert={true} />
-                        <SliderGroup label="λ" params={zParams} valuesI={1} invert={true} />
+                        <SliderGroup label="|1⟩" params={xParams} valuesI={1} />
+                        <SliderGroup label="|-⟩" params={yParams} valuesI={1} />
+                        <SliderGroup label="λ" params={zParams} valuesI={1} />
                     </section>
                 }
             </div>
