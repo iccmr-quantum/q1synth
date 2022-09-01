@@ -6,6 +6,7 @@ import { Input } from '../input/Input';
 import { Button } from '../buttons/Button';
 import { Presets } from '../presets/Presets';
 import { getMode, getTimes, setTime, getDisabledStatus, getShouldRecord, setShouldRecord } from '../../data/dataSlice';
+import { synthTypes, getSynth, setSynth } from '../../synthesis/synthesisSlice';
 import { getMidiInputs, setActiveInput } from '../../midi/midiSlice';
 import styles from './SidePanel.module.css'
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
@@ -18,6 +19,7 @@ export function SidePanel() {
     const midiInputs = useAppSelector(getMidiInputs)
     const useQasm = useAppSelector(getUseQasm)
     const qasmBackend = useAppSelector(getBackend)
+    const synth = useAppSelector(getSynth)
     const [active, setActive] = useState(0)
     const [show, setShow] = useState(false)
     // const [canScroll, setCanScroll] = useState(true)
@@ -76,6 +78,13 @@ export function SidePanel() {
                         className={`${styles.toggle} ${styles.toggle1} ${active === 1 && styles.toggleActive}`}
                         onClick={() => handleHideShow(1)}
                     >Config</span>
+                    <Select 
+                        title="Instrument" 
+                        options={synthTypes.map((type) => ({id: type, label: type}))} 
+                        onChange={() => console.log('hello')}
+                    />                    
+                    <Sliders group="env" title="Envelope"/>
+                    <Sliders group="modEnv" title="Modulation Envelope"/>                    
                     <Presets />
                     <div className={styles.measureContainer}>
                         <h2>Duration of Measurement</h2> 
@@ -100,8 +109,7 @@ export function SidePanel() {
                             />
                         ))}
                     </div>
-                    <Sliders group="env" title="Envelope"/>
-                    <Sliders group="modEnv" title="Modulation Envelope"/>
+
                     <Select 
                         title="MIDI" 
                         options={midiInputs.map(({id, name}) => ({id, label: name}))} 
