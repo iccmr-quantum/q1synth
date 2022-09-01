@@ -1,8 +1,12 @@
-import { Loop, Transport, getDestination, now, immediate } from "tone";
+import { Transport, Reverb, FeedbackDelay, immediate } from "tone";
 import { CtFMSynth, CtGranular, CtDualSynth } from "./ct-synths"; // TODO: replace this with node_module
+import { formatMutationParams } from "./utils";
+
+const reverb = new Reverb(4).toDestination()
+const delay = new FeedbackDelay('4n', 0.5)
 
 const synthesis = () => {
-    let synth
+    let synths = []
     let params = {n: 48, dur: 1, amp: 0.5}
     let synthType = 'fm'
     let duration = 1;
@@ -10,7 +14,13 @@ const synthesis = () => {
     
     Transport.scheduleRepeat((time) => {
         count++;
+        synths && synths.map(s => s.mutate(formatMutationParams(params), immediate(), 0.01));
+        synths = synths.slice(0, 4);
+        
         if(count%Math.floor(48/duration)) return
+
+        let synth;
+
         switch(synthType) {
             case 'fm':
                 synth = new CtFMSynth()
@@ -25,9 +35,9 @@ const synthesis = () => {
                 synth = new CtFMSynth()
                 break
         }
-        // TODO: connect to reverb and delay instead
-        synth.connect(getDestination())
-        synth.play(params, time)
+        synth.chain(delay, reverb)
+        synth.play(params, immediate())
+        synths.push(synth)
     }, "48n");
 
     return {
@@ -38,7 +48,8 @@ const synthesis = () => {
         },
         setParams: (ps) => {
             params = ps;
-            synth && synth.mutate(params);
+            ps.reverb && (reverb.wet.rampTo(ps.reverb, 0.1))
+            ps.delay && (delay.feedback.rampTo(ps.delay, 0.1))
         },
         setType: (type) => synthType = type,
         setDuration: (dur) => duration = dur,
