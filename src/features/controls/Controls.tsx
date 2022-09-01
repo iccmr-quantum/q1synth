@@ -28,7 +28,6 @@ import { getBackend, getIsCollapsing, getIsMeasuring, getQasmStatus } from '../.
 import { handleMeasure, MeasureArgs } from '../../qasm/measure';
 
 import styles from './Controls.module.css';
-import { is } from 'immer/dist/internal';
 import { mapToRange } from '../../functions/utils';
 
 export function Controls() {

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from "react-router-dom";
-import { Controls } from './features/controls/Controls';
+// import { Controls } from './features/controls/Controls';
+import { Controller } from './features/controller/Controller';
 import { SidePanel } from './features/sidePanel/SidePanel';
 import { Button } from './features/buttons/Button';
 import { Loading } from './features/loading/Loading';
@@ -89,7 +90,8 @@ function App() {
                         </div>
                     </div>
                 }
-                <Controls />
+                {/* <Controls /> */}
+                <Controller />
             </div>
             {!isFullScreen && <SidePanel /> }
             { isMeasuring && <Loading /> }
