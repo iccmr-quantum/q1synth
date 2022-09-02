@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 // import { Controls } from './features/controls/Controls';
 import { Controller } from './features/controller/Controller';
@@ -12,8 +12,9 @@ import {
     setData,
     getMode,
     setMode,
-    randomise,
+    // randomise,
 } from './data/dataSlice';
+import { randomise } from './synthesis/synthesisSlice';
 
 import { setUseQasm, setQasmStatus, getIsMeasuring } from './qasm/qasmSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
@@ -80,15 +81,11 @@ function App() {
                             >Simple</button> | <button
                                 className={`btn-mode ${mode === 'advanced' && 'btn-mode--active'}`}
                                 onClick={() => dispatch(setMode('advanced'))}
-                            >Advanced</button>
+                            >Advanced</button> | <button
+                            className={`btn-mode`}
+                            onClick={() => dispatch(randomise())}
+                            >?</button>
                         </div>
-                        
-                        {/* <div className='btn-randomise'>
-                            <Button 
-                                name="randomise"
-                                onClick={() => dispatch(randomise())}
-                            />
-                        </div> */}
                     </div>
                 }
                 {/* <Controls /> */}

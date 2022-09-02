@@ -94,7 +94,14 @@ export const synthesisSlice = createSlice({
             synthesis.setParams(formatSynthParams(state));
         },
         play: (state) => synthesis.play(formatSynthParams(state)),
-        stop: () => synthesis.stop()
+        stop: () => synthesis.stop(),
+        randomise: (state) => {
+            const { xParams, yParams, zParams } = state.params;
+            [...xParams, ...yParams, ...zParams].forEach((param: Param) => {
+                param.values = param.values.map(() => Math.random() * (param.max - param.min) + param.min)
+            })
+            synthesis.setParams(formatSynthParams(state));
+        }
     }
 });
 
@@ -112,7 +119,8 @@ export const {
     setParam,
     setQubit,
     play,
-    stop
+    stop,
+    randomise
 } = synthesisSlice.actions;
 
 /**

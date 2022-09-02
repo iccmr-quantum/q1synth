@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { getQubit, Coordinates } from '../../synthesis/synthesisSlice';
 import { degreesToRadians as dtr } from '../../functions/utils';

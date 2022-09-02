@@ -66,7 +66,10 @@ const synthesis = () => {
             count = -1
             Transport.pause()
         },
-        setParams: ps => params = ps,
+        setParams: ps => {
+            console.log(ps)
+            params = ps
+        },
         mutateParams: ps => {
             synths && synths.map(s => s.mutate(formatMutationParams(params), immediate(), 0));
             reverb.wet.rampTo(ps.reverb, 0.1)
