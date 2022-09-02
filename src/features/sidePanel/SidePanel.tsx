@@ -10,7 +10,8 @@ import { SynthType, synthTypes, setSynth, setCustomParams } from '../../synthesi
 import { synthesisParams } from '../../synthesis/params';
 import { getMidiInputs, setActiveInput } from '../../midi/midiSlice';
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
-import { getEnvParams, getModEnvParams, setParam } from '../../synthesis/synthesisSlice';
+import { getSynth, getEnvParams, getModEnvParams, setParam } from '../../synthesis/synthesisSlice';
+import synthesis from '../../synthesis/synthesis';
 import styles from './SidePanel.module.css'
 
 export function SidePanel() {
@@ -27,6 +28,7 @@ export function SidePanel() {
     const shouldRecord = useAppSelector(getShouldRecord)
     const envParams = useAppSelector(getEnvParams)
     const modEnvParams = useAppSelector(getModEnvParams)
+    const synth = useAppSelector(getSynth)
 
     useEffect(() => {
         const handleKeyDownRun = (e: KeyboardEvent) => e.code === 'Escape' && setShow(false) && e.preventDefault();
@@ -67,6 +69,11 @@ export function SidePanel() {
         dispatch(setParam({key, type, valuesI, value}))
     }
 
+    function handleChangeSample(e: React.ChangeEvent<HTMLSelectElement>) {
+        const sampleI = e.target.value
+        synthesis.setBuffer(sampleI)
+    }
+
     return (
         <aside className={`${styles.sidePanel} ${show ? styles.sidePanelOpen : styles.sidePanelClosed}`}>
             <div className={`${styles.sidePanel__content} ${active === 0 && styles.contentActive}`}>
@@ -98,7 +105,25 @@ export function SidePanel() {
                     />                    
 
                     <SliderGroup id="envParams" label="Envelope" params={envParams} onChange={handleParamChange} />
-                    <SliderGroup id="modEnvParams" label="Modulation Envelope" params={modEnvParams} onChange={handleParamChange} />
+                    
+                    {
+                        synth !== 'granular' && 
+                        <SliderGroup 
+                            id="modEnvParams" 
+                            label={`${synth === 'fm' ? 'Modulation' : 'Filter'} Envelope`}
+                            params={modEnvParams} 
+                            onChange={handleParamChange} 
+                        />
+                    }
+                    
+                    {
+                        synth === 'granular' &&
+                        <Select 
+                            title="Sample" 
+                            options={synthesis.buffers.map((name: string, i: number) => ({id: i.toString(), label: name}))} 
+                            onChange={handleChangeSample}
+                        />   
+                    }
 
                     <Presets />
                     <div className={styles.measureContainer}>

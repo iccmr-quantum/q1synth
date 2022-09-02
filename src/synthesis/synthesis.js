@@ -1,4 +1,4 @@
-import { Transport, Reverb, FeedbackDelay, immediate, Limiter,  } from "tone";
+import { Transport, Reverb, FeedbackDelay, immediate, Limiter, ToneAudioBuffer} from "tone";
 import { CtFMSynth, CtGranular, CtDualSynth } from "./ct-synths"; // TODO: replace this with node_module
 import { beatsToSeconds, formatMutationParams } from "./utils";
 
@@ -6,12 +6,24 @@ const limiter = new Limiter(-1).toDestination()
 const reverb = new Reverb(4).connect(limiter)
 const delay = new FeedbackDelay('4n', 0.5).connect(reverb)
 
+const urls = [
+    'https://tonejs.github.io/audio/berklee/arpeggio3crazy.mp3',
+    'https://tonejs.github.io/audio/berklee/taps_1c.mp3',
+    'https://tonejs.github.io/audio/berklee/tinkle3.mp3',
+    'https://tonejs.github.io/audio/berklee/tapping1.mp3',
+    'https://tonejs.github.io/audio/berklee/gong_1.mp3',
+    'https://tonejs.github.io/audio/berklee/gurgling_theremin_1.mp3'
+]
+const samples = urls.map(url => url.substring(url.lastIndexOf('/') + 1))
+const buffers = urls.map(url => new ToneAudioBuffer(url))
+
 const synthesis = () => {
     let synths = []
-    let params = {n: 48, reverb: 0, delay: 0}
+    let params = {n: 48, reverb: 0, delay: 0, pan: 0}
     let synthType = 'fm'
     let duration = 1;
     let count = -1
+    let buffer = 0
     
     Transport.scheduleRepeat((time) => {
         count++;
@@ -29,7 +41,7 @@ const synthesis = () => {
                 synth = new CtFMSynth(params)
                 break
             case 'granular':
-                synth = new CtGranular(params)
+                synth = new CtGranular(buffers[buffer], params)
                 break
             case 'subtractive':
                 synth = new CtDualSynth(params)
@@ -62,6 +74,8 @@ const synthesis = () => {
         },
         setType: (type) => synthType = type,
         setDuration: (dur) => duration = dur,
+        setBuffer: (i) => buffer = i,
+        buffers: samples
     }
 }
 

@@ -29,7 +29,7 @@ async function startAudio() : Promise<void> {
     console.log('starting audio')
     await Tone.start()
     console.log('audio is running')
-    Tone.context.lookAhead = 0.01
+    Tone.context.lookAhead = 0.1
     window.removeEventListener('click', startAudio)
 }
 

@@ -29,6 +29,7 @@ export interface SynthesisState {
     params: {
         [key: string]: Param[]
     }
+    sample: number
 }
 
 const initialSynth = 'fm'
@@ -43,7 +44,6 @@ const initialState: SynthesisState = {
     params: {
         xParams: [
             { type: 'note', id: 'n', min: 0, max: 7, step: 1, values: [0, 7] },
-            { type: 'detune', id: 'detune', min: -12000, max: 12000, step: 0, values: [0, 0] },
             { type: 'gain', id: 'amp', min: 0, max: 1, step: 0, values: [0.75, 1] },
             { type: 'octave', id: 'oct', min: 1, max: 10, step: 1, values: [5, 5] },
         ],
@@ -52,6 +52,7 @@ const initialState: SynthesisState = {
             { type: 'reverb', id: 'reverb', min: 0, max: 1, step: 0, values: [0, 0] },
             { type: 'delay', id: 'delay', min: 0, max: 1, step: 0, values: [0, 0] },
             { type: 'crush', id: 'crush', min: 0, max: 1, step: 0, values: [0, 0] },
+            { type: 'pan', id: 'pan', min: -1, max: 1, step: 0, values: [0, 0] },
         ],
         envParams: [
             { type: 'attack', id: 'a', min: 0, max: 1, step: 0, values: [0.1] },
@@ -60,12 +61,13 @@ const initialState: SynthesisState = {
             { type: 'release', id: 'r', min: 0, max: 1, step: 0, values: [1] }
         ],
         modEnvParams: [
-            { type: 'attack', id: 'moda', min: 0, max: 1, step: 0, values: [0.1] },
+            { type: 'attack', id: 'moda', min: 0, max: 1, step: 0, values: [0] },
             { type: 'decay', id: 'modd', min: 0, max: 1, step: 0, values: [0.2] },
             { type: 'sustain', id: 'mods', min: 0, max: 1, step: 0, values: [0.5] },
             { type: 'release', id: 'modr', min: 0, max: 1, step: 0, values: [1] }
         ],
-    }
+    },
+    sample: 0
 };
 
 export const synthesisSlice = createSlice({
