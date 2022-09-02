@@ -2,7 +2,7 @@
 import { Param } from './synthesisSlice'
 
 export const granularParams: Param[] = [
-    { type: 'rate', id: 'rate', min: 0.5, max: 4, step: 0, values: [0.5, 4] },
+    { type: 'rate', id: 'rate', min: 0.25, max: 4, step: 0, values: [0.25, 4] },
     { type: 'size', id: 'size', min: 0.05, max: 1, step: 0, values: [0.05, 1] },
     { type: 'overlap', id: 'overlap', min: 0.1, max: 1, step: 0, values: [0, 0.5] },
 ]

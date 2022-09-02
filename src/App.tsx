@@ -83,12 +83,12 @@ function App() {
                             >Advanced</button>
                         </div>
                         
-                        <div className='btn-randomise'>
+                        {/* <div className='btn-randomise'>
                             <Button 
                                 name="randomise"
                                 onClick={() => dispatch(randomise())}
                             />
-                        </div>
+                        </div> */}
                     </div>
                 }
                 {/* <Controls /> */}
