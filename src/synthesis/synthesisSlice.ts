@@ -53,6 +53,8 @@ const initialState: SynthesisState = {
             { type: 'delay', id: 'delay', min: 0, max: 1, step: 0, values: [0, 0] },
             { type: 'crush', id: 'crush', min: 0, max: 1, step: 0, values: [0, 0] },
             { type: 'pan', id: 'pan', min: -1, max: 1, step: 0, values: [0, 0] },
+            { type: 'hicut', id: 'hicut', min: 100, max: 20000, step: 0, values: [20000, 20000] },
+            { type: 'locut', id: 'locut', min: 0, max: 5000, step: 0, values: [0, 0] },
         ],
         envParams: [
             { type: 'attack', id: 'a', min: 0, max: 1, step: 0, values: [0.1] },
