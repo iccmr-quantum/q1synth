@@ -37,7 +37,8 @@ function App() {
     
     // enable midi | dispatch state string if exists | connect to python server if exists
     useEffect(() => {
-        dispatch(enableMidi())
+        // TODO: reinstate midi
+        // dispatch(enableMidi())
 
         window.qusynth && dispatch(setData(window.qusynth));
 

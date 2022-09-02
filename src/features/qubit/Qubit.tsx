@@ -2,11 +2,15 @@ import React, { useState, useRef, MouseEvent, TouchEvent } from 'react'
 import { ReactP5Wrapper, Sketch } from "react-p5-wrapper";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { 
-    getQubit, 
+    // getQubit, 
     setControl, 
     getMode,
     setQubitState
 } from '../../data/dataSlice';
+import {
+    getQubit,
+    setQubit,
+} from '../../synthesis/synthesisSlice';
 import { mapToRange } from '../../functions/utils';
 import { getIsCollapsing } from '../../qasm/qasmSlice';
 import { DataStream } from '../dataStream/DataStream';
@@ -19,9 +23,7 @@ const sketch: Sketch = p => {
     let size = 350;
     let radius = 130
 
-    const resize = (w: number, h: number) => {
-        p.resizeCanvas(w, h)
-    }
+    const resize = (w: number, h: number) => p.resizeCanvas(w, h)
 
     p.setup = () => p.createCanvas(size, size, p.WEBGL)
 
@@ -45,13 +47,13 @@ const sketch: Sketch = p => {
         p.push()
         p.rotateY(-45)
         p.rotateX(90)
-        p.cylinder(2, 2* radius) // x axis
+        p.cylinder(2, 2 * radius) // x axis
         p.pop()
 
         p.push()
         p.rotateY(45)
         p.rotateX(90)
-        p.cylinder(2, 2* radius) // y axis
+        p.cylinder(2, 2 * radius) // y axis
         p.pop()
 
         p.push()
@@ -122,14 +124,13 @@ export function Qubit({size = 350} : QubitProps) {
         if(!isClicked || mode === 'presentation' || isCollapsing) return
 
         const { left, top, width, height } = getQubitDimensions()
-        const x = clientX - left
-        const y = clientY - top
-        if(e.shiftKey) {
-            dispatch(setControl({group: 'qubit', key: 'z', value: mapToRange((x/width), 0, 1, -1, 1)}));
-        } else {
-            dispatch(setControl({group: 'qubit', key: 'x', value: mapToRange((y/height), 0, 1, -1, 1)}));
-            dispatch(setControl({group: 'qubit', key: 'y', value: mapToRange((x/width), 0, 1, -1, 1)}));
-        }
+        const xPos = clientX - left
+        const yPos = clientY - top
+        const qubit = e.shiftKey
+            ? {x, y, z: mapToRange((xPos/width), 0, 1, -1, 1)}
+            : {x: mapToRange((yPos/width), 0, 1, -1, 1), y: mapToRange((xPos/height), 0, 1, -1, 1), z}
+        
+        dispatch(setQubit(qubit))
     }
 
     const handleStateClick = (e: MouseEvent, id: string) => {
@@ -164,9 +165,9 @@ export function Qubit({size = 350} : QubitProps) {
             ))}
             <ReactP5Wrapper 
                 sketch={sketch} 
-                x={x.value * -180}
-                y={y.value * 180}
-                z={z.value * 180}
+                x={x * -180}
+                y={y * 180}
+                z={z * 180}
                 size={window.innerWidth < 450 ? window.innerWidth - 100 : size}
             />
             <DataStream />

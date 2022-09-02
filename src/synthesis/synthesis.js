@@ -37,7 +37,7 @@ const synthesis = () => {
                 break
         }
         synth.connect(delay)
-        synth.play(params, immediate())
+        synth.play(params, time)
         synths.push(synth)
         synths.map(s => s.mutate(formatMutationParams(params), immediate(), 0));
     }, "128n");
@@ -46,7 +46,7 @@ const synthesis = () => {
         play: () => Transport.start(),
         stop: () => {
             count = -1
-            Transport.stop()
+            Transport.pause()
         },
         setParams: (ps) => {
             params = ps;

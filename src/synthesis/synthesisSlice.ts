@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { format } from 'util';
 import { RootState } from '../app/store';
 import { synthesisParams } from './params';
+import { blendBetweenValues, mapToRange } from '../functions/utils';
 import synthesis from './synthesis';
 
 // These should remain in sync
 export type SynthType = 'fm' | 'granular' | 'subtractive'
 export const synthTypes = ['fm', 'granular', 'subtractive']
+
 export interface Param {
     type: string
     id: string
@@ -15,8 +16,14 @@ export interface Param {
     step: number
     values: number[]
 }
+
 export interface SynthesisState {
     synth: SynthType
+    qubit: {
+        x: number
+        y: number
+        z: number
+    }
     params: {
         [key: string]: Param[]
     }
@@ -26,6 +33,11 @@ const initialSynth = 'fm'
 
 const initialState: SynthesisState = {
     synth: initialSynth,
+    qubit: {
+        x: 0,
+        y: 0,
+        z: 0
+    },
     params: {
         xParams: [
             { type: 'note', id: 'n', min: 0, max: 7, step: 1, values: [0, 7] },
@@ -68,6 +80,12 @@ export const synthesisSlice = createSlice({
             const param = state.params[key].find(p => p.type === type);
             param && (param.values[valuesI] = value);
             // TODO: calculate based on qubit position
+            console.log(formatSynthParams(state))
+            synthesis.setParams(formatSynthParams(state));
+        },
+        setQubit: (state, action: PayloadAction<{x: number, y: number, z: number}>) => {
+            state.qubit = action.payload;
+            console.log(formatSynthParams(state))
             synthesis.setParams(formatSynthParams(state));
         }
     }
@@ -79,27 +97,58 @@ export const getYParams = (state: RootState) => state.synthesis.params.yParams;
 export const getZParams = (state: RootState) => state.synthesis.params.zParams;
 export const getEnvParams = (state: RootState) => state.synthesis.params.envParams;
 export const getModEnvParams = (state: RootState) => state.synthesis.params.modEnvParams;
+export const getQubit = (state: RootState) => state.synthesis.qubit;
 
 export const { 
     setSynth,
     setCustomParams,
     setParam,
+    setQubit
 } = synthesisSlice.actions;
 
+/**
+ * Any final scaling of the param value should be done here
+**/
 function sanitiseParam(key: string, value: number) {
     switch(key) {
         case 'n':
-            return [0,2,3,5,7,9,10,12][value] + 36
+            // TODO: add in more scales?
+            return [0,2,3,5,7,9,10,12][Math.floor(value)] + 36
         default:
             return value;
     }
 }
 
+/**
+ * Calculate a synth param based on the qubit position
+**/
+function calculateParamValue(param: Param, angle: number) {
+    const { values } = param;
+    const interpolatedValue = blendBetweenValues(angle, values, [0, 180])
+    return {id: param.id, value: interpolatedValue}
+}
+
+/**
+ * Format synth params into the shape required by CtSynths package
+**/
 function formatSynthParams(state: SynthesisState) {
-    const { params } = state;
-    const flattened = [...params.xParams, ...params.yParams, ...params.zParams, ...params.envParams, ...params.modEnvParams];
-    return Object.values(flattened).reduce((obj, param) => {
-        return { ...obj, [param.id]: sanitiseParam(param.id, param.values[0]) }; // TODO: calculate based on qubit position
+    const { params, qubit } = state;
+    const x = mapToRange(qubit.x, -1, 1, 0, 360);
+    const y = mapToRange(qubit.y, -1, 1, 0, 360);
+    const z = mapToRange(qubit.z, -1, 1, 0, 360);
+    const flattened = [
+        ...params.xParams.map(p => calculateParamValue(p, x)),
+        ...params.yParams.map(p => calculateParamValue(p, y)),
+        ...params.zParams.map(p => calculateParamValue(p, z)),
+        ...params.envParams.map(p => ({id: p.id, value: p.values[0]})),
+        ...params.modEnvParams.map(p => ({id: p.id, value: p.values[0]})),
+    ];
+    
+    return Object.values(flattened).reduce((obj, {id, value}) => {
+        return { 
+            ...obj, 
+            [id]: sanitiseParam(id, value) 
+        }; // TODO: calculate based on qubit position
     }, {})
 }
 
