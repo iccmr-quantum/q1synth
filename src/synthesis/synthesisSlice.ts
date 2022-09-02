@@ -45,11 +45,13 @@ const initialState: SynthesisState = {
             { type: 'note', id: 'n', min: 0, max: 7, step: 1, values: [0, 7] },
             { type: 'detune', id: 'detune', min: -12000, max: 12000, step: 0, values: [0, 0] },
             { type: 'gain', id: 'amp', min: 0, max: 1, step: 0, values: [0.75, 1] },
+            { type: 'octave', id: 'oct', min: 1, max: 10, step: 1, values: [5, 5] },
         ],
         yParams: synthesisParams[initialSynth],
         zParams: [
             { type: 'reverb', id: 'reverb', min: 0, max: 1, step: 0, values: [0, 0] },
-            { type: 'delay', id: 'delay', min: 0, max: 1, step: 0, values: [0, 0] }
+            { type: 'delay', id: 'delay', min: 0, max: 1, step: 0, values: [0, 0] },
+            { type: 'crush', id: 'crush', min: 0, max: 1, step: 0, values: [0, 0] },
         ],
         envParams: [
             { type: 'attack', id: 'a', min: 0, max: 1, step: 0, values: [0.1] },
@@ -87,14 +89,8 @@ export const synthesisSlice = createSlice({
             state.qubit = action.payload;
             synthesis.setParams(formatSynthParams(state));
         },
-        play: (state) => {
-            console.log(formatSynthParams(state))
-            synthesis.setParams(formatSynthParams(state));
-            synthesis.play();
-        },
-        stop: () => {
-            synthesis.stop();
-        }
+        play: (state) => synthesis.play(formatSynthParams(state)),
+        stop: () => synthesis.stop()
     }
 });
 
@@ -123,6 +119,8 @@ function sanitiseParam(key: string, value: number) {
         case 'n':
             // TODO: add in more scales?
             return [0,2,3,5,7,9,10,12][Math.floor(value)] + 36
+        case 'crush':
+            return mapToRange(value, 0, 1, 16, 4)
         default:
             return value;
     }

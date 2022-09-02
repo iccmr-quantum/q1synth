@@ -8,14 +8,16 @@ const delay = new FeedbackDelay('4n', 0.5).connect(reverb)
 
 const synthesis = () => {
     let synths = []
-    let params = {n: 48}
+    let params = {n: 48, reverb: 0, delay: 0}
     let synthType = 'fm'
     let duration = 1;
     let count = -1
     
     Transport.scheduleRepeat((time) => {
         count++;
-        synths && synths.map(s => s.mutate(formatMutationParams(params), immediate(), 0));
+        synths && synths.map(s => s.mutate(formatMutationParams(params), immediate(), 0.01));
+        reverb.wet.rampTo(params.reverb, 0.1)
+        delay.feedback.rampTo(params.delay, 0.1)
         synths = synths.slice(-4);
         
         if(count%Math.floor(128/duration)) return
@@ -24,32 +26,36 @@ const synthesis = () => {
 
         switch(synthType) {
             case 'fm':
-                synth = new CtFMSynth()
+                synth = new CtFMSynth(params)
                 break
             case 'granular':
-                synth = new CtGranular()
+                synth = new CtGranular(params)
                 break
             case 'subtractive':
-                synth = new CtDualSynth()
+                synth = new CtDualSynth(params)
                 break
             default:
-                synth = new CtFMSynth()
+                synth = new CtFMSynth(params)
                 break
         }
         synth.connect(delay)
         synth.play({...params, dur: beatsToSeconds((1/duration) * 4)}, time)
         synths.push(synth)
-        synths.map(s => s.mutate(formatMutationParams(params), immediate(), 0));
     }, "128n");
 
     return {
-        play: () => Transport.start(),
+        play: (ps) => {
+            params = ps
+            reverb.wet.rampTo(ps.reverb, 0.1)
+            delay.feedback.rampTo(ps.delay, 0.1)
+            Transport.start()
+        },
         stop: () => {
             count = -1
             Transport.pause()
         },
-        setParams: (ps) => {
-            params = ps;
+        setParams: ps => params = ps,
+        mutateParams: ps => {
             synths && synths.map(s => s.mutate(formatMutationParams(params), immediate(), 0));
             reverb.wet.rampTo(ps.reverb, 0.1)
             delay.feedback.rampTo(ps.delay, 0.1)
