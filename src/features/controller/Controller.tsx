@@ -25,8 +25,7 @@ import {
     // getShouldRecord
 } from '../../data/dataSlice';
 
-import { getXParams, getYParams, getZParams, setParam } from '../../synthesis/synthesisSlice';
-import synthesis from '../../synthesis/synthesis';
+import { getXParams, getYParams, getZParams, setParam, play, stop } from '../../synthesis/synthesisSlice';
 
 import styles from './Controller.module.css';
 
@@ -49,12 +48,11 @@ export function Controller() {
 
     function togglePlay() {
         setIsPlaying(!isPlaying)
-        isPlaying ? synthesis.stop() : synthesis.play()
+        isPlaying ? dispatch(stop()) : dispatch(play())
     }
     
     return (
         <>
-        
             <div className={styles.container}>
                 {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>

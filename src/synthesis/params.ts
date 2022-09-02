@@ -8,8 +8,8 @@ export const granularParams: Param[] = [
 ]
 
 export const fmParams: Param[] = [
-    { type: 'modi', id: 'modi', min: 0, max: 20, step: 0, values: [0, 20] },
-    { type: 'harm', id: 'harm', min: 0.25, max: 10, step: 0.25, values: [0, 10] },
+    { type: 'modi', id: 'modi', min: 0, max: 20, step: 0, values: [5, 20] },
+    { type: 'harm', id: 'harm', min: 0.25, max: 10, step: 0.25, values: [2, 10] },
 ]
 
 export const subtractiveParams: Param[] = [

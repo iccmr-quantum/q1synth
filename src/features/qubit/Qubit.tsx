@@ -2,12 +2,12 @@ import React, { useState, useRef, MouseEvent, TouchEvent } from 'react'
 import { ReactP5Wrapper, Sketch } from "react-p5-wrapper";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { 
-    // getQubit, 
     setControl, 
     getMode,
     setQubitState
 } from '../../data/dataSlice';
 import {
+    Coordinates,
     getQubit,
     setQubit,
 } from '../../synthesis/synthesisSlice';
@@ -103,12 +103,12 @@ export function Qubit({size = 350} : QubitProps) {
     const qubitRef = useRef<null | HTMLDivElement>(null)
 
     const states = [
-        {id: '0', label: '0'},
-        {id: '1', label: '1'},
-        {id: 'minus', label: '-'},
-        {id: 'plus', label: '+'},
-        {id: 'i', label: 'i'},
-        {id: 'minusi', label: '-i'},
+        {id: '0', label: '0', qubit: {x: 0, y: 0, z: 0}},
+        {id: '1', label: '1', qubit: {x: 1, y: 0, z: 0}},
+        {id: 'minus', label: '-', qubit: {x: 0.5, y: 1, z: 0}},
+        {id: 'plus', label: '+', qubit: {x: 0.5, y: 0, z: 0}},
+        {id: 'i', label: 'i', qubit: {x: 0.5, y: 0.5, z: 0}},
+        {id: 'minusi', label: '-i', qubit: {x: 0.5, y: -0.5, z: 0}},
     ]
 
     const getQubitDimensions = () => {
@@ -133,10 +133,10 @@ export function Qubit({size = 350} : QubitProps) {
         dispatch(setQubit(qubit))
     }
 
-    const handleStateClick = (e: MouseEvent, id: string) => {
+    const handleStateClick = (e: MouseEvent, qubit: Coordinates) => {
         if(isCollapsing) return
         e.stopPropagation()
-        dispatch(setQubitState(id))
+        dispatch(setQubit(qubit))
     }
       
     return (
@@ -154,11 +154,11 @@ export function Qubit({size = 350} : QubitProps) {
                 handleMove(e, clientX, clientY)
             }}
         >
-            {states.map(({id, label}) => (
+            {states.map(({id, label, qubit}) => (
                 <span 
                     key={id} 
                     className={`${styles.label} ${styles['label' + id]}`}
-                    onClick={e => handleStateClick(e, id)}
+                    onClick={e => handleStateClick(e, qubit)}
                 >
                     {`|${label}⟩`}
                 </span>

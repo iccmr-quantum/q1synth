@@ -1,8 +1,8 @@
-import { Transport, Reverb, FeedbackDelay, immediate, Limiter } from "tone";
+import { Transport, Reverb, FeedbackDelay, immediate, Limiter,  } from "tone";
 import { CtFMSynth, CtGranular, CtDualSynth } from "./ct-synths"; // TODO: replace this with node_module
-import { formatMutationParams } from "./utils";
+import { beatsToSeconds, formatMutationParams } from "./utils";
 
-const limiter = new Limiter(-12).toDestination()
+const limiter = new Limiter(-1).toDestination()
 const reverb = new Reverb(4).connect(limiter)
 const delay = new FeedbackDelay('4n', 0.5).connect(reverb)
 
@@ -37,7 +37,7 @@ const synthesis = () => {
                 break
         }
         synth.connect(delay)
-        synth.play(params, time)
+        synth.play({...params, dur: beatsToSeconds((1/duration) * 4)}, time)
         synths.push(synth)
         synths.map(s => s.mutate(formatMutationParams(params), immediate(), 0));
     }, "128n");
@@ -51,8 +51,8 @@ const synthesis = () => {
         setParams: (ps) => {
             params = ps;
             synths && synths.map(s => s.mutate(formatMutationParams(params), immediate(), 0));
-            ps.reverb && (reverb.wet.rampTo(ps.reverb, 0.1))
-            ps.delay && (delay.feedback.rampTo(ps.delay, 0.1))
+            reverb.wet.rampTo(ps.reverb, 0.1)
+            delay.feedback.rampTo(ps.delay, 0.1)
         },
         setType: (type) => synthType = type,
         setDuration: (dur) => duration = dur,

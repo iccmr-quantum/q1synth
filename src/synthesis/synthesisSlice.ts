@@ -17,13 +17,15 @@ export interface Param {
     values: number[]
 }
 
+export interface Coordinates {
+    x: number
+    y: number
+    z: number
+}
+
 export interface SynthesisState {
     synth: SynthType
-    qubit: {
-        x: number
-        y: number
-        z: number
-    }
+    qubit: Coordinates
     params: {
         [key: string]: Param[]
     }
@@ -41,8 +43,8 @@ const initialState: SynthesisState = {
     params: {
         xParams: [
             { type: 'note', id: 'n', min: 0, max: 7, step: 1, values: [0, 7] },
-            { type: 'detune', id: 'detune', min: -12000, max: 12000, step: 0, values: [-12000, 12000] },
-            { type: 'gain', id: 'amp', min: 0, max: 1, step: 0, values: [0, 1] },
+            { type: 'detune', id: 'detune', min: -12000, max: 12000, step: 0, values: [0, 0] },
+            { type: 'gain', id: 'amp', min: 0, max: 1, step: 0, values: [0.75, 1] },
         ],
         yParams: synthesisParams[initialSynth],
         zParams: [
@@ -79,14 +81,19 @@ export const synthesisSlice = createSlice({
             const { key, type, valuesI, value } = action.payload;
             const param = state.params[key].find(p => p.type === type);
             param && (param.values[valuesI] = value);
-            // TODO: calculate based on qubit position
-            console.log(formatSynthParams(state))
             synthesis.setParams(formatSynthParams(state));
         },
-        setQubit: (state, action: PayloadAction<{x: number, y: number, z: number}>) => {
+        setQubit: (state, action: PayloadAction<Coordinates>) => {
             state.qubit = action.payload;
+            synthesis.setParams(formatSynthParams(state));
+        },
+        play: (state) => {
             console.log(formatSynthParams(state))
             synthesis.setParams(formatSynthParams(state));
+            synthesis.play();
+        },
+        stop: () => {
+            synthesis.stop();
         }
     }
 });
@@ -103,7 +110,9 @@ export const {
     setSynth,
     setCustomParams,
     setParam,
-    setQubit
+    setQubit,
+    play,
+    stop
 } = synthesisSlice.actions;
 
 /**
@@ -148,7 +157,7 @@ function formatSynthParams(state: SynthesisState) {
         return { 
             ...obj, 
             [id]: sanitiseParam(id, value) 
-        }; // TODO: calculate based on qubit position
+        }; 
     }, {})
 }
 
