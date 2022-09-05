@@ -30,33 +30,17 @@ export function Controller() {
     const dispatch = useAppDispatch()
     const mode = useAppSelector(getMode)
     const disabled = useAppSelector(getDisabledStatus)
-    const buttonActive = useAppSelector(getButtonActive);
     const isFullScreen = useAppSelector(getIsFullScreen)
     const xParams = useAppSelector(getXParams)
     const yParams = useAppSelector(getYParams)
     const zParams = useAppSelector(getZParams)
-    const { x, y, z } = useAppSelector(getQubit) 
     const time = useAppSelector(getTime)
     const storedDestination = useAppSelector(getDestination)
     const useQasm = useAppSelector(getQasmStatus)
     const backend = useAppSelector(getBackend)
     const mintData = useAppSelector(getMintData)
     const shouldRecord = useAppSelector(getShouldRecord)
-
-    const measureArgs: MeasureArgs = {
-        x: x * 180,
-        y: y * 180,
-        z: z * 180,
-        time,
-        mode,
-        isFullScreen,
-        storedDestination,
-        useQasm,
-        mintData,
-        backend,
-        shouldRecord,
-        dispatch
-    }
+    const { x, y, z } = useAppSelector(getQubit)  // this is causing performance issues
 
     const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>()
     const [isPlaying, setIsPlaying] = useState(false)
@@ -72,6 +56,22 @@ export function Controller() {
     }
 
     function handleMeasureClick() {
+    
+        const measureArgs: MeasureArgs = {
+            x: x * 180,
+            y: y * 180,
+            z: z * 180,
+            time,
+            mode,
+            isFullScreen,
+            storedDestination,
+            useQasm,
+            mintData,
+            backend,
+            shouldRecord,
+            dispatch
+        }
+
         !isPlaying && dispatch(play());
         setIsPlaying(false)
         setIsMeasuring(true)
@@ -114,14 +114,14 @@ export function Controller() {
                     isActive={isPlaying}
                     disabled={disabled}
                 />}
-                {/* <Button 
+                <Button 
                     name="measure"
                     activeName="measure"
                     onClick={handleMeasureClick}
                     isActive={isMeasuring}
                     disabled={disabled}
                     setButtonRef={setButtonRef}
-                /> */}
+                />
             </div>
         
         </>

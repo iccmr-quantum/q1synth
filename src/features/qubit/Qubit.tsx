@@ -14,6 +14,7 @@ import {
 import { mapToRange } from '../../functions/utils';
 import { getIsCollapsing } from '../../qasm/qasmSlice';
 import { DataStream } from '../dataStream/DataStream';
+import { debounce } from 'lodash'
 import styles from './Qubit.module.css';
 
 const sketch: Sketch = p => {
@@ -120,7 +121,7 @@ export function Qubit({size = 350} : QubitProps) {
         return { left, top, width, height }
     }
 
-    const handleMove = (e: MouseEvent | TouchEvent<HTMLDivElement>, clientX: number, clientY: number) => {
+    let handleMove = (e: MouseEvent | TouchEvent<HTMLDivElement>, clientX: number, clientY: number) => {
         if(!isClicked || mode === 'presentation' || isCollapsing) return
 
         const { left, top, width, height } = getQubitDimensions()
@@ -132,6 +133,8 @@ export function Qubit({size = 350} : QubitProps) {
         
         dispatch(setQubit(qubit))
     }
+
+    handleMove = debounce(handleMove, 5)
 
     const handleStateClick = (e: MouseEvent, qubit: Coordinates) => {
         if(isCollapsing) return
