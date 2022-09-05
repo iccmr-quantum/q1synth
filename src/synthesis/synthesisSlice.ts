@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 import { synthesisParams } from './params';
-import { blendBetweenValues, mapToRange } from '../functions/utils';
+import { blendBetweenValues, mapToRange, roundToNearestX } from '../functions/utils';
 import synthesis from './synthesis';
 
 // These should remain in sync
@@ -45,7 +45,7 @@ const initialState: SynthesisState = {
         xParams: [
             { type: 'note', id: 'n', min: 0, max: 7, step: 1, values: [0, 7] },
             { type: 'gain', id: 'amp', min: 0, max: 1, step: 0, values: [0.75, 1] },
-            { type: 'octave', id: 'oct', min: 1, max: 10, step: 1, values: [5, 5] },
+            { type: 'octave', id: 'oct', min: 3, max: 7, step: 1, values: [5, 5] },
         ],
         yParams: synthesisParams[initialSynth],
         zParams: [
@@ -86,7 +86,7 @@ export const synthesisSlice = createSlice({
         setParam: (state, action: PayloadAction<{key: string, type: string, valuesI: number, value: number}>) => {
             const { key, type, valuesI, value } = action.payload;
             const param = state.params[key].find(p => p.type === type);
-            param && (param.values[valuesI] = value);
+            param && (param.values[valuesI] = formatValue(value, param.step));
             synthesis.setParams(formatSynthParams(state));
         },
         setQubit: (state, action: PayloadAction<Coordinates>) => {
@@ -96,10 +96,18 @@ export const synthesisSlice = createSlice({
         play: (state) => synthesis.play(formatSynthParams(state)),
         stop: () => synthesis.stop(),
         randomise: (state) => {
-            const { xParams, yParams, zParams } = state.params;
-            [...xParams, ...yParams, ...zParams].forEach((param: Param) => {
-                param.values = param.values.map(() => Math.random() * (param.max - param.min) + param.min)
+            const { xParams, yParams, zParams, envParams, modEnvParams } = state.params;
+            [...xParams, ...yParams, ...zParams, ...envParams, ...modEnvParams].forEach((param: Param) => {
+                if(['hicut', 'locut', 'gain'].includes(param.type)) return;
+
+                param.values = param.values.map(() => {
+                    return formatValue(
+                        Math.random() * (param.max - param.min) + param.min, 
+                        param.step
+                    )
+                })
             })
+
             synthesis.setParams(formatSynthParams(state));
         }
     }
@@ -122,6 +130,13 @@ export const {
     stop,
     randomise
 } = synthesisSlice.actions;
+
+/**
+ * Ensure params are rounded to step value or to 2 decimal places
+ */
+function formatValue(value: number, step: number) {
+    return step ? roundToNearestX(value, step) : Math.round(value * 100) / 100;
+}
 
 /**
  * Any final scaling of the param value should be done here

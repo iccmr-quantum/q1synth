@@ -44,3 +44,5 @@ export const tossCoin = () => Math.floor(Math.random() * 2) === 0
 export const tossWeightedCoin = (weightHeads: number) : boolean => Math.random() > weightHeads
 
 export const degreesToRadians = (degrees: number) => degrees * (Math.PI/180)
+
+export const roundToNearestX = (n: number, x: number) => x*Math.round(n/x)

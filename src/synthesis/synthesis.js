@@ -21,7 +21,7 @@ const synthesis = () => {
     let synths = []
     let params = {n: 48, reverb: 0, delay: 0, pan: 0}
     let synthType = 'fm'
-    let duration = 1;
+    let q = 128;
     let count = -1
     let buffer = 0
     
@@ -32,7 +32,7 @@ const synthesis = () => {
         delay.feedback.rampTo(params.delay, 0.1)
         synths = synths.slice(-4);
         
-        if(count%Math.floor(128/duration)) return
+        if(count%Math.floor(q)) return
 
         let synth;
 
@@ -51,9 +51,9 @@ const synthesis = () => {
                 break
         }
         synth.connect(delay)
-        synth.play({...params, dur: beatsToSeconds((1/duration) * 4)}, time)
+        synth.play({...params, dur: beatsToSeconds(4)}, time)
         synths.push(synth)
-    }, "128n");
+    }, `${q}n`);
 
     return {
         play: (ps) => {
@@ -67,7 +67,6 @@ const synthesis = () => {
             Transport.pause()
         },
         setParams: ps => {
-            console.log(ps)
             params = ps
         },
         mutateParams: ps => {
@@ -76,7 +75,6 @@ const synthesis = () => {
             delay.feedback.rampTo(ps.delay, 0.1)
         },
         setType: (type) => synthType = type,
-        setDuration: (dur) => duration = dur,
         setBuffer: (i) => buffer = i,
         buffers: samples
     }
