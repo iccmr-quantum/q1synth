@@ -7,27 +7,24 @@ import { Button } from '../buttons/Button';
 import { Qubit } from '../qubit/Qubit';
 import { SliderGroup } from '../sliderGroup/SliderGroup';
 import { 
-    // randomise,
     // setPreset,
     // setControl,
     getButtonActive, 
     getDisabledStatus, 
-    // getQubit,
-    // getSynthParams, 
-    // getTime, 
     getIsFullScreen, 
-    // getMintData, 
+    getMintData, 
     getMode,
     setButtonsDisabled, 
-    setButtonActive,
-    // getDestination,
-    // setTime,
-    // getShouldRecord
+    getTime,
+    getDestination,
+    getShouldRecord,
 } from '../../data/dataSlice';
 
-import { getXParams, getYParams, getZParams, setParam, play, stop } from '../../synthesis/synthesisSlice';
+import { getXParams, getYParams, getZParams, setParam, play, stop, getQubit } from '../../synthesis/synthesisSlice';
+import { getBackend, getIsCollapsing, getIsMeasuring, getQasmStatus } from '../../qasm/qasmSlice';
 
 import styles from './Controller.module.css';
+import { handleMeasure, MeasureArgs } from '../../qasm/measure';
 
 export function Controller() {
     const dispatch = useAppDispatch()
@@ -38,9 +35,32 @@ export function Controller() {
     const xParams = useAppSelector(getXParams)
     const yParams = useAppSelector(getYParams)
     const zParams = useAppSelector(getZParams)
+    const { x, y, z } = useAppSelector(getQubit) 
+    const time = useAppSelector(getTime)
+    const storedDestination = useAppSelector(getDestination)
+    const useQasm = useAppSelector(getQasmStatus)
+    const backend = useAppSelector(getBackend)
+    const mintData = useAppSelector(getMintData)
+    const shouldRecord = useAppSelector(getShouldRecord)
+
+    const measureArgs: MeasureArgs = {
+        x: x * 180,
+        y: y * 180,
+        z: z * 180,
+        time,
+        mode,
+        isFullScreen,
+        storedDestination,
+        useQasm,
+        mintData,
+        backend,
+        shouldRecord,
+        dispatch
+    }
 
     const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>()
     const [isPlaying, setIsPlaying] = useState(false)
+    const [isMeasuring, setIsMeasuring] = useState(false)
 
     function handleParamChange(key: string, type: string, valuesI: number, value: number) {
         dispatch(setParam({key, type, valuesI, value}))
@@ -49,6 +69,15 @@ export function Controller() {
     function togglePlay() {
         setIsPlaying(!isPlaying)
         isPlaying ? dispatch(stop()) : dispatch(play())
+    }
+
+    function handleMeasureClick() {
+        !isPlaying && dispatch(play());
+        setIsPlaying(false)
+        setIsMeasuring(true)
+        dispatch(setButtonsDisabled())
+
+        handleMeasure(measureArgs)
     }
     
     return (
@@ -85,14 +114,14 @@ export function Controller() {
                     isActive={isPlaying}
                     disabled={disabled}
                 />}
-                <Button 
+                {/* <Button 
                     name="measure"
-                    activeName="stop"
-                    onClick={() => null}
-                    isActive={buttonActive === 'measure'}
+                    activeName="measure"
+                    onClick={handleMeasureClick}
+                    isActive={isMeasuring}
                     disabled={disabled}
                     setButtonRef={setButtonRef}
-                />
+                /> */}
             </div>
         
         </>

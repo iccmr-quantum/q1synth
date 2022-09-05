@@ -93,6 +93,13 @@ export const synthesisSlice = createSlice({
             state.qubit = action.payload;
             synthesis.setParams(formatSynthParams(state));
         },
+        incrementQubitBy: (state, action: PayloadAction<Coordinates>) => {
+            const { x, y, z } = action.payload;
+            state.qubit.x += x
+            state.qubit.y += y
+            state.qubit.z += z
+            synthesis.setParams(formatSynthParams(state));
+        },
         play: (state) => synthesis.play(formatSynthParams(state)),
         stop: () => synthesis.stop(),
         randomise: (state) => {
@@ -126,6 +133,7 @@ export const {
     setCustomParams,
     setParam,
     setQubit,
+    incrementQubitBy,
     play,
     stop,
     randomise

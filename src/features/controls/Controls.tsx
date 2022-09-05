@@ -53,7 +53,7 @@ export function Controls() {
         z: qubit.z.value * 180,
         time,
         mode,
-        synthParams,
+        // synthParams,
         isFullScreen,
         storedDestination,
         useQasm,

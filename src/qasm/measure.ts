@@ -15,6 +15,8 @@ import {
     DataState, 
     Mode
 } from '../data/dataSlice';
+
+import { incrementQubitBy } from '../synthesis/synthesisSlice';
 import { send, receive } from './socket';
 
 export interface MeasureArgs {
@@ -23,7 +25,6 @@ export interface MeasureArgs {
     z: number 
     time: number
     mode: Mode
-    synthParams: SynthArgs
     isFullScreen: boolean
     storedDestination: number
     useQasm: boolean
@@ -77,7 +78,7 @@ function measure(
 }
 
 export async function handleMeasure(args: MeasureArgs) {
-    const { x, y, z, time, mode, synthParams, isFullScreen, storedDestination, useQasm, mintData, backend, shouldRecord, dispatch } = args
+    const { x, y, z, time, mode, isFullScreen, storedDestination, useQasm, mintData, backend, shouldRecord, dispatch } = args
     
     Tone.Transport.cancel(0)
     dispatch(setButtonsDisabled())
@@ -102,21 +103,19 @@ export async function handleMeasure(args: MeasureArgs) {
     const yStep = ((yDestination - y) / (time * 64))/180
     const zStep = ((zDestination - z) / (time * 64))/180
 
-    Tone.Transport.scheduleOnce(() => synth.play(synthParams, time, mode !== 'presentation' && shouldRecord), 0)
+    // Tone.Transport.scheduleOnce(() => synth.play(synthParams, time, mode !== 'presentation' && shouldRecord), 0)
     
     Tone.Transport.scheduleRepeat(() => {
-        dispatch(incrementXAxis(xStep))
-        dispatch(incrementYAxis(yStep))
-        dispatch(incrementZAxis(zStep))
+        dispatch(incrementQubitBy({x: xStep, y: yStep, z: zStep}))
     }, "128n", 0);
 
     Tone.Transport.start().stop(`+${time}`);
-    Tone.Transport.once('stop', () => {
-        setTimeout(() => {
-            dispatch(setButtonsActive()) && dispatch(setButtonActive(null));
-            dispatch(setIsCollapsing(false))
-            !isFullScreen && mode !== 'presentation' && dispatch(toggleIsFullScreen());
-            window.qusynth && dispatch(setData(window.qusynth))
-        }, 1000); 
-    })
+    // Tone.Transport.once('stop', () => {
+    //     setTimeout(() => {
+    //         dispatch(setButtonsActive()) && dispatch(setButtonActive(null));
+    //         dispatch(setIsCollapsing(false))
+    //         !isFullScreen && mode !== 'presentation' && dispatch(toggleIsFullScreen());
+    //         window.qusynth && dispatch(setData(window.qusynth))
+    //     }, 1000); 
+    // })
 }
