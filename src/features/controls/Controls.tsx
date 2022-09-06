@@ -28,7 +28,6 @@ import { getBackend, getIsCollapsing, getIsMeasuring, getQasmStatus } from '../.
 import { handleMeasure, MeasureArgs } from '../../qasm/measure';
 
 import styles from './Controls.module.css';
-import { is } from 'immer/dist/internal';
 import { mapToRange } from '../../functions/utils';
 
 export function Controls() {
@@ -37,7 +36,7 @@ export function Controls() {
     const synthParams = useAppSelector(getSynthParams)
     const qubit = useAppSelector(getQubit)
     const disabled = useAppSelector(getDisabledStatus)
-    const time = useAppSelector(getTime)
+    const dur = useAppSelector(getTime)
     const isFullScreen = useAppSelector(getIsFullScreen)
     const mintData = useAppSelector(getMintData)
     const mode = useAppSelector(getMode)
@@ -52,9 +51,9 @@ export function Controls() {
         x: qubit.x.value * 180,
         y: qubit.y.value * 180,
         z: qubit.z.value * 180,
-        time,
+        dur,
         mode,
-        synthParams,
+        // synthParams,
         isFullScreen,
         storedDestination,
         useQasm,

@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from "react-router-dom";
-import { Controls } from './features/controls/Controls';
+import { Controller } from './features/controller/Controller';
 import { SidePanel } from './features/sidePanel/SidePanel';
-import { Button } from './features/buttons/Button';
 import { Loading } from './features/loading/Loading';
 import { enableMidi } from './midi/midiSlice';
 import { 
@@ -11,8 +10,8 @@ import {
     setData,
     getMode,
     setMode,
-    randomise,
 } from './data/dataSlice';
+import { randomise } from './synthesis/synthesisSlice';
 
 import { setUseQasm, setQasmStatus, getIsMeasuring } from './qasm/qasmSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
@@ -36,7 +35,8 @@ function App() {
     
     // enable midi | dispatch state string if exists | connect to python server if exists
     useEffect(() => {
-        dispatch(enableMidi())
+        // TODO: reinstate midi
+        // dispatch(enableMidi())
 
         window.qusynth && dispatch(setData(window.qusynth));
 
@@ -78,18 +78,14 @@ function App() {
                             >Simple</button> | <button
                                 className={`btn-mode ${mode === 'advanced' && 'btn-mode--active'}`}
                                 onClick={() => dispatch(setMode('advanced'))}
-                            >Advanced</button>
-                        </div>
-                        
-                        <div className='btn-randomise'>
-                            <Button 
-                                name="randomise"
-                                onClick={() => dispatch(randomise())}
-                            />
+                            >Advanced</button> | <button
+                            className={`btn-mode`}
+                            onClick={() => dispatch(randomise())}
+                            >?</button>
                         </div>
                     </div>
                 }
-                <Controls />
+                <Controller />
             </div>
             {!isFullScreen && <SidePanel /> }
             { isMeasuring && <Loading /> }

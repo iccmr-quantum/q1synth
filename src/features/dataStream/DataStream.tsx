@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppSelector } from '../../app/hooks';
-import { getQubit } from '../../data/dataSlice';
-import { Qubit } from '../../data/dataSlice';
+import { getQubit, Coordinates } from '../../synthesis/synthesisSlice';
 import { degreesToRadians as dtr } from '../../functions/utils';
 
 import styles from './DataStream.module.css';
 
 export function DataStream() {
     const qubit = useAppSelector(getQubit)
-    const [data, setData] = useState<Qubit[]>([])
+    const [data, setData] = useState<Coordinates[]>([])
     
     useEffect(() => {
-        setData([qubit, ...data.slice(0, 15)])
+        setData(d => [qubit, ...d.slice(0, 15)])
     }, [qubit])
 
     return (
@@ -28,7 +27,7 @@ export function DataStream() {
                     className={styles.item}
                     key={i}
                 >
-                    {[x,y,z].map(({value}, v) => (
+                    {[x,y,z].map((value, v) => (
                         <span key={`${i}_${v}`} className={styles.vector}>
                             {dtr(value*180).toFixed(2)}
                         </span>

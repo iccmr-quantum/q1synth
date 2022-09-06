@@ -2,28 +2,24 @@ import * as Tone from 'tone'
 import { tossWeightedCoin, mapToRange } from '../functions/utils';
 import { setIsMeasuring, clearQasmResponses, setIsCollapsing } from '../qasm/qasmSlice';
 import type { AppDispatch } from '../app/store';
-import { synth, SynthArgs } from '../sound';
 import { 
     toggleIsFullScreen, 
-    incrementXAxis, 
-    incrementYAxis, 
-    incrementZAxis, 
     setData,
     setButtonsDisabled, 
     setButtonsActive, 
-    setButtonActive,
     DataState, 
     Mode
 } from '../data/dataSlice';
+
+import { incrementQubitBy, stop, trigger } from '../synthesis/synthesisSlice';
 import { send, receive } from './socket';
 
 export interface MeasureArgs {
     x: number 
     y: number 
     z: number 
-    time: number
+    dur: number
     mode: Mode
-    synthParams: SynthArgs
     isFullScreen: boolean
     storedDestination: number
     useQasm: boolean
@@ -77,9 +73,8 @@ function measure(
 }
 
 export async function handleMeasure(args: MeasureArgs) {
-    const { x, y, z, time, mode, synthParams, isFullScreen, storedDestination, useQasm, mintData, backend, shouldRecord, dispatch } = args
+    const { x, y, z, dur, mode, isFullScreen, storedDestination, useQasm, mintData, backend, shouldRecord, dispatch } = args
     
-    Tone.Transport.cancel(0)
     dispatch(setButtonsDisabled())
     !isFullScreen && dispatch(toggleIsFullScreen());
 
@@ -97,23 +92,28 @@ export async function handleMeasure(args: MeasureArgs) {
     dispatch(setIsCollapsing(true))
     
     mint(xDestination, mintData)
-
-    const xStep = ((xDestination - x) / (time * 64))/180
-    const yStep = ((yDestination - y) / (time * 64))/180
-    const zStep = ((zDestination - z) / (time * 64))/180
-
-    Tone.Transport.scheduleOnce(() => synth.play(synthParams, time, mode !== 'presentation' && shouldRecord), 0)
     
-    Tone.Transport.scheduleRepeat(() => {
-        dispatch(incrementXAxis(xStep))
-        dispatch(incrementYAxis(yStep))
-        dispatch(incrementZAxis(zStep))
-    }, "128n", 0);
+    const xStep = ((xDestination - x) / (dur * 64))/180
+    const yStep = ((yDestination - y) / (dur * 64))/180
+    const zStep = ((zDestination - z) / (dur * 64))/180
+    
+    let firstLoop = true
+    const loopID = Tone.Transport.scheduleRepeat(time => {
+        firstLoop && dispatch(trigger({time, dur}));
+        firstLoop = false
 
-    Tone.Transport.start().stop(`+${time}`);
+        Tone.Draw.schedule(() => {
+            dispatch(incrementQubitBy({x: xStep, y: yStep, z: zStep}))
+        }, time);
+    }, "128n");
+
+    Tone.Transport.start('+0.1').stop(`+${dur + 0.1}`);
+    
     Tone.Transport.once('stop', () => {
+        Tone.Transport.clear(loopID)
         setTimeout(() => {
-            dispatch(setButtonsActive()) && dispatch(setButtonActive(null));
+            dispatch(stop())
+            dispatch(setButtonsActive());
             dispatch(setIsCollapsing(false))
             !isFullScreen && mode !== 'presentation' && dispatch(toggleIsFullScreen());
             window.qusynth && dispatch(setData(window.qusynth))

@@ -1,15 +1,16 @@
-import React, { useState, useRef, MouseEvent, TouchEvent } from 'react'
+import { useState, useRef, MouseEvent, TouchEvent } from 'react'
 import { ReactP5Wrapper, Sketch } from "react-p5-wrapper";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { 
-    getQubit, 
-    setControl, 
-    getMode,
-    setQubitState
-} from '../../data/dataSlice';
+import { getMode } from '../../data/dataSlice';
+import {
+    Coordinates,
+    getQubit,
+    setQubit,
+} from '../../synthesis/synthesisSlice';
 import { mapToRange } from '../../functions/utils';
 import { getIsCollapsing } from '../../qasm/qasmSlice';
 import { DataStream } from '../dataStream/DataStream';
+import { debounce } from 'lodash'
 import styles from './Qubit.module.css';
 
 const sketch: Sketch = p => {
@@ -19,9 +20,7 @@ const sketch: Sketch = p => {
     let size = 350;
     let radius = 130
 
-    const resize = (w: number, h: number) => {
-        p.resizeCanvas(w, h)
-    }
+    const resize = (w: number, h: number) => p.resizeCanvas(w, h)
 
     p.setup = () => p.createCanvas(size, size, p.WEBGL)
 
@@ -45,13 +44,13 @@ const sketch: Sketch = p => {
         p.push()
         p.rotateY(-45)
         p.rotateX(90)
-        p.cylinder(2, 2* radius) // x axis
+        p.cylinder(2, 2 * radius) // x axis
         p.pop()
 
         p.push()
         p.rotateY(45)
         p.rotateX(90)
-        p.cylinder(2, 2* radius) // y axis
+        p.cylinder(2, 2 * radius) // y axis
         p.pop()
 
         p.push()
@@ -101,12 +100,12 @@ export function Qubit({size = 350} : QubitProps) {
     const qubitRef = useRef<null | HTMLDivElement>(null)
 
     const states = [
-        {id: '0', label: '0'},
-        {id: '1', label: '1'},
-        {id: 'minus', label: '-'},
-        {id: 'plus', label: '+'},
-        {id: 'i', label: 'i'},
-        {id: 'minusi', label: '-i'},
+        {id: '0', label: '0', qubit: {x: 0, y: 0, z: 0}},
+        {id: '1', label: '1', qubit: {x: 1, y: 0, z: 0}},
+        {id: 'minus', label: '-', qubit: {x: 0.5, y: 1, z: 0}},
+        {id: 'plus', label: '+', qubit: {x: 0.5, y: 0, z: 0}},
+        {id: 'i', label: 'i', qubit: {x: 0.5, y: 0.5, z: 0}},
+        {id: 'minusi', label: '-i', qubit: {x: 0.5, y: -0.5, z: 0}},
     ]
 
     const getQubitDimensions = () => {
@@ -118,24 +117,25 @@ export function Qubit({size = 350} : QubitProps) {
         return { left, top, width, height }
     }
 
-    const handleMove = (e: MouseEvent | TouchEvent<HTMLDivElement>, clientX: number, clientY: number) => {
+    let handleMove = (e: MouseEvent | TouchEvent<HTMLDivElement>, clientX: number, clientY: number) => {
         if(!isClicked || mode === 'presentation' || isCollapsing) return
 
         const { left, top, width, height } = getQubitDimensions()
-        const x = clientX - left
-        const y = clientY - top
-        if(e.shiftKey) {
-            dispatch(setControl({group: 'qubit', key: 'z', value: mapToRange((x/width), 0, 1, -1, 1)}));
-        } else {
-            dispatch(setControl({group: 'qubit', key: 'x', value: mapToRange((y/height), 0, 1, -1, 1)}));
-            dispatch(setControl({group: 'qubit', key: 'y', value: mapToRange((x/width), 0, 1, -1, 1)}));
-        }
+        const xPos = clientX - left
+        const yPos = clientY - top
+        const qubit = e.shiftKey
+            ? {x, y, z: mapToRange((xPos/width), 0, 1, -1, 1)}
+            : {x: mapToRange((yPos/width), 0, 1, -1, 1), y: mapToRange((xPos/height), 0, 1, -1, 1), z}
+        
+        dispatch(setQubit(qubit))
     }
 
-    const handleStateClick = (e: MouseEvent, id: string) => {
+    handleMove = debounce(handleMove, 5)
+
+    const handleStateClick = (e: MouseEvent, qubit: Coordinates) => {
         if(isCollapsing) return
         e.stopPropagation()
-        dispatch(setQubitState(id))
+        dispatch(setQubit(qubit))
     }
       
     return (
@@ -153,20 +153,20 @@ export function Qubit({size = 350} : QubitProps) {
                 handleMove(e, clientX, clientY)
             }}
         >
-            {states.map(({id, label}) => (
+            {states.map(({id, label, qubit}) => (
                 <span 
                     key={id} 
                     className={`${styles.label} ${styles['label' + id]}`}
-                    onClick={e => handleStateClick(e, id)}
+                    onClick={e => handleStateClick(e, qubit)}
                 >
                     {`|${label}⟩`}
                 </span>
             ))}
             <ReactP5Wrapper 
                 sketch={sketch} 
-                x={x.value * -180}
-                y={y.value * 180}
-                z={z.value * 180}
+                x={x * -180}
+                y={y * 180}
+                z={z * 180}
                 size={window.innerWidth < 450 ? window.innerWidth - 100 : size}
             />
             <DataStream />

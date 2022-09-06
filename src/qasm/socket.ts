@@ -8,7 +8,7 @@ interface PromiseCallback {
     (anything: any) : any
 }
 
-const socket = io('http://127.0.0.1:5000', {reconnectionAttempts: 10, timeout: Infinity});
+const socket = io('http://127.0.0.1:5000', {reconnectionAttempts: 1, timeout: Infinity});
 
 export function connect(
     handleConnection : connectionHandler,

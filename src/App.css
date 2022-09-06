@@ -36,12 +36,12 @@ body {
 
 @media (max-width: 600px) {
     .main {
-        padding: 1em;
+        padding: 2em;
     }
 }
 
 .info {
-    padding-bottom: 7em;
+    padding-bottom: 3em;
 }
 
 @media (max-width: 600px) {
