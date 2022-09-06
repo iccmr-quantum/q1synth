@@ -1,11 +1,7 @@
-import React, { useState, useRef, MouseEvent, TouchEvent } from 'react'
+import { useState, useRef, MouseEvent, TouchEvent } from 'react'
 import { ReactP5Wrapper, Sketch } from "react-p5-wrapper";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { 
-    setControl, 
-    getMode,
-    setQubitState
-} from '../../data/dataSlice';
+import { getMode } from '../../data/dataSlice';
 import {
     Coordinates,
     getQubit,

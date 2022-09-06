@@ -10,7 +10,7 @@ export function DataStream() {
     const [data, setData] = useState<Coordinates[]>([])
     
     useEffect(() => {
-        setData([qubit, ...data.slice(0, 15)])
+        setData(d => [qubit, ...d.slice(0, 15)])
     }, [qubit])
 
     return (

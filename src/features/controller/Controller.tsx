@@ -9,7 +9,6 @@ import { SliderGroup } from '../sliderGroup/SliderGroup';
 import { 
     // setPreset,
     // setControl,
-    getButtonActive, 
     getDisabledStatus, 
     getIsFullScreen, 
     getMintData, 
@@ -44,7 +43,6 @@ export function Controller() {
 
     const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>()
     const [isPlaying, setIsPlaying] = useState(false)
-    const [isMeasuring, setIsMeasuring] = useState(false)
 
     function handleParamChange(key: string, type: string, valuesI: number, value: number) {
         dispatch(setParam({key, type, valuesI, value}))
