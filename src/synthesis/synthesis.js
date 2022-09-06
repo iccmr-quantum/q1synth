@@ -21,7 +21,7 @@ const getSynthByType = (type, params, buffer) => {
             return new CtFMSynth(params)
         case 'granular':
             return new CtGranular(buffer, params)
-        case 'dual':
+        case 'subtractive':
             return new CtDualSynth(params)
         default:
             return new CtFMSynth(params)
