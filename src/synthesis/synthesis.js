@@ -33,6 +33,7 @@ const synthesis = () => {
         synths = synths.slice(-4);
         
         if(count%Math.floor(q)) return
+        console.log(count)
 
         let synth;
 
@@ -63,8 +64,8 @@ const synthesis = () => {
             Transport.start()
         },
         stop: () => {
+            Transport.stop(immediate())
             count = -1
-            Transport.pause()
         },
         setParams: ps => {
             params = ps

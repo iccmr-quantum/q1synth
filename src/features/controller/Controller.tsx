@@ -41,6 +41,7 @@ export function Controller() {
     const mintData = useAppSelector(getMintData)
     const shouldRecord = useAppSelector(getShouldRecord)
     const { x, y, z } = useAppSelector(getQubit)  // this is causing performance issues
+    const isCollapsing = useAppSelector(getIsCollapsing)
 
     const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>()
     const [isPlaying, setIsPlaying] = useState(false)
@@ -72,10 +73,8 @@ export function Controller() {
             dispatch
         }
 
-        !isPlaying && dispatch(play());
+        isPlaying && dispatch(stop())
         setIsPlaying(false)
-        setIsMeasuring(true)
-        dispatch(setButtonsDisabled())
 
         handleMeasure(measureArgs)
     }
@@ -118,7 +117,7 @@ export function Controller() {
                     name="measure"
                     activeName="measure"
                     onClick={handleMeasureClick}
-                    isActive={isMeasuring}
+                    isActive={isCollapsing}
                     disabled={disabled}
                     setButtonRef={setButtonRef}
                 />
