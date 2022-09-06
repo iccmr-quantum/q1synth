@@ -102,6 +102,10 @@ export const synthesisSlice = createSlice({
         },
         play: (state) => synthesis.play(formatSynthParams(state)),
         stop: () => synthesis.stop(),
+        trigger: (state, action: PayloadAction<{time: number, dur: number}>) => {
+            const { time, dur } = action.payload;
+            synthesis.trigger(formatSynthParams(state), dur, time)
+        },
         randomise: (state) => {
             const { xParams, yParams, zParams, envParams, modEnvParams } = state.params;
             [...xParams, ...yParams, ...zParams, ...envParams, ...modEnvParams].forEach((param: Param) => {
@@ -136,6 +140,7 @@ export const {
     incrementQubitBy,
     play,
     stop,
+    trigger,
     randomise
 } = synthesisSlice.actions;
 

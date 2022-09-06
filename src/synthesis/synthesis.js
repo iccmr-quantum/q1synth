@@ -5,7 +5,6 @@ import { beatsToSeconds, formatMutationParams } from "./utils";
 const limiter = new Limiter(-1).toDestination()
 const reverb = new Reverb(4).connect(limiter)
 const delay = new FeedbackDelay('4n', 0.5).connect(reverb)
-
 const urls = [
     'https://tonejs.github.io/audio/berklee/arpeggio3crazy.mp3',
     'https://tonejs.github.io/audio/berklee/taps_1c.mp3',
@@ -16,6 +15,18 @@ const urls = [
 ]
 const samples = urls.map(url => url.substring(url.lastIndexOf('/') + 1))
 const buffers = urls.map(url => new ToneAudioBuffer(url))
+const getSynthByType = (type, params, buffer) => {
+    switch (type) {
+        case 'fm':
+            return new CtFMSynth(params)
+        case 'granular':
+            return new CtGranular(buffer, params)
+        case 'dual':
+            return new CtDualSynth(params)
+        default:
+            return new CtFMSynth(params)
+    }
+}
 
 const synthesis = () => {
     let synths = []
@@ -24,33 +35,18 @@ const synthesis = () => {
     let q = 128;
     let count = -1
     let buffer = 0
+    let isCollapsing = false
     
     Transport.scheduleRepeat((time) => {
         count++;
-        synths && synths.map(s => s.mutate(formatMutationParams(params), immediate(), 0.01));
+        synths && synths.map(s => s.mutate(formatMutationParams(params), immediate(), 0.05));
         reverb.wet.rampTo(params.reverb, 0.1)
         delay.feedback.rampTo(params.delay, 0.1)
         synths = synths.slice(-4);
         
-        if(count%Math.floor(q)) return
-        console.log(count)
+        if(count%Math.floor(q) || isCollapsing) return
 
-        let synth;
-
-        switch(synthType) {
-            case 'fm':
-                synth = new CtFMSynth(params)
-                break
-            case 'granular':
-                synth = new CtGranular(buffers[buffer], params)
-                break
-            case 'subtractive':
-                synth = new CtDualSynth(params)
-                break
-            default:
-                synth = new CtFMSynth(params)
-                break
-        }
+        const synth = getSynthByType(synthType, params, buffers[buffer])
         synth.connect(delay)
         synth.play({...params, dur: beatsToSeconds(4)}, time)
         synths.push(synth)
@@ -65,7 +61,17 @@ const synthesis = () => {
         },
         stop: () => {
             Transport.stop(immediate())
+            synths = []
             count = -1
+            isCollapsing = false
+        },
+        trigger: (ps, dur, time) => {
+            isCollapsing = true
+            params = ps
+            const synth = getSynthByType(synthType, params, buffers[buffer])
+            synth.connect(delay)
+            synth.play({...params, dur}, time)
+            synths.push(synth)
         },
         setParams: ps => {
             params = ps

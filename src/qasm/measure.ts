@@ -11,14 +11,14 @@ import {
     Mode
 } from '../data/dataSlice';
 
-import { incrementQubitBy } from '../synthesis/synthesisSlice';
+import { incrementQubitBy, stop, trigger } from '../synthesis/synthesisSlice';
 import { send, receive } from './socket';
 
 export interface MeasureArgs {
     x: number 
     y: number 
     z: number 
-    time: number
+    dur: number
     mode: Mode
     isFullScreen: boolean
     storedDestination: number
@@ -73,7 +73,7 @@ function measure(
 }
 
 export async function handleMeasure(args: MeasureArgs) {
-    const { x, y, z, time, mode, isFullScreen, storedDestination, useQasm, mintData, backend, shouldRecord, dispatch } = args
+    const { x, y, z, dur, mode, isFullScreen, storedDestination, useQasm, mintData, backend, shouldRecord, dispatch } = args
     
     dispatch(setButtonsDisabled())
     !isFullScreen && dispatch(toggleIsFullScreen());
@@ -92,22 +92,27 @@ export async function handleMeasure(args: MeasureArgs) {
     dispatch(setIsCollapsing(true))
     
     mint(xDestination, mintData)
-
-    const xStep = ((xDestination - x) / (time * 64))/180
-    const yStep = ((yDestination - y) / (time * 64))/180
-    const zStep = ((zDestination - z) / (time * 64))/180
     
+    const xStep = ((xDestination - x) / (dur * 64))/180
+    const yStep = ((yDestination - y) / (dur * 64))/180
+    const zStep = ((zDestination - z) / (dur * 64))/180
+    
+    let firstLoop = true
     const loopID = Tone.Transport.scheduleRepeat(time => {
+        firstLoop && dispatch(trigger({time, dur}));
+        firstLoop = false
+
         Tone.Draw.schedule(() => {
             dispatch(incrementQubitBy({x: xStep, y: yStep, z: zStep}))
         }, time);
-    }, "128n", 0);
+    }, "128n");
 
-    Tone.Transport.start().stop(`+${time}`);
+    Tone.Transport.start('+0.1').stop(`+${dur + 0.1}`);
     
     Tone.Transport.once('stop', () => {
         Tone.Transport.clear(loopID)
         setTimeout(() => {
+            dispatch(stop())
             dispatch(setButtonsActive());
             dispatch(setIsCollapsing(false))
             !isFullScreen && mode !== 'presentation' && dispatch(toggleIsFullScreen());

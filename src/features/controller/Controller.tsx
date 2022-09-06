@@ -14,7 +14,6 @@ import {
     getIsFullScreen, 
     getMintData, 
     getMode,
-    setButtonsDisabled, 
     getTime,
     getDestination,
     getShouldRecord,
@@ -34,7 +33,7 @@ export function Controller() {
     const xParams = useAppSelector(getXParams)
     const yParams = useAppSelector(getYParams)
     const zParams = useAppSelector(getZParams)
-    const time = useAppSelector(getTime)
+    const dur = useAppSelector(getTime)
     const storedDestination = useAppSelector(getDestination)
     const useQasm = useAppSelector(getQasmStatus)
     const backend = useAppSelector(getBackend)
@@ -62,7 +61,7 @@ export function Controller() {
             x: x * 180,
             y: y * 180,
             z: z * 180,
-            time,
+            dur,
             mode,
             isFullScreen,
             storedDestination,
