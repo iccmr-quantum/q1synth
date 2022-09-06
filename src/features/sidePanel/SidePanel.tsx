@@ -87,7 +87,7 @@ export function SidePanel() {
                     <p>Rotate and measure the qubit to quantum-design a sound.</p>
                     <p>MouseY for angle of inclination (θ).</p>
                     <p>MouseX for azimuth (φ).</p>
-                    <p>shift + mouseX for sphere phase.</p>
+                    <p>shift + mouseX for sphere phase (λ).</p>
                     <p>f for fullscreen.</p>
                     <p>Shift and click on presets to save current app state.</p>
                 </div>
