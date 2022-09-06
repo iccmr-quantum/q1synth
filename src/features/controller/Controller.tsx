@@ -1,7 +1,7 @@
 // TODO: Measure and MIDI
 // TODO: Prune Controls, Sliders, etc.
 
-import React, { MouseEvent, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Button } from '../buttons/Button';
 import { Qubit } from '../qubit/Qubit';
@@ -21,7 +21,7 @@ import {
 } from '../../data/dataSlice';
 
 import { getXParams, getYParams, getZParams, setParam, play, stop, getQubit } from '../../synthesis/synthesisSlice';
-import { getBackend, getIsCollapsing, getIsMeasuring, getQasmStatus } from '../../qasm/qasmSlice';
+import { getBackend, getIsCollapsing, getQasmStatus } from '../../qasm/qasmSlice';
 
 import styles from './Controller.module.css';
 import { handleMeasure, MeasureArgs } from '../../qasm/measure';

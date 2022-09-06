@@ -2,13 +2,11 @@ import * as Tone from 'tone'
 import { tossWeightedCoin, mapToRange } from '../functions/utils';
 import { setIsMeasuring, clearQasmResponses, setIsCollapsing } from '../qasm/qasmSlice';
 import type { AppDispatch } from '../app/store';
-import { synth, SynthArgs } from '../sound';
 import { 
     toggleIsFullScreen, 
     setData,
     setButtonsDisabled, 
     setButtonsActive, 
-    setButtonActive,
     DataState, 
     Mode
 } from '../data/dataSlice';
@@ -98,8 +96,6 @@ export async function handleMeasure(args: MeasureArgs) {
     const xStep = ((xDestination - x) / (time * 64))/180
     const yStep = ((yDestination - y) / (time * 64))/180
     const zStep = ((zDestination - z) / (time * 64))/180
-
-    // Tone.Transport.scheduleOnce(() => synth.play(synthParams, time, mode !== 'presentation' && shouldRecord), 0)
     
     const loopID = Tone.Transport.scheduleRepeat(time => {
         Tone.Draw.schedule(() => {

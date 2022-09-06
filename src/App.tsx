@@ -1,9 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from "react-router-dom";
-// import { Controls } from './features/controls/Controls';
 import { Controller } from './features/controller/Controller';
 import { SidePanel } from './features/sidePanel/SidePanel';
-import { Button } from './features/buttons/Button';
 import { Loading } from './features/loading/Loading';
 import { enableMidi } from './midi/midiSlice';
 import { 
@@ -12,7 +10,6 @@ import {
     setData,
     getMode,
     setMode,
-    // randomise,
 } from './data/dataSlice';
 import { randomise } from './synthesis/synthesisSlice';
 
@@ -88,7 +85,6 @@ function App() {
                         </div>
                     </div>
                 }
-                {/* <Controls /> */}
                 <Controller />
             </div>
             {!isFullScreen && <SidePanel /> }
