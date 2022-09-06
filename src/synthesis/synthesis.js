@@ -1,5 +1,5 @@
 import { Transport, Reverb, FeedbackDelay, immediate, Limiter, ToneAudioBuffer} from "tone";
-import { CtFMSynth, CtGranular, CtDualSynth } from "./ct-synths"; // TODO: replace this with node_module
+import { CtFMSynth, CtGranular, CtDualSynth } from "./ct-synths";
 import { beatsToSeconds, formatMutationParams } from "./utils";
 
 const limiter = new Limiter(-1).toDestination()
