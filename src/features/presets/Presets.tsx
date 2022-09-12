@@ -25,8 +25,8 @@ export function Presets() {
     const handleLoad = (e: MouseEvent<HTMLButtonElement>, i: number) => {
         const stored = localStorage.getItem('q1synth') || "{}"
         const presets = JSON.parse(stored)
-        dispatch(loadState(presets[i]))
-        dispatch(setPreset(i))
+        presets[i] && dispatch(setPreset(i));
+        presets[i] && dispatch(loadState(presets[i]));
     }
 
     return (
