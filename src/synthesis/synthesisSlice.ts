@@ -123,7 +123,10 @@ export const synthesisSlice = createSlice({
         },
         loadState: (state, action: PayloadAction<SynthesisState>) => {
             const { synth, params } = action.payload;
+            
             state.synth = synth;
+            synthesis.setType(synth);
+            
             state.params = params;
             synthesis.setParams(formatSynthParams(state));
         }

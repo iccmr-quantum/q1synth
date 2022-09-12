@@ -100,7 +100,7 @@ export function SidePanel() {
                     >Config</span>
                     <Select 
                         title="Instrument" 
-                        options={synthTypes.map((type) => ({id: type, label: type}))} 
+                        options={synthTypes.map((type) => ({id: type, label: type, active: type === synth}))} 
                         onChange={handleChangeSynth}
                     />                    
 
