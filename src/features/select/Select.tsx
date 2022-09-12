@@ -1,5 +1,4 @@
 import React, {  } from 'react'
-import { values } from 'underscore';
 import styles from './Select.module.css';
 
 interface onChangeSelectHandler {
