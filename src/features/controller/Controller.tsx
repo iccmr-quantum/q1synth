@@ -1,14 +1,15 @@
 // TODO: Measure and MIDI
 // TODO: Prune Controls, Sliders, etc.
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Button } from '../buttons/Button';
 import { Qubit } from '../qubit/Qubit';
 import { SliderGroup } from '../sliderGroup/SliderGroup';
+import { WebMidi } from 'webmidi';
+import { midiMap } from '../../midi/midiMap'
+
 import { 
-    // setPreset,
-    // setControl,
     getDisabledStatus, 
     getIsFullScreen, 
     getMintData, 
@@ -16,13 +17,15 @@ import {
     getTime,
     getDestination,
     getShouldRecord,
+    setTime,
 } from '../../data/dataSlice';
+import { getXParams, getYParams, getZParams, setParam, play, stop, getQubit, randomise, setQubit } from '../../synthesis/synthesisSlice';
+import { getBackend, getIsCollapsing, getQasmStatus, getIsMeasuring } from '../../qasm/qasmSlice';
+import { getMidiStatus, getActiveMidiInput, getMidiInputs } from '../../midi/midiSlice'
 
-import { getXParams, getYParams, getZParams, setParam, play, stop, getQubit } from '../../synthesis/synthesisSlice';
-import { getBackend, getIsCollapsing, getQasmStatus } from '../../qasm/qasmSlice';
-
-import styles from './Controller.module.css';
 import { handleMeasure, MeasureArgs } from '../../qasm/measure';
+import styles from './Controller.module.css';
+import { mapToRange } from '../../functions/utils';
 
 export function Controller() {
     const dispatch = useAppDispatch()
@@ -38,10 +41,15 @@ export function Controller() {
     const backend = useAppSelector(getBackend)
     const mintData = useAppSelector(getMintData)
     const shouldRecord = useAppSelector(getShouldRecord)
-    const { x, y, z } = useAppSelector(getQubit)  // this is causing performance issues
+    const qubit = useAppSelector(getQubit)
     const isCollapsing = useAppSelector(getIsCollapsing)
+    const midiIsEnabled = useAppSelector(getMidiStatus)
+    const midiInput = useAppSelector(getActiveMidiInput)
+    const allMidiInputs = useAppSelector(getMidiInputs)
+    const isMeasuring = useAppSelector(getIsMeasuring)
 
-    const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>()
+    const [measureButtonRef, setMeasureButtonRef] = useState<HTMLButtonElement | null>()
+    const [playButtonRef, setPlayButtonRef] = useState<HTMLButtonElement | null>()
     const [isPlaying, setIsPlaying] = useState(false)
 
     function handleParamChange(key: string, type: string, valuesI: number, value: number) {
@@ -54,7 +62,7 @@ export function Controller() {
     }
 
     function handleMeasureClick() {
-    
+        const { x, y, z } = qubit
         const measureArgs: MeasureArgs = {
             x: x * 180,
             y: y * 180,
@@ -75,6 +83,31 @@ export function Controller() {
 
         handleMeasure(measureArgs)
     }
+
+
+    const removeListeners = () => allMidiInputs.map(({id}) => WebMidi.getInputById(id).removeListener())
+    
+    useEffect(() => {
+        midiIsEnabled && removeListeners();
+        midiIsEnabled 
+            && midiInput
+            && WebMidi.getInputById(midiInput).addListener('controlchange', e => {
+                const { value } = e
+                const { number } = e.controller
+                const map = midiMap(number)
+                const {key, type, valuesI } = map
+                if(!map || !value || isMeasuring || isCollapsing) return
+
+                if(number <= 3) return dispatch(setQubit({...qubit, [type]: mapToRange(+value, 0, 1, -1, 1)}))
+                // TODO: how to fix the value?
+                // if(number <= 35) return dispatch(setParam({key, type, valuesI: valuesI || 0, value: mapToRange(+value, 0, 1, map.min, map.max)})
+                // TODO: load preset... do this in the preset block?
+
+                if(type === 'play') return playButtonRef?.click()
+                if(type === 'measure') return measureButtonRef?.click()
+                if(type === 'randomise') return dispatch(randomise());
+            });
+    }, [midiIsEnabled, midiInput, isMeasuring, isCollapsing])
     
     return (
         <>
@@ -103,12 +136,14 @@ export function Controller() {
             </div>
             
             <div className={styles.buttons}>
-                {mode !== 'presentation' && <Button 
+                {mode !== 'presentation' 
+                && <Button 
                     name="play" 
                     activeName="stop"
                     onClick={togglePlay}
                     isActive={isPlaying}
                     disabled={disabled}
+                    setButtonRef={setPlayButtonRef}
                 />}
                 <Button 
                     name="measure"
@@ -116,7 +151,7 @@ export function Controller() {
                     onClick={handleMeasureClick}
                     isActive={isCollapsing}
                     disabled={disabled}
-                    setButtonRef={setButtonRef}
+                    setButtonRef={setMeasureButtonRef}
                 />
             </div>
         
