@@ -1,5 +1,5 @@
 import { Transport, Reverb, FeedbackDelay, immediate, Limiter, ToneAudioBuffer} from "tone";
-import { CtFMSynth, CtGranular, CtDualSynth } from "./ct-synths";
+import { CtFMSynth, CtGranular, CtDuoSynth } from "./ct-synths";
 import { beatsToSeconds, formatMutationParams } from "./utils";
 
 const limiter = new Limiter(-1).toDestination()
@@ -22,7 +22,7 @@ const getSynthByType = (type, params, buffer) => {
         case 'granular':
             return new CtGranular(buffer, params)
         case 'subtractive':
-            return new CtDualSynth(params)
+            return new CtDuoSynth(params)
         default:
             return new CtFMSynth(params)
     }

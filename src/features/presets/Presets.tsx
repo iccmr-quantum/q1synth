@@ -1,6 +1,6 @@
 import React, { useEffect, MouseEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getPresetNumber, getDisabledStatus, setPreset, getData } from '../../data/dataSlice';
+import { getPresetNumber, getDisabledStatus, getData } from '../../data/dataSlice';
 import styles from './Presets.module.css'
 
 export function Presets() {
@@ -18,7 +18,7 @@ export function Presets() {
         const stored = localStorage.getItem('q1synth') || "{}"
         const presets = JSON.parse(stored)
         localStorage.setItem('q1synth', JSON.stringify({...presets, [i]: appData}))
-        dispatch(setPreset(i))
+        // dispatch(setPreset(i))
     }
 
     return (
@@ -31,7 +31,7 @@ export function Presets() {
                             ${styles.button} 
                             ${activePreset === i ? styles.active : ''}
                         `}
-                        onClick={e => e.shiftKey ? savePreset(e,i) : dispatch(setPreset(i))}
+                        // onClick={e => e.shiftKey ? savePreset(e,i) : dispatch(setPreset(i))}
                         disabled={disabled}
                         key={i}
                     >
