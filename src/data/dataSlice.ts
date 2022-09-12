@@ -45,11 +45,8 @@ export const dataSlice = createSlice({
         toggleIsFullScreen: (state) => {
             state.isFullScreen = !state.isFullScreen
         },
-        setButtonsDisabled: (state) => {
-            state.disabled = true
-        },
-        setButtonsActive: (state) => {
-            state.disabled = false
+        setDisabled(state, action: PayloadAction<boolean>) {
+            state.disabled = action.payload
         },
         setTime: (state, action: PayloadAction<{button: string }>) => {
             const { button } = action.payload
@@ -66,9 +63,8 @@ export const {
     setData, 
     setMode, 
     toggleIsFullScreen, 
-    setTime, 
-    setButtonsDisabled, 
-    setButtonsActive,
+    setTime,
+    setDisabled,
     setShouldRecord
 } = dataSlice.actions;
 

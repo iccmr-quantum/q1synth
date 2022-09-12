@@ -5,8 +5,7 @@ import type { AppDispatch } from '../app/store';
 import { 
     toggleIsFullScreen, 
     setData,
-    setButtonsDisabled, 
-    setButtonsActive, 
+    setDisabled,
     DataState, 
     Mode
 } from '../data/dataSlice';
@@ -75,7 +74,7 @@ function measure(
 export async function handleMeasure(args: MeasureArgs) {
     const { x, y, z, dur, mode, isFullScreen, storedDestination, useQasm, mintData, backend, shouldRecord, dispatch } = args
     
-    dispatch(setButtonsDisabled())
+    dispatch(setDisabled(true))
     !isFullScreen && dispatch(toggleIsFullScreen());
 
     dispatch(setIsMeasuring(true))
@@ -113,7 +112,7 @@ export async function handleMeasure(args: MeasureArgs) {
         Tone.Transport.clear(loopID)
         setTimeout(() => {
             dispatch(stop())
-            dispatch(setButtonsActive());
+            dispatch(setDisabled(false));
             dispatch(setIsCollapsing(false))
             !isFullScreen && mode !== 'presentation' && dispatch(toggleIsFullScreen());
             window.qusynth && dispatch(setData(window.qusynth))
