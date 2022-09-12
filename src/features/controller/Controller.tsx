@@ -17,11 +17,10 @@ import {
     getTime,
     getDestination,
     getShouldRecord,
-    setTime,
 } from '../../data/dataSlice';
 import { getXParams, getYParams, getZParams, setParam, play, stop, getQubit, randomise, setQubit } from '../../synthesis/synthesisSlice';
 import { getBackend, getIsCollapsing, getQasmStatus, getIsMeasuring } from '../../qasm/qasmSlice';
-import { getMidiStatus, getActiveMidiInput, getMidiInputs } from '../../midi/midiSlice'
+import { getMidiStatus, getActiveMidiInput } from '../../midi/midiSlice'
 
 import { handleMeasure, MeasureArgs } from '../../qasm/measure';
 import styles from './Controller.module.css';
@@ -45,7 +44,6 @@ export function Controller() {
     const isCollapsing = useAppSelector(getIsCollapsing)
     const midiIsEnabled = useAppSelector(getMidiStatus)
     const midiInput = useAppSelector(getActiveMidiInput)
-    const allMidiInputs = useAppSelector(getMidiInputs)
     const isMeasuring = useAppSelector(getIsMeasuring)
 
     const [measureButtonRef, setMeasureButtonRef] = useState<HTMLButtonElement | null>()
@@ -83,12 +81,8 @@ export function Controller() {
 
         handleMeasure(measureArgs)
     }
-
-
-    const removeListeners = () => allMidiInputs.map(({id}) => WebMidi.getInputById(id).removeListener())
     
     useEffect(() => {
-        midiIsEnabled && removeListeners();
         midiIsEnabled 
             && midiInput
             && WebMidi.getInputById(midiInput).addListener('controlchange', e => {

@@ -32,6 +32,7 @@ export const midiSlice = createSlice({
             state.inputs = action.payload
         },
         setActiveInput: (state, action: PayloadAction<string>) => {
+            state.inputs.map(({id}) => WebMidi.getInputById(id).removeListener())
             state.activeInputID = action.payload
         }
     }
