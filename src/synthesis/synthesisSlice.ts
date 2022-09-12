@@ -120,6 +120,12 @@ export const synthesisSlice = createSlice({
             })
 
             synthesis.setParams(formatSynthParams(state));
+        },
+        loadState: (state, action: PayloadAction<SynthesisState>) => {
+            const { synth, params } = action.payload;
+            state.synth = synth;
+            state.params = params;
+            synthesis.setParams(formatSynthParams(state));
         }
     }
 });
@@ -131,6 +137,9 @@ export const getZParams = (state: RootState) => state.synthesis.params.zParams;
 export const getEnvParams = (state: RootState) => state.synthesis.params.envParams;
 export const getModEnvParams = (state: RootState) => state.synthesis.params.modEnvParams;
 export const getQubit = (state: RootState) => state.synthesis.qubit;
+export const getState = (state: RootState) : SynthesisState => {
+    return {...state.synthesis}
+}
 
 export const { 
     setSynth,
@@ -141,7 +150,8 @@ export const {
     play,
     stop,
     trigger,
-    randomise
+    randomise,
+    loadState
 } = synthesisSlice.actions;
 
 /**

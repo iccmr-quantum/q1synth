@@ -1,24 +1,32 @@
 import React, { useEffect, MouseEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getPresetNumber, getDisabledStatus, getData } from '../../data/dataSlice';
+import { getPresetNumber, getDisabledStatus, setPreset } from '../../data/dataSlice';
+import { getState, loadState } from '../../synthesis/synthesisSlice';
 import styles from './Presets.module.css'
 
 export function Presets() {
     const dispatch = useAppDispatch()
     const activePreset = useAppSelector(getPresetNumber)
     const disabled = useAppSelector(getDisabledStatus)
-    const appData = useAppSelector(getData)
+    const appState = useAppSelector(getState)
 
     useEffect(() => {
         const stored = localStorage.getItem('q1synth')
         !stored && localStorage.setItem('q1synth', JSON.stringify({}))
     }, []);
 
-    const savePreset = (e: MouseEvent<HTMLButtonElement>, i: number) => {
+    const handleSave = (e: MouseEvent<HTMLButtonElement>, i: number) => {
         const stored = localStorage.getItem('q1synth') || "{}"
         const presets = JSON.parse(stored)
-        localStorage.setItem('q1synth', JSON.stringify({...presets, [i]: appData}))
-        // dispatch(setPreset(i))
+        localStorage.setItem('q1synth', JSON.stringify({...presets, [i]: appState}))
+        dispatch(setPreset(i))
+    }
+
+    const handleLoad = (e: MouseEvent<HTMLButtonElement>, i: number) => {
+        const stored = localStorage.getItem('q1synth') || "{}"
+        const presets = JSON.parse(stored)
+        dispatch(loadState(presets[i]))
+        dispatch(setPreset(i))
     }
 
     return (
@@ -31,7 +39,7 @@ export function Presets() {
                             ${styles.button} 
                             ${activePreset === i ? styles.active : ''}
                         `}
-                        // onClick={e => e.shiftKey ? savePreset(e,i) : dispatch(setPreset(i))}
+                        onClick={e => e.shiftKey ? handleSave(e,i) : handleLoad(e,i)}
                         disabled={disabled}
                         key={i}
                     >

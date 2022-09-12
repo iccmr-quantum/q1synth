@@ -55,7 +55,10 @@ export const dataSlice = createSlice({
         },
         setShouldRecord: (state, action: PayloadAction<boolean>) => {
             state.shouldRecord = action.payload
-        }
+        },
+        setPreset: (state, action: PayloadAction<number>) => {
+            state.preset = action.payload;
+        },
     }
 });
 
@@ -65,7 +68,8 @@ export const {
     toggleIsFullScreen, 
     setTime,
     setDisabled,
-    setShouldRecord
+    setShouldRecord,
+    setPreset
 } = dataSlice.actions;
 
 export const getMode = (state: RootState) => state.data.mode;
@@ -87,10 +91,6 @@ export const getMintData = (state: RootState) : DataState => {
         mode: 'advanced',
         isFullScreen: true,
     }
-}
-
-export const getData = (state: RootState) : DataState => {
-    return {...state.data}
 }
 
 export const getShouldRecord = (state: RootState) => state.data.shouldRecord
