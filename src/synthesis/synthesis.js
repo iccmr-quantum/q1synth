@@ -55,7 +55,6 @@ const synthesis = () => {
     return {
         play: (ps) => {
             params = ps
-            console.log(params)
             reverb.wet.rampTo(ps.reverb, 0.1)
             delay.feedback.rampTo(ps.delay, 0.1)
             Transport.start()

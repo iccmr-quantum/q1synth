@@ -93,9 +93,7 @@ export function Controller() {
                 if(!map || !value || isMeasuring || isCollapsing) return
 
                 if(number <= 3) return dispatch(setQubitAxis({axis: type, value: mapToRange(+value, 0, 1, -1, 1)}))
-                // TODO: custom params?
                 if(number <= 35) return dispatch(setParam({key, type, valuesI: valuesI || 0, value: +value}))
-                // TODO: load preset... do this in the preset block?
 
                 if(type === 'play') return playButtonRef?.click()
                 if(type === 'measure') return measureButtonRef?.click()

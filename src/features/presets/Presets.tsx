@@ -35,7 +35,6 @@ export function Presets() {
         presets[i] && dispatch(loadState(presets[i]));
     }
 
-    // TODO: test this
     useEffect(() => {
         midiIsEnabled 
             && midiInput
