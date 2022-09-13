@@ -3,6 +3,11 @@ A built version of this app is hosted at [https://iccmr-q1synth-proto.cephasteom
 
 Rotate the qubit to interpolate between different synthesis parameters on each axis. Measure the qubit for it to collapse to either 1 or 0. At the time of writing, this app is hosted [here](https://qusynth.cephasteom.co.uk/).
 
+## Prerequisites
+* Install [Node](https://nodejs.org/en/)
+* Install [Node Version Manager (NVM)](https://github.com/nvm-sh/nvm)
+* Install [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
+
 ## Local Setup
 * clone this repo and navigate to directory root
 * `nvm use` - use node version manager to switch to correct node version
@@ -19,43 +24,66 @@ A midi input device can be chosen from the dropdown in the config panel. QuSynth
 
 ### Midi Mapping
 Control change messages are mapped to the following controls.
-* 1 - x
-* 2 - y
-* 3 - z
-* 4 - freq
-* 5 - volume
-* 6 - reverb
-* 7 - modulationIndex
-* 8 - harmonicity
-* 9 - lfoFreq
-* 10 - lfoDepth
-* 11 - freq
-* 12 - volume
-* 13 - reverb
-* 14 - modulationIndex
-* 15 - harmonicity
-* 16 - lfoFreq
-* 17 - lfoDepth
-* 18 - attack
-* 19 - decay
-* 20 - sustain
-* 21 - release
-* 22 - attack
-* 23 - decay
-* 24 - sustain
-* 25 - release
-* 26 - preset 0
-* 27 - preset 1
-* 28 - preset 2
-* 29 - preset 3
-* 30 - preset 4
-* 31 - preset 5
-* 32 - preset 6
-* 33 - preset 7
-* 34 - play
-* 35 - stop
-* 36 - randomise
-* 37 - measure
+
+#### Qubit
+* 1: x
+* 2: y
+* 3: z
+
+#### Left Sliders
+* 4: note
+* 5: gain
+* 6: octave
+* 7: custom param 0
+* 8: custom param 1
+* 9: custom param 2
+* 10: reverb
+* 11: delay
+* 12: crush
+* 13: pan
+* 14: hicut
+* 15: locut
+
+#### Right Sliders
+* 16: note
+* 17: gain
+* 18: octave
+* 19: custom param 0
+* 20: custom param 1
+* 21: custom param 2
+* 22: reverb
+* 23: delay
+* 24: crush
+* 25: pan
+* 26: hicut
+* 27: locut
+
+#### Amplitude Envelope
+* 28: attack
+* 29: decay
+* 30: sustain
+* 31: release
+
+#### Modulation / Filter Envelope
+* 32: attack
+* 33: decay
+* 34: sustain
+* 35: release
+
+#### Presets
+* 36: 0
+* 37: 1
+* 38: 2
+* 39: 3
+* 40: 4
+* 41: 5
+* 42: 6
+* 43: 7
+
+#### Actions
+* 44: play
+* 45: measure
+* 46: randomise
 
 ## Further Development
 
