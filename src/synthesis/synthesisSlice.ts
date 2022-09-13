@@ -94,6 +94,13 @@ export const synthesisSlice = createSlice({
             state.qubit = action.payload;
             synthesis.setParams(formatSynthParams(state));
         },
+        setQubitAxis: (state, action: PayloadAction<{axis: any, value: number}>) => {
+            const { axis, value } = action.payload;
+            axis === 'x' && (state.qubit.x = value);
+            axis === 'y' && (state.qubit.y = value);
+            axis === 'z' && (state.qubit.z = value);
+            synthesis.setParams(formatSynthParams(state));
+        },
         incrementQubitBy: (state, action: PayloadAction<Coordinates>) => {
             const { x, y, z } = action.payload;
             state.qubit.x += x
@@ -145,6 +152,7 @@ export const {
     setCustomParams,
     setParam,
     setQubit,
+    setQubitAxis,
     incrementQubitBy,
     play,
     stop,

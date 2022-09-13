@@ -18,7 +18,7 @@ import {
     getDestination,
     getShouldRecord,
 } from '../../data/dataSlice';
-import { getXParams, getYParams, getZParams, setParam, play, stop, getQubit, randomise, setQubit } from '../../synthesis/synthesisSlice';
+import { getXParams, getYParams, getZParams, setParam, play, stop, getQubit, randomise, setQubit, setQubitAxis } from '../../synthesis/synthesisSlice';
 import { getBackend, getIsCollapsing, getQasmStatus, getIsMeasuring } from '../../qasm/qasmSlice';
 import { getMidiStatus, getActiveMidiInput } from '../../midi/midiSlice'
 
@@ -92,8 +92,8 @@ export function Controller() {
                 const {key, type, valuesI } = map
                 if(!map || !value || isMeasuring || isCollapsing) return
 
-                if(number <= 3) return dispatch(setQubit({...qubit, [type]: mapToRange(+value, 0, 1, -1, 1)}))
-                // TODO: how to fix the value?
+                if(number <= 3) return dispatch(setQubitAxis({axis: type, value: mapToRange(+value, 0, 1, -1, 1)}))
+                // TODO: custom params?
                 if(number <= 35) return dispatch(setParam({key, type, valuesI: valuesI || 0, value: +value}))
                 // TODO: load preset... do this in the preset block?
 
