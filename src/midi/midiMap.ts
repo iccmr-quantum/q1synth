@@ -54,9 +54,9 @@ export const midiMap = (cc: number) : {key: string, type: string, valuesI?: numb
         43: {key: 'preset', type: '7'},
         // Actions
         44: {key: 'action', type: 'play'},
-        46: {key: 'action', type: 'measure'},
-        47: {key: 'action', type: 'randomise'},
+        45: {key: 'action', type: 'measure'},
+        46: {key: 'action', type: 'randomise'},
         
     }
-    return map[cc]
+    return map[cc] || {key: 'error', type: 'error'}
 }
