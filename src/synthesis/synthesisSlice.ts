@@ -154,13 +154,6 @@ export const {
 } = synthesisSlice.actions;
 
 /**
- * Ensure params are rounded to step value or to 2 decimal places
- */
-function formatValue(value: number, step: number) {
-    return step ? roundToNearestX(value, step) : Math.round(value * 100) / 100;
-}
-
-/**
  * Any final scaling of the param value should be done here
 **/
 function sanitiseParam(key: string, value: number) {
