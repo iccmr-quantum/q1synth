@@ -43,17 +43,17 @@ const initialState: SynthesisState = {
     },
     params: {
         xParams: [
-            { type: 'note', id: 'n', min: 0, max: 7, step: 1, values: [0, 7] },
+            { type: 'note', id: 'n', min: 0, max: 7, step: 1, values: [0, 1] },
             { type: 'gain', id: 'amp', min: 0, max: 1, step: 0, values: [0.75, 1] },
-            { type: 'octave', id: 'oct', min: 3, max: 7, step: 1, values: [5, 5] },
+            { type: 'octave', id: 'oct', min: 3, max: 7, step: 1, values: [0.5, 0.5] },
         ],
         yParams: synthesisParams[initialSynth],
         zParams: [
             { type: 'reverb', id: 'reverb', min: 0, max: 1, step: 0, values: [0, 0] },
             { type: 'delay', id: 'delay', min: 0, max: 1, step: 0, values: [0, 0] },
-            { type: 'crush', id: 'crush', min: 0, max: 1, step: 0, values: [0, 0] },
-            { type: 'pan', id: 'pan', min: -1, max: 1, step: 0, values: [0, 0] },
-            { type: 'hicut', id: 'hicut', min: 100, max: 20000, step: 0, values: [20000, 20000] },
+            { type: 'crush', id: 'crush', min: 16, max: 4, step: 0, values: [0, 0] },
+            { type: 'pan', id: 'pan', min: -1, max: 1, step: 0, values: [0.5, 0.5] },
+            { type: 'hicut', id: 'hicut', min: 100, max: 20000, step: 0, values: [1, 1] },
             { type: 'locut', id: 'locut', min: 0, max: 5000, step: 0, values: [0, 0] },
         ],
         envParams: [
@@ -85,8 +85,9 @@ export const synthesisSlice = createSlice({
         },
         setParam: (state, action: PayloadAction<{key: string, type: string, valuesI: number, value: number}>) => {
             const { key, type, valuesI, value } = action.payload;
+            console.log(action.payload)
             const param = state.params[key].find(p => p.type === type);
-            param && (param.values[valuesI] = formatValue(value, param.step));
+            param && (param.values[valuesI] = value);
             synthesis.setParams(formatSynthParams(state));
         },
         setQubit: (state, action: PayloadAction<Coordinates>) => {
@@ -111,12 +112,7 @@ export const synthesisSlice = createSlice({
             [...xParams, ...yParams, ...zParams, ...envParams, ...modEnvParams].forEach((param: Param) => {
                 if(['hicut', 'locut', 'gain'].includes(param.type)) return;
 
-                param.values = param.values.map(() => {
-                    return formatValue(
-                        Math.random() * (param.max - param.min) + param.min, 
-                        param.step
-                    )
-                })
+                param.values = param.values.map(() => Math.random())
             })
 
             synthesis.setParams(formatSynthParams(state));
@@ -169,11 +165,9 @@ function formatValue(value: number, step: number) {
 **/
 function sanitiseParam(key: string, value: number) {
     switch(key) {
-        case 'n':
+        case 'note':
             // TODO: add in more scales?
             return [0,2,3,5,7,9,10,12][Math.floor(value)] + 36
-        case 'crush':
-            return mapToRange(value, 0, 1, 16, 4)
         default:
             return value;
     }
@@ -184,8 +178,11 @@ function sanitiseParam(key: string, value: number) {
 **/
 function calculateParamValue(param: Param, angle: number) {
     const { values } = param;
-    const interpolatedValue = blendBetweenValues(angle, values, [0, 180])
-    return {id: param.id, value: interpolatedValue}
+    const interpolated = blendBetweenValues(angle, values, [0, 180])
+    const scaled = mapToRange(interpolated, 0, 1, param.min, param.max);
+    const rounded = param.step ? roundToNearestX(scaled, param.step) : Math.round(scaled * 100) / 100;
+    const sanitised = sanitiseParam(param.type, rounded);
+    return {id: param.id, value: sanitised}
 }
 
 /**
@@ -207,7 +204,7 @@ function formatSynthParams(state: SynthesisState) {
     return Object.values(flattened).reduce((obj, {id, value}) => {
         return { 
             ...obj, 
-            [id]: sanitiseParam(id, value) 
+            [id]: value
         }; 
     }, {})
 }

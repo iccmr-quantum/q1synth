@@ -22,14 +22,14 @@ export function SliderGroup({id, label, params, valuesI = 0, invert = false, onC
         <div className={styles.sliders}>
             { label && <h2 className={invert ? styles.textrightA : ''}>{ label }</h2> }
             
-            {params.map(({type, min, max, step, values}, i) => (
+            {params.map(({type, values}, i) => (
                 <div key={`${id}${i}`} className={styles.container}>
                     <Slider
                         className={styles.slider}
-                        min={min} 
-                        max={max}
+                        min={0} 
+                        max={1}
                         onChange={(value) => onChange(id, type, valuesI, value)}
-                        step={step || 0.001}
+                        step={0.0001}
                         disabled={disabled}
                         value={values[valuesI]}
                     />
