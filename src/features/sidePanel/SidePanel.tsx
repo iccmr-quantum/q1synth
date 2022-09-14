@@ -10,7 +10,7 @@ import { SynthType, synthTypes, setSynth, setCustomParams } from '../../synthesi
 import { synthesisParams } from '../../synthesis/params';
 import { getMidiInputs, setActiveInput } from '../../midi/midiSlice';
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
-import { getSynth, getEnvParams, getModEnvParams, setParam } from '../../synthesis/synthesisSlice';
+import { getSynth, getEnvParams, getModEnvParams, getGlobalParams, setParam } from '../../synthesis/synthesisSlice';
 import synthesis from '../../synthesis/synthesis';
 import styles from './SidePanel.module.css'
 
@@ -28,10 +28,15 @@ export function SidePanel() {
     const shouldRecord = useAppSelector(getShouldRecord)
     const envParams = useAppSelector(getEnvParams)
     const modEnvParams = useAppSelector(getModEnvParams)
+    const globalParams = useAppSelector(getGlobalParams)
     const synth = useAppSelector(getSynth)
 
     useEffect(() => {
-        const handleKeyDownRun = (e: KeyboardEvent) => e.code === 'Escape' && setShow(false) && e.preventDefault();
+        const handleKeyDownRun = (e: KeyboardEvent) => {
+            if(e.code !== 'Escape') return
+            e.preventDefault()
+            setShow(false)
+        };
         const handleResize = () => setShow(false)
 
         window.addEventListener('keydown', handleKeyDownRun)
@@ -124,6 +129,13 @@ export function SidePanel() {
                             onChange={handleChangeSample}
                         />   
                     }
+
+                    <SliderGroup 
+                        id="globalParams" 
+                        label={'Global'}
+                        params={globalParams} 
+                        onChange={handleParamChange} 
+                    />
 
                     <Presets />
                     <div className={styles.measureContainer}>

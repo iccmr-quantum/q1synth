@@ -83,6 +83,7 @@ const synthesis = () => {
         },
         setType: (type) => synthType = type,
         setBuffer: (i) => buffer = i,
+        setBpm: bpm => Transport.bpm.rampTo(bpm, 0.1),
         buffers: samples
     }
 }
