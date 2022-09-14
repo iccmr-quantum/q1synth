@@ -15,6 +15,7 @@
     font-family: 'Source Code Pro', monospace;
     cursor: pointer;
     margin-bottom: 1em;
+    opacity: 0.1;
 }
 
 .button:disabled {
@@ -25,4 +26,8 @@
 .active {
     background-color: white;
     color: black;
+}
+
+.exists {
+    opacity: 1;
 }

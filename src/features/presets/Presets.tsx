@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { getPresetNumber, getDisabledStatus, setPreset } from '../../data/dataSlice';
 import { getState, loadState } from '../../synthesis/synthesisSlice';
@@ -15,22 +15,24 @@ export function Presets() {
     const appState = useAppSelector(getState)
     const midiIsEnabled = useAppSelector(getMidiStatus)
     const midiInput = useAppSelector(getActiveMidiInput)
+    const [stored, setStored] = useState({})
 
     useEffect(() => {
-        const stored = localStorage.getItem('q1synth')
-        !stored && localStorage.setItem('q1synth', JSON.stringify({}))
+        const local = localStorage.getItem('q1synth') || '{}'
+        local === '{}' && localStorage.setItem('q1synth', JSON.stringify({}));
+        setStored(JSON.parse(local))
     }, []);
 
     const handleSave = (i: number) => {
-        const stored = localStorage.getItem('q1synth') || "{}"
-        const presets = JSON.parse(stored)
-        localStorage.setItem('q1synth', JSON.stringify({...presets, [i]: appState}))
+        const newStored = {...stored, [i]: appState}
+        setStored(newStored)
+        localStorage.setItem('q1synth', JSON.stringify(newStored))
         dispatch(setPreset(i))
     }
 
     const handleLoad = (i: number) => {
-        const stored = localStorage.getItem('q1synth') || "{}"
-        const presets = JSON.parse(stored)
+        const local = localStorage.getItem('q1synth') || "{}"
+        const presets = JSON.parse(local)
         presets[i] && dispatch(setPreset(i));
         presets[i] && dispatch(loadState(presets[i]));
     }
@@ -55,10 +57,8 @@ export function Presets() {
             <div className={styles.buttons}>
                 {Array.from(Array(8)).map((_, i) => (
                     <button 
-                        className={`
-                            ${styles.button} 
-                            ${activePreset === i ? styles.active : ''}
-                        `}
+                        // @ts-expect-error
+                        className={`${styles.button} ${activePreset === i ? styles.active : ''} ${stored[i] && styles.exists}`}
                         onClick={e => e.shiftKey ? handleSave(i) : handleLoad(i)}
                         disabled={disabled}
                         key={i}
