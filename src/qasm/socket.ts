@@ -30,3 +30,15 @@ export function receiveQasm(resolve: PromiseCallback, reject: PromiseCallback) {
         data[0] === 'counts' && setTimeout(() => resolve(parseInt(data[1].charAt(0))), 3000);
     });
 }
+
+// TODO: pass in id of instance
+export function sendXyz(x: number, y: number, z: number) {
+    socket.emit('q1synth', x, y, z)
+}
+
+// TODO:
+export function receiveXyz() {
+    socket.on('collapse', data => {
+        console.log(data)
+    })
+}

@@ -16,7 +16,8 @@ import { randomise } from './synthesis/synthesisSlice';
 import { setUseQasm, setQasmStatus, getIsMeasuring } from './qasm/qasmSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
-import { connect } from './qasm/socket'
+import { connect, sendXyz } from './qasm/socket'
+import { Transport } from 'tone';
 
 declare global {
     interface Window {
@@ -32,8 +33,9 @@ function App() {
 
     const search = useLocation().search;
     const useQasm = new URLSearchParams(search).get('qasm');
+    const ensembleMode = new URLSearchParams(search).get('ensemble');
     
-    // enable midi | dispatch state string if exists | connect to python server if exists
+    // enable midi | dispatch state string if exists | connect to python server if exists | send xyz if in ensemble mode
     useEffect(() => {
         dispatch(enableMidi())
 
@@ -46,6 +48,11 @@ function App() {
         
         useQasm && dispatch(setUseQasm(true));
         useQasm && connect(handleQasmConnection, dispatch);
+        
+        ensembleMode && Transport.scheduleRepeat((time) => {
+            sendXyz(0,0,0)
+        }, '16n')
+
     }, [dispatch])
 
     // fullscreen handling
