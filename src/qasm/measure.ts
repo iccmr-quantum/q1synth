@@ -11,7 +11,7 @@ import {
 } from '../data/dataSlice';
 
 import { incrementQubitBy, stop, trigger } from '../synthesis/synthesisSlice';
-import { send, receive } from './socket';
+import { sendQasm, receiveQasm } from './socket';
 
 export interface MeasureArgs {
     x: number 
@@ -44,8 +44,8 @@ function measureWithQasm(
     backend: string
 ) {
     return new Promise((resolve, reject) => {
-        receive(resolve, reject)
-        send(x, y, z, backend)
+        receiveQasm(resolve, reject)
+        sendQasm(x, y, z, backend)
         window.addEventListener('keydown', e => e.key === 'Escape' && reject())
         // Time out if it takes more than 10 seconds
         // setTimeout(() => reject('Couldn\'t talk to quantum computer.'), 200000) // TODO: how long should this be?

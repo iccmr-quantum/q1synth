@@ -19,12 +19,12 @@ export function connect(
     socket.on('response', data => data[0] === 'info' && dispatch(setQasmResponse(data[1])))
 }
 
-export function send(x: number, y: number, z: number, backend: string) {
+export function sendQasm(x: number, y: number, z: number, backend: string) {
     const qasmCode = `OPENQASM 2.0;\ninclude "qelib1.inc";\nqreg q[1];\ncreg c[1];\nu(${dtr(x)},${dtr(y)},${dtr(z)}) q[0];\nmeasure q[0] -> c[0];\n`
     socket.emit('QuTune', qasmCode, 1, backend)
 }
 
-export function receive(resolve: PromiseCallback, reject: PromiseCallback) {
+export function receiveQasm(resolve: PromiseCallback, reject: PromiseCallback) {
     socket.on('response', data => {
         data[0] === 'error' && setTimeout(() => reject(data), 3000);
         data[0] === 'counts' && setTimeout(() => resolve(parseInt(data[1].charAt(0))), 3000);
