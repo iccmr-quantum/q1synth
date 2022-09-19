@@ -85,6 +85,13 @@ Control change messages are mapped to the following controls.
 * 45: measure
 * 46: randomise
 
+## Ensemble Mode
+* Build local version of the app (see above)
+* Rather than use `yarn start` use `yarn start-ensemble`
+* Open [http://localhost:3000?ensemble=true&id=someID](http://localhost:3000?ensemble=true&id=0) to run app in ensemble mode.
+
+This transmits the x, y, and z position of the qubit over osc. See `/src/osc/socket-to-udp.js` for details of the osc port.
+
 ## Further Development
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.

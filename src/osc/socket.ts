@@ -27,5 +27,6 @@ export function sendXyz(x: number, y: number, z: number, id: string) {
 }
 
 oscSocket.on('message', (message: string) => {
+    // TODO...
     console.log(message)
 })
