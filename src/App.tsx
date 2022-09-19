@@ -11,13 +11,12 @@ import {
     getMode,
     setMode,
 } from './data/dataSlice';
-import { randomise } from './synthesis/synthesisSlice';
-
+import { randomise, getQubit } from './synthesis/synthesisSlice';
 import { setUseQasm, setQasmStatus, getIsMeasuring } from './qasm/qasmSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
-import { connect, sendXyz } from './qasm/socket'
-import { Transport } from 'tone';
+import { connectSocQasm } from './qasm/socket'
+import { connectOsc, sendXyz } from './osc/socket'
 
 declare global {
     interface Window {
@@ -30,10 +29,12 @@ function App() {
     const isFullScreen = useAppSelector(getIsFullScreen)
     const isMeasuring = useAppSelector(getIsMeasuring)
     const dispatch = useAppDispatch()
+    const { x, y, z } = useAppSelector(getQubit)
 
     const search = useLocation().search;
     const useQasm = new URLSearchParams(search).get('qasm');
     const ensembleMode = new URLSearchParams(search).get('ensemble');
+    const appId = new URLSearchParams(search).get('id') || '0';
     
     // enable midi | dispatch state string if exists | connect to python server if exists | send xyz if in ensemble mode
     useEffect(() => {
@@ -47,12 +48,9 @@ function App() {
         }
         
         useQasm && dispatch(setUseQasm(true));
-        useQasm && connect(handleQasmConnection, dispatch);
+        useQasm && connectSocQasm(handleQasmConnection, dispatch);
         
-        ensembleMode && Transport.scheduleRepeat((time) => {
-            sendXyz(0,0,0)
-        }, '16n')
-
+        ensembleMode && connectOsc();
     }, [dispatch])
 
     // fullscreen handling
@@ -70,6 +68,8 @@ function App() {
 
         return () => window.removeEventListener('keydown', handleFullScreen) 
     });
+
+    sendXyz(x,y,z,appId)
 
     return (
         <div className="App">

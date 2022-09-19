@@ -1,11 +1,9 @@
-// TODO
 const WebSocket = require("ws");
 const osc = require("osc");
 
 const udpPort = new osc.UDPPort({
     localAddress: "127.0.0.1",
     localPort: 57121,
-    // This is where sclang is listening for OSC messages.
     remoteAddress: "127.0.0.1",
     remotePort: 57120,
     metadata: true
