@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getPresetNumber, getDisabledStatus, setPreset } from '../../data/dataSlice';
-import { getState, loadState } from '../../synthesis/synthesisSlice';
+import { getPresetNumber, setPreset } from '../../data/dataSlice';
+import { getState, loadState, getDisabled } from '../../synthesis/synthesisSlice';
 import { getMidiStatus, getActiveMidiInput } from '../../midi/midiSlice'
 import { WebMidi } from 'webmidi';
 import { midiMap } from '../../midi/midiMap'
@@ -11,7 +11,7 @@ import styles from './Presets.module.css'
 export function Presets() {
     const dispatch = useAppDispatch()
     const activePreset = useAppSelector(getPresetNumber)
-    const disabled = useAppSelector(getDisabledStatus)
+    const disabled = useAppSelector(getDisabled)
     const appState = useAppSelector(getState)
     const midiIsEnabled = useAppSelector(getMidiStatus)
     const midiInput = useAppSelector(getActiveMidiInput)

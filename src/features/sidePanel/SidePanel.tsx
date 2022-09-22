@@ -5,8 +5,8 @@ import { Select } from '../select/Select';
 import { Input } from '../input/Input';
 import { Button } from '../buttons/Button';
 import { Presets } from '../presets/Presets';
-import { getMode, getTimes, setTime, getDisabledStatus, getShouldRecord, setShouldRecord } from '../../data/dataSlice';
-import { SynthType, synthTypes, setSynth, setCustomParams } from '../../synthesis/synthesisSlice';
+import { getMode, getTimes, setTime, getShouldRecord, setShouldRecord } from '../../data/dataSlice';
+import { SynthType, synthTypes, setSynth, setCustomParams, getDisabled } from '../../synthesis/synthesisSlice';
 import { synthesisParams } from '../../synthesis/params';
 import { getMidiInputs, setActiveInput } from '../../midi/midiSlice';
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
@@ -18,7 +18,7 @@ export function SidePanel() {
     const dispatch = useAppDispatch()
     const times = useAppSelector(getTimes)
     const mode = useAppSelector(getMode)
-    const disabled = useAppSelector(getDisabledStatus)
+    const disabled = useAppSelector(getDisabled)
     const midiInputs = useAppSelector(getMidiInputs)
     const useQasm = useAppSelector(getUseQasm)
     const qasmBackend = useAppSelector(getBackend)

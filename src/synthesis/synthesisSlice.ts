@@ -25,6 +25,7 @@ export interface Coordinates {
 
 export interface SynthesisState {
     synth: SynthType
+    disabled: boolean
     qubit: Coordinates
     params: {
         [key: string]: Param[]
@@ -36,6 +37,7 @@ const initialSynth = 'fm'
 
 const initialState: SynthesisState = {
     synth: initialSynth,
+    disabled: false,
     qubit: {
         x: 0,
         y: 0,
@@ -102,6 +104,7 @@ export const synthesisSlice = createSlice({
             synthesis.setParams(formatSynthParams(state));
         },
         setQubitAxis: (state, action: PayloadAction<{axis: any, value: number}>) => {
+            if(state.disabled) return;
             const { axis, value } = action.payload;
             axis === 'x' && (state.qubit.x = value);
             axis === 'y' && (state.qubit.y = value);
@@ -139,6 +142,9 @@ export const synthesisSlice = createSlice({
             
             state.params = params;
             synthesis.setParams(formatSynthParams(state));
+        },
+        setDisabled: (state, action: PayloadAction<boolean>) => {
+            state.disabled = action.payload;
         }
     }
 });
@@ -151,6 +157,7 @@ export const getEnvParams = (state: RootState) => state.synthesis.params.envPara
 export const getModEnvParams = (state: RootState) => state.synthesis.params.modEnvParams;
 export const getGlobalParams = (state: RootState) => state.synthesis.params.globalParams;
 export const getQubit = (state: RootState) => state.synthesis.qubit;
+export const getDisabled = (state: RootState) => state.synthesis.disabled;
 export const getState = (state: RootState) : SynthesisState => {
     return {...state.synthesis}
 }
@@ -166,7 +173,8 @@ export const {
     stop,
     trigger,
     randomise,
-    loadState
+    loadState,
+    setDisabled
 } = synthesisSlice.actions;
 
 /**

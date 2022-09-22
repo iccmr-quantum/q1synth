@@ -9,8 +9,7 @@ import { SliderGroup } from '../sliderGroup/SliderGroup';
 import { WebMidi } from 'webmidi';
 import { midiMap } from '../../midi/midiMap'
 
-import { 
-    getDisabledStatus, 
+import {  
     getIsFullScreen, 
     getMintData, 
     getMode,
@@ -18,8 +17,8 @@ import {
     getDestination,
     getShouldRecord,
 } from '../../data/dataSlice';
-import { getXParams, getYParams, getZParams, setParam, play, stop, getQubit, randomise, setQubit, setQubitAxis } from '../../synthesis/synthesisSlice';
-import { getBackend, getIsCollapsing, getQasmStatus, getIsMeasuring } from '../../qasm/qasmSlice';
+import { getXParams, getYParams, getZParams, setParam, play, stop, getQubit, randomise, setQubitAxis, getDisabled } from '../../synthesis/synthesisSlice';
+import { getBackend, getIsCollapsing, getQasmStatus } from '../../qasm/qasmSlice';
 import { getMidiStatus, getActiveMidiInput } from '../../midi/midiSlice'
 
 import { handleMeasure, MeasureArgs } from '../../qasm/measure';
@@ -29,7 +28,7 @@ import { mapToRange } from '../../functions/utils';
 export function Controller() {
     const dispatch = useAppDispatch()
     const mode = useAppSelector(getMode)
-    const disabled = useAppSelector(getDisabledStatus)
+    const disabled = useAppSelector(getDisabled)
     const isFullScreen = useAppSelector(getIsFullScreen)
     const xParams = useAppSelector(getXParams)
     const yParams = useAppSelector(getYParams)
@@ -44,7 +43,6 @@ export function Controller() {
     const isCollapsing = useAppSelector(getIsCollapsing)
     const midiIsEnabled = useAppSelector(getMidiStatus)
     const midiInput = useAppSelector(getActiveMidiInput)
-    const isMeasuring = useAppSelector(getIsMeasuring)
 
     const [measureButtonRef, setMeasureButtonRef] = useState<HTMLButtonElement | null>()
     const [playButtonRef, setPlayButtonRef] = useState<HTMLButtonElement | null>()
@@ -90,7 +88,7 @@ export function Controller() {
                 const { number } = e.controller
                 const map = midiMap(number)
                 const {key, type, valuesI } = map
-                if(!map || !value || isMeasuring || isCollapsing) return
+                if(!map || !value) return
 
                 if(number <= 3) return dispatch(setQubitAxis({axis: type, value: mapToRange(+value, 0, 1, -1, 1)}))
                 if(number <= 35) return dispatch(setParam({key, type, valuesI: valuesI || 0, value: +value}))
@@ -99,7 +97,7 @@ export function Controller() {
                 if(type === 'measure') return measureButtonRef?.click()
                 if(type === 'randomise') return dispatch(randomise());
             });
-    }, [midiIsEnabled, midiInput, isMeasuring, isCollapsing])
+    }, [midiIsEnabled, midiInput])
     
     return (
         <>

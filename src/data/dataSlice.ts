@@ -14,7 +14,6 @@ export interface DataState extends Dictionary {
     mode: Mode
     isFullScreen: boolean
     times: Times
-    disabled: boolean
     preset: number
     destination: 0 | 1
     shouldRecord: boolean
@@ -23,7 +22,6 @@ export interface DataState extends Dictionary {
 const initialState: DataState = {
     mode: 'advanced',
     isFullScreen: false,
-    disabled: false,
     times: {
         one: false, five: true, ten: false
     },
@@ -45,9 +43,6 @@ export const dataSlice = createSlice({
         toggleIsFullScreen: (state) => {
             state.isFullScreen = !state.isFullScreen
         },
-        setDisabled(state, action: PayloadAction<boolean>) {
-            state.disabled = action.payload
-        },
         setTime: (state, action: PayloadAction<{button: string }>) => {
             const { button } = action.payload
             const reset = {one: false, five: false, ten: false}
@@ -67,7 +62,6 @@ export const {
     setMode, 
     toggleIsFullScreen, 
     setTime,
-    setDisabled,
     setShouldRecord,
     setPreset
 } = dataSlice.actions;
@@ -75,7 +69,6 @@ export const {
 export const getMode = (state: RootState) => state.data.mode;
 export const getDestination = (state: RootState) => state.data.destination;
 export const getIsFullScreen = (state: RootState) => state.data.isFullScreen;
-export const getDisabledStatus = (state: RootState) => state.data.disabled
 export const getPresetNumber = (state: RootState) => state.data.preset
 export const getTimes = (state: RootState) => state.data.times
 export const getTime = (state: RootState) => {

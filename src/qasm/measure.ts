@@ -5,12 +5,11 @@ import type { AppDispatch } from '../app/store';
 import { 
     toggleIsFullScreen, 
     setData,
-    setDisabled,
     DataState, 
     Mode
 } from '../data/dataSlice';
 
-import { incrementQubitBy, stop, trigger } from '../synthesis/synthesisSlice';
+import { incrementQubitBy, stop, trigger, setDisabled } from '../synthesis/synthesisSlice';
 import { sendQasm, receiveQasm } from './socket';
 
 export interface MeasureArgs {

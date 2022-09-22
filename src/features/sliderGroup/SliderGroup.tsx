@@ -1,7 +1,6 @@
 import React, {  } from 'react'
-import { Param } from '../../synthesis/synthesisSlice';
+import { Param, getDisabled } from '../../synthesis/synthesisSlice';
 import { useAppSelector } from '../../app/hooks';
-import { getDisabledStatus } from '../../data/dataSlice';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
@@ -17,7 +16,7 @@ interface sliderGroupProps {
 }
 
 export function SliderGroup({id, label, params, valuesI = 0, invert = false, onChange} : sliderGroupProps) {
-    const disabled = useAppSelector(getDisabledStatus)
+    const disabled = useAppSelector(getDisabled)
     return (
         <div className={styles.sliders}>
             { label && <h2 className={invert ? styles.textrightA : ''}>{ label }</h2> }
