@@ -1,3 +1,0 @@
-[submodule "src/synthesis/ct-synths"] 
-  path = src/synthesis/ct-synths
-  url = https://github.com/cephasteom/ct-synths.git
