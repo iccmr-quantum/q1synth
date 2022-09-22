@@ -5,6 +5,8 @@ export const granularParams: Param[] = [
     { type: 'rate', id: 'rate', min: 0.25, max: 4, step: 0, values: [0, 1] },
     { type: 'size', id: 'size', min: 0.05, max: 1, step: 0, values: [0, 1] },
     { type: 'overlap', id: 'overlap', min: 0.1, max: 1, step: 0, values: [0, 0.5] },
+    { type: 'begin', id: 'begin', min: 0, max: 1, step: 0, values: [0, 0] },
+    { type: 'end', id: 'end', min: 0, max: 1, step: 0, values: [0, 0] },
 ]
 
 export const fmParams: Param[] = [
