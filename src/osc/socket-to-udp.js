@@ -1,7 +1,7 @@
 const WebSocket = require("ws");
 const osc = require("osc");
 
-const udpPort = new osc.UDPPort({
+const udpPortSend = new osc.UDPPort({
     localAddress: "0.0.0.0",
     localPort: 57121,
     remoteAddress: "11.1.2.1",
@@ -9,7 +9,14 @@ const udpPort = new osc.UDPPort({
     metadata: true
 });
 
-udpPort.open();
+const udpPortReceive = new osc.UDPPort({
+    localAddress: "0.0.0.0",
+    localPort: 57122,
+    metadata: true
+});
+
+udpPortSend.open();
+udpPortReceive.open();
 
 const wss = new WebSocket.Server({ port: 8080 });
 
@@ -20,8 +27,7 @@ wss.on("connection", (socket) => {
         metadata: true
     });
 
-    // act as a relay, forwarding all websocket message on via udp - for SC
-    new osc.Relay(socketPort, udpPort, {
-        raw: true
-    });
+    // set up relays to send and receive messages
+    new osc.Relay(socketPort, udpPortSend, {raw: true});
+    new osc.Relay(socketPort, udpPortReceive, {raw: true});
 });

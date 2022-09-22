@@ -71,7 +71,7 @@ const initialState: SynthesisState = {
             { type: 'release', id: 'modr', min: 0, max: 1, step: 0, values: [1] }
         ],
         globalParams: [
-            { type: 'bpm', id: 'bpm', min: 60, max: 240, step: 0, values: [0.33 ] }
+            { type: 'bpm', id: 'bpm', min: 40, max: 240, step: 0, values: [0.33 ] }
         ]
     },
     sample: 0
@@ -96,7 +96,7 @@ export const synthesisSlice = createSlice({
             !param && key === 'yParams' && (param = state.params.yParams[+type]);
             
             param && (param.values[valuesI] = value);
-            type === 'bpm' && synthesis.setBpm(mapToRange(value, 0, 1, param?.min || 60, param?.max || 180));
+            type === 'bpm' && synthesis.setBpm(mapToRange(value, 0, 1, param?.min || 40, param?.max || 240));
             synthesis.setParams(formatSynthParams(state));
         },
         setQubit: (state, action: PayloadAction<Coordinates>) => {

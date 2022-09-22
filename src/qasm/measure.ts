@@ -73,7 +73,6 @@ function measure(
 export async function handleMeasure(args: MeasureArgs) {
     const { x, y, z, dur, mode, isFullScreen, storedDestination, useQasm, mintData, backend, shouldRecord, dispatch } = args
     
-    dispatch(setDisabled(true))
     !isFullScreen && dispatch(toggleIsFullScreen());
 
     dispatch(setIsMeasuring(true))

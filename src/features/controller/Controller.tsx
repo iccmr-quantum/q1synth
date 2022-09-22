@@ -17,7 +17,7 @@ import {
     getDestination,
     getShouldRecord,
 } from '../../data/dataSlice';
-import { getXParams, getYParams, getZParams, setParam, play, stop, getQubit, randomise, setQubitAxis, getDisabled } from '../../synthesis/synthesisSlice';
+import { getXParams, getYParams, getZParams, setParam, play, stop, getQubit, randomise, setQubitAxis, getDisabled, setDisabled } from '../../synthesis/synthesisSlice';
 import { getBackend, getIsCollapsing, getQasmStatus } from '../../qasm/qasmSlice';
 import { getMidiStatus, getActiveMidiInput } from '../../midi/midiSlice'
 
@@ -59,6 +59,8 @@ export function Controller() {
 
     function handleMeasureClick() {
         const { x, y, z } = qubit
+        dispatch(setDisabled(true))
+
         const measureArgs: MeasureArgs = {
             x: x * 180,
             y: y * 180,
@@ -76,7 +78,6 @@ export function Controller() {
 
         isPlaying && dispatch(stop())
         setIsPlaying(false)
-
         handleMeasure(measureArgs)
     }
     
