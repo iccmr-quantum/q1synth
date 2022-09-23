@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
-import { synthesisParams } from './params';
+import { synthesisParams, genericParams, effectParams } from './params';
 import { blendBetweenValues, mapToRange, roundToNearestX } from '../functions/utils';
 import synthesis from './synthesis';
 
@@ -44,20 +44,9 @@ const initialState: SynthesisState = {
         z: 0
     },
     params: {
-        xParams: [
-            { type: 'note', id: 'n', min: 0, max: 7, step: 1, values: [0, 1] },
-            { type: 'gain', id: 'amp', min: 0, max: 1, step: 0, values: [0.75, 1] },
-            { type: 'octave', id: 'oct', min: 3, max: 7, step: 1, values: [0.5, 0.5] },
-        ],
+        xParams: genericParams,
         yParams: synthesisParams[initialSynth],
-        zParams: [
-            { type: 'reverb', id: 'reverb', min: 0, max: 1, step: 0, values: [0, 0] },
-            { type: 'delay', id: 'delay', min: 0, max: 1, step: 0, values: [0, 0] },
-            { type: 'crush', id: 'crush', min: 16, max: 4, step: 0, values: [0, 0] },
-            { type: 'pan', id: 'pan', min: -1, max: 1, step: 0, values: [0.5, 0.5] },
-            { type: 'hicut', id: 'hicut', min: 100, max: 20000, step: 0, values: [1, 1] },
-            { type: 'locut', id: 'locut', min: 0, max: 5000, step: 0, values: [0, 0] },
-        ],
+        zParams: effectParams,
         envParams: [
             { type: 'attack', id: 'a', min: 0, max: 1, step: 0, values: [0.1] },
             { type: 'decay', id: 'd', min: 0, max: 1, step: 0, values: [0.2] },
@@ -83,10 +72,10 @@ export const synthesisSlice = createSlice({
     reducers: {
         setSynth: (state, action: PayloadAction<SynthType>) => {
             state.synth = action.payload;
+            state.params.xParams = genericParams;
+            state.params.yParams = synthesisParams[action.payload];
+            state.params.zParams = effectParams;
             synthesis.setType(action.payload);
-        },
-        setCustomParams: (state, action: PayloadAction<Param[]>) => {
-            state.params.yParams = action.payload;
         },
         setParam: (state, action: PayloadAction<{key: string, type: string, valuesI: number, value: number}>) => {
             const { key, type, valuesI, value } = action.payload;
@@ -164,7 +153,6 @@ export const getState = (state: RootState) : SynthesisState => {
 
 export const { 
     setSynth,
-    setCustomParams,
     setParam,
     setQubit,
     setQubitAxis,

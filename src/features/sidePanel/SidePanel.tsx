@@ -6,8 +6,7 @@ import { Input } from '../input/Input';
 import { Button } from '../buttons/Button';
 import { Presets } from '../presets/Presets';
 import { getMode, getTimes, setTime, getShouldRecord, setShouldRecord } from '../../data/dataSlice';
-import { SynthType, synthTypes, setSynth, setCustomParams, getDisabled } from '../../synthesis/synthesisSlice';
-import { synthesisParams } from '../../synthesis/params';
+import { SynthType, synthTypes, setSynth, getDisabled } from '../../synthesis/synthesisSlice';
 import { getMidiInputs, setActiveInput } from '../../midi/midiSlice';
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
 import { getSynth, getEnvParams, getModEnvParams, getGlobalParams, setParam } from '../../synthesis/synthesisSlice';
@@ -67,7 +66,6 @@ export function SidePanel() {
     function handleChangeSynth(e: React.ChangeEvent<HTMLSelectElement>) {
         const type = e.target.value as SynthType
         dispatch(setSynth(type))
-        dispatch(setCustomParams(synthesisParams[type]))
     }
 
     function handleParamChange(key: string, type: string, valuesI: number, value: number) {

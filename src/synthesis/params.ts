@@ -24,3 +24,18 @@ export const synthesisParams = {
     fm: fmParams,
     subtractive: subtractiveParams,
 }
+
+export const genericParams = [
+    { type: 'note', id: 'n', min: 0, max: 7, step: 1, values: [0, 1] },
+    { type: 'gain', id: 'amp', min: 0, max: 1, step: 0, values: [0.75, 1] },
+    { type: 'octave', id: 'oct', min: 3, max: 7, step: 1, values: [0.5, 0.5] },
+]
+
+export const effectParams = [
+    { type: 'reverb', id: 'reverb', min: 0, max: 1, step: 0, values: [0, 0] },
+    { type: 'delay', id: 'delay', min: 0, max: 1, step: 0, values: [0, 0] },
+    { type: 'crush', id: 'crush', min: 16, max: 4, step: 0, values: [0, 0] },
+    { type: 'pan', id: 'pan', min: -1, max: 1, step: 0, values: [0.5, 0.5] },
+    { type: 'hicut', id: 'hicut', min: 100, max: 20000, step: 0, values: [1, 1] },
+    { type: 'locut', id: 'locut', min: 0, max: 5000, step: 0, values: [0, 0] },
+]
