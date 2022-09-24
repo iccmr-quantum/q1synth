@@ -1,6 +1,5 @@
-import React, {  } from 'react'
-import { Param, getDisabled } from '../../synthesis/synthesisSlice';
-import { useAppSelector } from '../../app/hooks';
+import { useAppSelector, useAppDispatch} from '../../app/hooks';
+import { Param, getDisabled, toggleSelectedParam, moveSelectedParams } from '../../synthesis/synthesisSlice';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
@@ -16,12 +15,19 @@ interface sliderGroupProps {
 }
 
 export function SliderGroup({id, label, params, valuesI = 0, invert = false, onChange} : sliderGroupProps) {
+    const dispatch = useAppDispatch();
     const disabled = useAppSelector(getDisabled)
+
     return (
         <div className={styles.sliders}>
-            { label && <h2 className={invert ? styles.textrightA : ''}>{ label }</h2> }
+            { 
+                label && <h2 
+                    className={invert ? styles.textrightA : ''}
+                    onClick={() => dispatch(moveSelectedParams(id))}
+                >{ label }</h2> 
+            }
             
-            {params.map(({type, values}, i) => (
+            {params.map(({type, values, selected}, i) => (
                 <div key={`${id}${i}`} className={styles.container}>
                     <Slider
                         className={styles.slider}
@@ -32,10 +38,14 @@ export function SliderGroup({id, label, params, valuesI = 0, invert = false, onC
                         disabled={disabled}
                         value={values[valuesI]}
                     />
-                    <p className={`
-                        ${styles.label} 
-                        ${invert ? styles.labelInvert : ''}
-                    `}>{ type }</p>
+                    <p 
+                        className={`
+                            ${styles.label} 
+                            ${invert ? styles.labelInvert : ''} 
+                            ${selected ? styles.labelSelected : ''}
+                        `}
+                        onClick={() => dispatch(toggleSelectedParam({key: id, type}))}
+                    >{ type }</p>
                 </div>
             ))}
         </div> 

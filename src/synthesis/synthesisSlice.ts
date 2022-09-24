@@ -15,6 +15,7 @@ export interface Param {
     max: number
     step: number
     values: number[]
+    selected: boolean
 }
 
 export interface Coordinates {
@@ -48,19 +49,19 @@ const initialState: SynthesisState = {
         yParams: synthesisParams[initialSynth],
         zParams: effectParams,
         envParams: [
-            { type: 'attack', id: 'a', min: 0, max: 1, step: 0, values: [0.1] },
-            { type: 'decay', id: 'd', min: 0, max: 1, step: 0, values: [0.2] },
-            { type: 'sustain', id: 's', min: 0, max: 1, step: 0, values: [0.5] },
-            { type: 'release', id: 'r', min: 0, max: 1, step: 0, values: [1] }
+            { type: 'attack', id: 'a', min: 0, max: 1, step: 0, values: [0.1], selected: false},
+            { type: 'decay', id: 'd', min: 0, max: 1, step: 0, values: [0.2], selected: false},
+            { type: 'sustain', id: 's', min: 0, max: 1, step: 0, values: [0.5], selected: false},
+            { type: 'release', id: 'r', min: 0, max: 1, step: 0, values: [1], selected: false }
         ],
         modEnvParams: [
-            { type: 'attack', id: 'moda', min: 0, max: 1, step: 0, values: [0] },
-            { type: 'decay', id: 'modd', min: 0, max: 1, step: 0, values: [0.2] },
-            { type: 'sustain', id: 'mods', min: 0, max: 1, step: 0, values: [0.5] },
-            { type: 'release', id: 'modr', min: 0, max: 1, step: 0, values: [1] }
+            { type: 'attack', id: 'moda', min: 0, max: 1, step: 0, values: [0], selected: false},
+            { type: 'decay', id: 'modd', min: 0, max: 1, step: 0, values: [0.2], selected: false},
+            { type: 'sustain', id: 'mods', min: 0, max: 1, step: 0, values: [0.5], selected: false},
+            { type: 'release', id: 'modr', min: 0, max: 1, step: 0, values: [1], selected: false }
         ],
         globalParams: [
-            { type: 'bpm', id: 'bpm', min: 40, max: 240, step: 0, values: [0.33 ] }
+            { type: 'bpm', id: 'bpm', min: 40, max: 240, step: 0, values: [0.33 ], selected: false }
         ]
     },
     sample: 0
@@ -87,6 +88,26 @@ export const synthesisSlice = createSlice({
             param && (param.values[valuesI] = value);
             type === 'bpm' && synthesis.setBpm(mapToRange(value, 0, 1, param?.min || 40, param?.max || 240));
             synthesis.setParams(formatSynthParams(state));
+        },
+        toggleSelectedParam: (state, action: PayloadAction<{key: string, type: string}>) => {
+            const { key, type } = action.payload;
+            let param = state.params[key].find(p => p.type === type);
+            
+            param && (param.selected = true);
+        },
+        moveSelectedParams: (state, action: PayloadAction<string>) => {
+            const { xParams, yParams, zParams } = state.params;
+            const selectedParams = [...xParams, ...yParams, ...zParams].filter(p => p.selected);
+            state.params = {
+                ...state.params,
+                xParams: xParams.filter(p => !p.selected),
+                yParams: yParams.filter(p => !p.selected),
+                zParams: zParams.filter(p => !p.selected)
+            }
+            state.params[action.payload] = [
+                ...state.params[action.payload], 
+                ...selectedParams.map(p => ({...p, selected: false}))
+            ];
         },
         setQubit: (state, action: PayloadAction<Coordinates>) => {
             state.qubit = action.payload;
@@ -162,7 +183,9 @@ export const {
     trigger,
     randomise,
     loadState,
-    setDisabled
+    setDisabled,
+    toggleSelectedParam,
+    moveSelectedParams
 } = synthesisSlice.actions;
 
 /**
