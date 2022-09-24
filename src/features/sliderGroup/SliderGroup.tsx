@@ -22,7 +22,10 @@ export function SliderGroup({id, label, params, valuesI = 0, invert = false, onC
         <div className={styles.sliders}>
             { 
                 label && <h2 
-                    className={invert ? styles.textrightA : ''}
+                    className={`
+                        ${invert ? styles.textrightA : ''} 
+                        ${styles.h2}
+                    `}
                     onClick={() => dispatch(moveSelectedParams(id))}
                 >{ label }</h2> 
             }

@@ -13,6 +13,9 @@
 .slider {
     width: 80%;
 }
+.h2 {
+    cursor: pointer;
+}
 .label {
     width: 20%;
     color: #FFF;
