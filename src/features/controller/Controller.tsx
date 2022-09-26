@@ -88,15 +88,15 @@ export function Controller() {
                 const { value } = e
                 const { number } = e.controller
                 const map = midiMap(number)
-                const {key, type, valuesI } = map
+                const {id, valuesI } = map
                 if(!map || !value) return
 
-                if(number <= 3) return dispatch(setQubitAxis({axis: type, value: mapToRange(+value, 0, 1, -1, 1)}))
-                // if(number <= 35) return dispatch(setParam({key, type, valuesI: valuesI || 0, value: +value}))
+                if(number <= 3) return dispatch(setQubitAxis({axis: id, value: mapToRange(+value, 0, 1, -1, 1)}))
+                if(number <= 35) return dispatch(setParam({id, valuesI: valuesI || 0, value: +value}))
 
-                if(type === 'play') return playButtonRef?.click()
-                if(type === 'measure') return measureButtonRef?.click()
-                if(type === 'randomise') return dispatch(randomise());
+                if(id === 'play') return playButtonRef?.click()
+                if(id === 'measure') return measureButtonRef?.click()
+                if(id === 'randomise') return dispatch(randomise());
             });
     }, [midiIsEnabled, midiInput])
     
