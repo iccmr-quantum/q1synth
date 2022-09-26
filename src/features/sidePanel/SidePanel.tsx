@@ -7,7 +7,7 @@ import { Button } from '../buttons/Button';
 import { Presets } from '../presets/Presets';
 import { getMode, getTimes, setTime, getShouldRecord, setShouldRecord } from '../../data/dataSlice';
 import { SynthType, synthTypes, setSynth, getDisabled } from '../../synthesis/synthesisSlice';
-import { getMidiInputs, setActiveInput } from '../../midi/midiSlice';
+import { getMidiInputs, setActiveInput, getActiveMidiInput } from '../../midi/midiSlice';
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
 import { getSynth, getEnvParams, getModEnvParams, getGlobalParams, setParam } from '../../synthesis/synthesisSlice';
 import synthesis from '../../synthesis/synthesis';
@@ -19,6 +19,7 @@ export function SidePanel() {
     const mode = useAppSelector(getMode)
     const disabled = useAppSelector(getDisabled)
     const midiInputs = useAppSelector(getMidiInputs)
+    const activeMidiInput = useAppSelector(getActiveMidiInput)
     const useQasm = useAppSelector(getUseQasm)
     const qasmBackend = useAppSelector(getBackend)
     const [active, setActive] = useState(0)
@@ -163,6 +164,7 @@ export function SidePanel() {
                     <Select 
                         title="MIDI" 
                         options={midiInputs.map(({id, name}) => ({id, label: name}))} 
+                        value={activeMidiInput}
                         onChange={handleMidiSelect}
                     />
                     { useQasm && <Input

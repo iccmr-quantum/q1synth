@@ -23,67 +23,7 @@ Once socket-qasm is up and running, include the query parameter `?qasm` in the a
 A midi input device can be chosen from the dropdown in the config panel. QuSynth listens for control change messages on any midi channel of the selected device. A Max patch is included in this repo to map controls to a midi controller.
 
 ### Midi Mapping
-Control change messages are mapped to the following controls.
-
-#### Qubit
-* 1: x
-* 2: y
-* 3: z
-
-#### Left Sliders
-* 4: note
-* 5: gain
-* 6: octave
-* 7: custom param 0
-* 8: custom param 1
-* 9: custom param 2
-* 10: reverb
-* 11: delay
-* 12: crush
-* 13: pan
-* 14: hicut
-* 15: locut
-
-#### Right Sliders
-* 16: note
-* 17: gain
-* 18: octave
-* 19: custom param 0
-* 20: custom param 1
-* 21: custom param 2
-* 22: reverb
-* 23: delay
-* 24: crush
-* 25: pan
-* 26: hicut
-* 27: locut
-
-#### Amplitude Envelope
-* 28: attack
-* 29: decay
-* 30: sustain
-* 31: release
-
-#### Modulation / Filter Envelope
-* 32: attack
-* 33: decay
-* 34: sustain
-* 35: release
-
-#### Presets
-* 36: 0
-* 37: 1
-* 38: 2
-* 39: 3
-* 40: 4
-* 41: 5
-* 42: 6
-* 43: 7
-
-#### Actions
-* 44: play
-* 45: measure
-* 46: randomise
+Control change messages are mapped to the controls, as laid out in the file `src/midi/midiMap.ts`.
 
 ## Ensemble Mode
 * Build local version of the app (see above)
