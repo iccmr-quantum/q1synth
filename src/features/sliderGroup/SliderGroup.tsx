@@ -6,7 +6,7 @@ import 'rc-slider/assets/index.css';
 import styles from './SliderGroup.module.css';
 
 interface sliderGroupProps {
-    key: string
+    group: string
     label?: string
     params: Param[]
     invert?: boolean | undefined
@@ -14,10 +14,10 @@ interface sliderGroupProps {
     onChange: (id: string, valueI: number, value: number) => void
 }
 
-export function SliderGroup({key, label, params, valuesI = 0, invert = false, onChange} : sliderGroupProps) {
+export function SliderGroup({group, label, params, valuesI = 0, invert = false, onChange} : sliderGroupProps) {
     const dispatch = useAppDispatch();
     const disabled = useAppSelector(getDisabled)
-    const isSelectable = ['xParams', 'yParams', 'zParams'].includes(key)
+    const isSelectable = ['xParams', 'yParams', 'zParams'].includes(group)
 
     return (
         <div className={styles.sliders}>
@@ -27,7 +27,7 @@ export function SliderGroup({key, label, params, valuesI = 0, invert = false, on
                         ${invert ? styles.textrightA : ''} 
                         ${styles.h2}
                     `}
-                    onClick={() => dispatch(moveSelectedParams(key))}
+                    onClick={() => dispatch(moveSelectedParams(group))}
                 >{ label }</h2> 
             }
             

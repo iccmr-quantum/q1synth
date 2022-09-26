@@ -44,10 +44,10 @@ export function Presets() {
                 const { value } = e
                 const { number } = e.controller
                 const map = midiMap(number)
-                const {key, type: i } = map
-                if(!map || !value || key !== 'preset') return
+                const {id} = map
+                if(!map || !value ) return
                 
-                handleLoad(+i)
+                (number >= 46 && number <= 53) && handleLoad(+id)
             });
     }, [midiIsEnabled, midiInput])
 

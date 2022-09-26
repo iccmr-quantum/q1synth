@@ -91,9 +91,11 @@ export function Controller() {
                 const {id, valuesI } = map
                 if(!map || !value) return
 
+                // Qubit
                 if(number <= 3) return dispatch(setQubitAxis({axis: id, value: mapToRange(+value, 0, 1, -1, 1)}))
-                if(number <= 35) return dispatch(setParam({id, valuesI: valuesI || 0, value: +value}))
-
+                // Params
+                if(number <= 45) return dispatch(setParam({id, valuesI: valuesI || 0, value: +value}))
+                // Actions
                 if(id === 'play') return playButtonRef?.click()
                 if(id === 'measure') return measureButtonRef?.click()
                 if(id === 'randomise') return dispatch(randomise());
@@ -105,9 +107,9 @@ export function Controller() {
             <div className={styles.container}>
                 {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
-                        <SliderGroup key="xParams" label="|0⟩" params={xParams} onChange={handleParamChange} />
-                        <SliderGroup key="yParams" label="|+⟩" params={yParams} onChange={handleParamChange} />
-                        <SliderGroup key="zParams" label="λ" params={zParams} onChange={handleParamChange} />
+                        <SliderGroup group="xParams" label="|0⟩" params={xParams} onChange={handleParamChange} />
+                        <SliderGroup group="yParams" label="|+⟩" params={yParams} onChange={handleParamChange} />
+                        <SliderGroup group="zParams" label="λ" params={zParams} onChange={handleParamChange} />
                     </section>
                 }
                 
@@ -119,9 +121,9 @@ export function Controller() {
                 
                 {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
-                        <SliderGroup key="xParams" label="|1⟩" params={xParams} valuesI={1} onChange={handleParamChange} />
-                        <SliderGroup key="yParams" label="|-⟩" params={yParams} valuesI={1} onChange={handleParamChange} />
-                        <SliderGroup key="zParams" label="λ" params={zParams} valuesI={1} onChange={handleParamChange} />
+                        <SliderGroup group="xParams" label="|1⟩" params={xParams} valuesI={1} onChange={handleParamChange} />
+                        <SliderGroup group="yParams" label="|-⟩" params={yParams} valuesI={1} onChange={handleParamChange} />
+                        <SliderGroup group="zParams" label="λ" params={zParams} valuesI={1} onChange={handleParamChange} />
                     </section>
                 }
             </div>

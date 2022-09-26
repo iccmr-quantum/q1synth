@@ -107,12 +107,12 @@ export function SidePanel() {
                         onChange={handleChangeSynth}
                     />                    
 
-                    <SliderGroup key="envParams" label="Envelope" params={envParams} onChange={handleParamChange} />
+                    <SliderGroup group="envParams" label="Envelope" params={envParams} onChange={handleParamChange} />
                     
                     {
                         synth !== 'granular' && 
                         <SliderGroup 
-                            key="modEnvParams" 
+                            group="modEnvParams" 
                             label={`${synth === 'fm' ? 'Modulation' : 'Filter'} Envelope`}
                             params={modEnvParams} 
                             onChange={handleParamChange} 
@@ -129,7 +129,7 @@ export function SidePanel() {
                     }
 
                     <SliderGroup 
-                        key="globalParams" 
+                        group="globalParams" 
                         label={'Global'}
                         params={globalParams} 
                         onChange={handleParamChange} 
