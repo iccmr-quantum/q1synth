@@ -17,6 +17,7 @@ interface sliderGroupProps {
 export function SliderGroup({id, label, params, valuesI = 0, invert = false, onChange} : sliderGroupProps) {
     const dispatch = useAppDispatch();
     const disabled = useAppSelector(getDisabled)
+    const isSelectable = ['xParams', 'yParams', 'zParams'].includes(id)
 
     return (
         <div className={styles.sliders}>
@@ -47,7 +48,7 @@ export function SliderGroup({id, label, params, valuesI = 0, invert = false, onC
                             ${invert ? styles.labelInvert : ''} 
                             ${selected ? styles.labelSelected : ''}
                         `}
-                        onClick={() => dispatch(toggleSelectedParam({key: id, type}))}
+                        onClick={() => isSelectable && dispatch(toggleSelectedParam({key: id, type}))}
                     >{ type }</p>
                 </div>
             ))}

@@ -1,6 +1,8 @@
+// TODO: remap params without the key, just by the type...
+
 interface Map {
     [key: number] : {key: string, type: string, valuesI?: number | undefined}
-  }
+}
 
 export const midiMap = (cc: number) : {key: string, type: string, valuesI?: number} => {
     const map: Map = {
