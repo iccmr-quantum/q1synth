@@ -48,8 +48,8 @@ export function Controller() {
     const [playButtonRef, setPlayButtonRef] = useState<HTMLButtonElement | null>()
     const [isPlaying, setIsPlaying] = useState(false)
 
-    function handleParamChange(key: string, type: string, valuesI: number, value: number) {
-        dispatch(setParam({key, type, valuesI, value}))
+    function handleParamChange(id: string, valuesI: number, value: number) {
+        dispatch(setParam({id, valuesI, value}))
     }
 
     function togglePlay() {
@@ -92,7 +92,7 @@ export function Controller() {
                 if(!map || !value) return
 
                 if(number <= 3) return dispatch(setQubitAxis({axis: type, value: mapToRange(+value, 0, 1, -1, 1)}))
-                if(number <= 35) return dispatch(setParam({key, type, valuesI: valuesI || 0, value: +value}))
+                // if(number <= 35) return dispatch(setParam({key, type, valuesI: valuesI || 0, value: +value}))
 
                 if(type === 'play') return playButtonRef?.click()
                 if(type === 'measure') return measureButtonRef?.click()
@@ -105,9 +105,9 @@ export function Controller() {
             <div className={styles.container}>
                 {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
-                        <SliderGroup id="xParams" label="|0⟩" params={xParams} onChange={handleParamChange} />
-                        <SliderGroup id="yParams" label="|+⟩" params={yParams} onChange={handleParamChange} />
-                        <SliderGroup id="zParams" label="λ" params={zParams} onChange={handleParamChange} />
+                        <SliderGroup key="xParams" label="|0⟩" params={xParams} onChange={handleParamChange} />
+                        <SliderGroup key="yParams" label="|+⟩" params={yParams} onChange={handleParamChange} />
+                        <SliderGroup key="zParams" label="λ" params={zParams} onChange={handleParamChange} />
                     </section>
                 }
                 
@@ -119,9 +119,9 @@ export function Controller() {
                 
                 {mode === 'advanced' && !isFullScreen &&
                     <section className={`${styles.sliders} sliders`}>
-                        <SliderGroup id="xParams" label="|1⟩" params={xParams} valuesI={1} onChange={handleParamChange} />
-                        <SliderGroup id="yParams" label="|-⟩" params={yParams} valuesI={1} onChange={handleParamChange} />
-                        <SliderGroup id="zParams" label="λ" params={zParams} valuesI={1} onChange={handleParamChange} />
+                        <SliderGroup key="xParams" label="|1⟩" params={xParams} valuesI={1} onChange={handleParamChange} />
+                        <SliderGroup key="yParams" label="|-⟩" params={yParams} valuesI={1} onChange={handleParamChange} />
+                        <SliderGroup key="zParams" label="λ" params={zParams} valuesI={1} onChange={handleParamChange} />
                     </section>
                 }
             </div>

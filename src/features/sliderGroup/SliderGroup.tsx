@@ -6,18 +6,18 @@ import 'rc-slider/assets/index.css';
 import styles from './SliderGroup.module.css';
 
 interface sliderGroupProps {
-    id: string
+    key: string
     label?: string
     params: Param[]
     invert?: boolean | undefined
     valuesI?: number
-    onChange: (groupId: string, paramType: string, valueI: number, value: number) => void
+    onChange: (id: string, valueI: number, value: number) => void
 }
 
-export function SliderGroup({id, label, params, valuesI = 0, invert = false, onChange} : sliderGroupProps) {
+export function SliderGroup({key, label, params, valuesI = 0, invert = false, onChange} : sliderGroupProps) {
     const dispatch = useAppDispatch();
     const disabled = useAppSelector(getDisabled)
-    const isSelectable = ['xParams', 'yParams', 'zParams'].includes(id)
+    const isSelectable = ['xParams', 'yParams', 'zParams'].includes(key)
 
     return (
         <div className={styles.sliders}>
@@ -27,17 +27,17 @@ export function SliderGroup({id, label, params, valuesI = 0, invert = false, onC
                         ${invert ? styles.textrightA : ''} 
                         ${styles.h2}
                     `}
-                    onClick={() => dispatch(moveSelectedParams(id))}
+                    onClick={() => dispatch(moveSelectedParams(key))}
                 >{ label }</h2> 
             }
             
-            {params.map(({type, values, selected}, i) => (
-                <div key={`${id}${i}`} className={styles.container}>
+            {params.map(({type, values, selected, id}, i) => (
+                <div key={id} className={styles.container}>
                     <Slider
                         className={styles.slider}
                         min={0} 
                         max={1}
-                        onChange={(value) => onChange(id, type, valuesI, value)}
+                        onChange={(value) => onChange(id, valuesI, value)}
                         step={0.0001}
                         disabled={disabled}
                         value={values[valuesI]}
@@ -48,7 +48,7 @@ export function SliderGroup({id, label, params, valuesI = 0, invert = false, onC
                             ${invert ? styles.labelInvert : ''} 
                             ${selected ? styles.labelSelected : ''}
                         `}
-                        onClick={() => isSelectable && dispatch(toggleSelectedParam({key: id, type}))}
+                        onClick={() => isSelectable && dispatch(toggleSelectedParam(id))}
                     >{ type }</p>
                 </div>
             ))}

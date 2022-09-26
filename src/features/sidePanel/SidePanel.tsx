@@ -68,8 +68,8 @@ export function SidePanel() {
         dispatch(setSynth(type))
     }
 
-    function handleParamChange(key: string, type: string, valuesI: number, value: number) {
-        dispatch(setParam({key, type, valuesI, value}))
+    function handleParamChange(id: string, valuesI: number, value: number) {
+        dispatch(setParam({id, valuesI, value}))
     }
 
     function handleChangeSample(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -107,12 +107,12 @@ export function SidePanel() {
                         onChange={handleChangeSynth}
                     />                    
 
-                    <SliderGroup id="envParams" label="Envelope" params={envParams} onChange={handleParamChange} />
+                    <SliderGroup key="envParams" label="Envelope" params={envParams} onChange={handleParamChange} />
                     
                     {
                         synth !== 'granular' && 
                         <SliderGroup 
-                            id="modEnvParams" 
+                            key="modEnvParams" 
                             label={`${synth === 'fm' ? 'Modulation' : 'Filter'} Envelope`}
                             params={modEnvParams} 
                             onChange={handleParamChange} 
@@ -129,7 +129,7 @@ export function SidePanel() {
                     }
 
                     <SliderGroup 
-                        id="globalParams" 
+                        key="globalParams" 
                         label={'Global'}
                         params={globalParams} 
                         onChange={handleParamChange} 

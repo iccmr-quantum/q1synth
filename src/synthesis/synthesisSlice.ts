@@ -78,20 +78,20 @@ export const synthesisSlice = createSlice({
             state.params.zParams = effectParams;
             synthesis.setType(action.payload);
         },
-        setParam: (state, action: PayloadAction<{key: string, type: string, valuesI: number, value: number}>) => {
-            const { key, type, valuesI, value } = action.payload;
-            // find param by type
-            let param = state.params[key].find(p => p.type === type);
-            // or try to find by index
-            !param && key === 'yParams' && (param = state.params.yParams[+type]);
+        setParam: (state, action: PayloadAction<{id: string, valuesI: number, value: number}>) => {
+            const { id, valuesI, value } = action.payload;
+            const params = [...Object.values(state.params).flat()];
             
+            const param = params.find(p => p.id === id)
             param && (param.values[valuesI] = value);
-            type === 'bpm' && synthesis.setBpm(mapToRange(value, 0, 1, param?.min || 40, param?.max || 240));
+
+            id === 'bpm' && synthesis.setBpm(mapToRange(value, 0, 1, param?.min || 40, param?.max || 240));
             synthesis.setParams(formatSynthParams(state));
         },
-        toggleSelectedParam: (state, action: PayloadAction<{key: string, type: string}>) => {
-            const { key, type } = action.payload;
-            let param = state.params[key].find(p => p.type === type);
+        toggleSelectedParam: (state, action: PayloadAction<string>) => {
+            const id = action.payload
+            const params = [...Object.values(state.params).flat()];
+            const param = params.find(p => p.id === id)
             
             param && (param.selected = true);
         },
