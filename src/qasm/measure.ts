@@ -94,16 +94,13 @@ export async function handleMeasure(args: MeasureArgs) {
     const yStep = ((yDestination - y) / (dur * 64))/180
     const zStep = ((zDestination - z) / (dur * 64))/180
     
-    let firstLoop = true
     const loopID = Tone.Transport.scheduleRepeat(time => {
-        firstLoop && dispatch(play());
-        firstLoop = false
-
         Tone.Draw.schedule(() => {
             dispatch(incrementQubitBy({x: xStep, y: yStep, z: zStep}))
         }, time);
     }, "128n");
 
+    dispatch(play());
     Tone.Transport.start('+0.1').stop(`+${dur + 0.1}`);
     
     Tone.Transport.once('stop', () => {
