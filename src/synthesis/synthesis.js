@@ -1,34 +1,6 @@
-import { Transport, Reverb, FeedbackDelay, immediate, Limiter, ToneAudioBuffer} from "tone";
-import { CtFMSynth, CtGranular, CtDuoSynth } from "./ct-synths";
-import { beatsToSeconds, formatMutationParams } from "./utils";
-
-const limiter = new Limiter(-1).toDestination()
-const reverb = new Reverb(4).connect(limiter)
-const delay = new FeedbackDelay('4n', 0.5).connect(reverb)
-const origin = window.location.origin
-const urls = [
-    'https://tonejs.github.io/audio/berklee/arpeggio3crazy.mp3',
-    'https://tonejs.github.io/audio/berklee/taps_1c.mp3',
-    'https://tonejs.github.io/audio/berklee/tinkle3.mp3',
-    'https://tonejs.github.io/audio/berklee/tapping1.mp3',
-    'https://tonejs.github.io/audio/berklee/gong_1.mp3',
-    'https://tonejs.github.io/audio/berklee/gurgling_theremin_1.mp3',
-    origin + '/samples/IBM_Refrigerators.wav',
-]
-const samples = urls.map(url => url.substring(url.lastIndexOf('/') + 1))
-const buffers = urls.map(url => new ToneAudioBuffer(url))
-const getSynthByType = (type, params, buffer) => {
-    switch (type) {
-        case 'fm':
-            return new CtFMSynth(params)
-        case 'granular':
-            return new CtGranular(buffer, params)
-        case 'subtractive':
-            return new CtDuoSynth(params)
-        default:
-            return new CtFMSynth(params)
-    }
-}
+import { Transport, immediate} from "tone";
+import { buffers, delay, reverb, samples } from "./global"
+import { beatsToSeconds, formatMutationParams, getSynthByType } from "./utils";
 
 const synthesis = () => {
     let synths = []

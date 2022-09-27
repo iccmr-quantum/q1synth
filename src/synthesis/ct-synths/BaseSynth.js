@@ -1,4 +1,4 @@
-import { AmplitudeEnvelope, Gain, Panner, Distortion, BitCrusher, Filter } from "tone";
+import { AmplitudeEnvelope, Gain, Panner, Distortion, BitCrusher, Filter, immediate } from "tone";
 import { mtf, getDisposable, getClassSetters, getClassMethods, isMutableKey, getSchedulable } from './utils/core'
 import { doAtTime, formatCurve } from "./utils/tone";
 class BaseSynth {
@@ -77,7 +77,17 @@ class BaseSynth {
         
         this.endTime = time + this.duration + this.envelope.release + 0.05
         this.dispose(this.endTime)
-    }  
+    }
+
+    on(params = {}) {
+        this.setParams(params)
+        
+        this.synth.triggerAttack(mtf(params.n + (this.octave * 12)) || 220, immediate(), this.amplitude)
+    }
+
+    off() {
+        this.synth.triggerRelease()
+    }
 
     mutate(params = {}, time, lag) {
         const props = this.mutable
