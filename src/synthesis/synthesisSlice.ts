@@ -34,7 +34,7 @@ export interface SynthesisState {
     sample: number
 }
 
-const initialSynth = 'granular'
+const initialSynth = 'fm'
 
 const initialState: SynthesisState = {
     synth: initialSynth,
