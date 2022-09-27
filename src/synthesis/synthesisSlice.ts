@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 import { synthesisParams, genericParams, effectParams } from './params';
 import { blendBetweenValues, mapToRange, roundToNearestX } from '../functions/utils';
-import synthesis from './synthesis';
 import sound from './sound';
 
 // These should remain in sync
@@ -86,7 +85,6 @@ export const synthesisSlice = createSlice({
             const param = params.find(p => p.id === id)
             param && (param.values[valuesI] = value);
 
-            // id === 'bpm' && synthesis.setBpm(mapToRange(value, 0, 1, param?.min || 40, param?.max || 240));
             sound.mutate(formatSynthParams(state));
         },
         toggleSelectedParam: (state, action: PayloadAction<string>) => {
@@ -131,10 +129,6 @@ export const synthesisSlice = createSlice({
         },
         play: (state) => sound.on(formatSynthParams(state)),
         stop: () => sound.off(),
-        trigger: (state, action: PayloadAction<{time: number, dur: number}>) => {
-            const { time, dur } = action.payload;
-            synthesis.trigger(formatSynthParams(state), dur, time)
-        },
         randomise: (state) => {
             const { xParams, yParams, zParams, envParams, modEnvParams } = state.params;
             [...xParams, ...yParams, ...zParams, ...envParams, ...modEnvParams].forEach((param: Param) => {
@@ -181,7 +175,6 @@ export const {
     incrementQubitBy,
     play,
     stop,
-    trigger,
     randomise,
     loadState,
     setDisabled,

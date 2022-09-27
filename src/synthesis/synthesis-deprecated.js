@@ -1,3 +1,5 @@
+// Deprecated
+
 import { Transport, immediate} from "tone";
 import { buffers, delay, reverb, samples } from "./global"
 import { beatsToSeconds, formatMutationParams, getSynthByType } from "./utils";

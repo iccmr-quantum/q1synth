@@ -9,7 +9,7 @@ import {
     Mode
 } from '../data/dataSlice';
 
-import { incrementQubitBy, stop, trigger, setDisabled } from '../synthesis/synthesisSlice';
+import { incrementQubitBy, stop, play, setDisabled } from '../synthesis/synthesisSlice';
 import { sendQasm, receiveQasm } from './socket';
 
 export interface MeasureArgs {
@@ -96,7 +96,7 @@ export async function handleMeasure(args: MeasureArgs) {
     
     let firstLoop = true
     const loopID = Tone.Transport.scheduleRepeat(time => {
-        firstLoop && dispatch(trigger({time, dur}));
+        firstLoop && dispatch(play());
         firstLoop = false
 
         Tone.Draw.schedule(() => {
