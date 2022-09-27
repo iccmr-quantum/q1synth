@@ -48,11 +48,10 @@ export const enableMidi = (): AppThunk => async dispatch => {
     if(!navigator.requestMIDIAccess) return 
     await WebMidi.enable()
     dispatch(setMidiStatus(WebMidi.enabled))
-    const fromMax = WebMidi.getInputByName('from Max 1')
-    console.log(fromMax.id)
+    const fromMax = WebMidi.getInputByName('from Max 1')?.id || false
     WebMidi.enabled 
         && dispatch(setMidiInputs(WebMidi.inputs.map(({id, name}) => ({id, name}))))
-        && dispatch(setActiveInput(fromMax.id || WebMidi.inputs[0].id));
+        && dispatch(setActiveInput(fromMax || WebMidi.inputs[0].id));
 }
 
 export default midiSlice.reducer;
