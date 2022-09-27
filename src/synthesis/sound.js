@@ -1,6 +1,6 @@
 import { immediate } from "tone"
 import { buffers, delay, samples, reverb } from "./global"
-import { getSynthByType } from "./utils"
+import { getSynthByType, formatMutationParams } from "./utils"
 
 const sound = () => {
     let synth = null
@@ -15,18 +15,18 @@ const sound = () => {
             synth.connect(delay)
             reverb.wet.rampTo(params.reverb, 0.1)
             delay.feedback.rampTo(params.delay, 0.1)
-            synth.on(params)
+            synth.on(params, '+0')
         },
         off: () => {
             synth.off()
             synth = null
         },
         mutate: (ps) => {
-            params = ps
-            reverb.wet.rampTo(params.reverb, 0.1)
-            delay.feedback.rampTo(params.delay, 0.1)
-            synth.mutate(params, immediate(), 0.05)
+            reverb.wet.rampTo(ps.reverb, 0.1)
+            delay.feedback.rampTo(ps.delay, 0.1)
+            synth && synth.mutate(formatMutationParams(ps), immediate(), 0.05)
         },
+        setType: (type) => synthType = type,
         buffers: samples
     }
 }

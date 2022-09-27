@@ -3,6 +3,7 @@ import { RootState } from '../app/store';
 import { synthesisParams, genericParams, effectParams } from './params';
 import { blendBetweenValues, mapToRange, roundToNearestX } from '../functions/utils';
 import synthesis from './synthesis';
+import sound from './sound';
 
 // These should remain in sync
 export type SynthType = 'fm' | 'granular' | 'subtractive'
@@ -49,16 +50,16 @@ const initialState: SynthesisState = {
         yParams: synthesisParams[initialSynth],
         zParams: effectParams,
         envParams: [
-            { type: 'attack', id: 'a', min: 0, max: 1, step: 0, values: [0.1], selected: false},
+            { type: 'attack', id: 'a', min: 0, max: 2, step: 0, values: [0.1], selected: false},
             { type: 'decay', id: 'd', min: 0, max: 1, step: 0, values: [0.2], selected: false},
             { type: 'sustain', id: 's', min: 0, max: 1, step: 0, values: [0.5], selected: false},
-            { type: 'release', id: 'r', min: 0, max: 1, step: 0, values: [1], selected: false }
+            { type: 'release', id: 'r', min: 0, max: 4, step: 0, values: [1], selected: false }
         ],
         modEnvParams: [
-            { type: 'attack', id: 'moda', min: 0, max: 1, step: 0, values: [0], selected: false},
+            { type: 'attack', id: 'moda', min: 0, max: 2, step: 0, values: [0], selected: false},
             { type: 'decay', id: 'modd', min: 0, max: 1, step: 0, values: [0.2], selected: false},
             { type: 'sustain', id: 'mods', min: 0, max: 1, step: 0, values: [0.5], selected: false},
-            { type: 'release', id: 'modr', min: 0, max: 1, step: 0, values: [1], selected: false }
+            { type: 'release', id: 'modr', min: 0, max: 4, step: 0, values: [1], selected: false }
         ],
         globalParams: [
             { type: 'bpm', id: 'bpm', min: 40, max: 240, step: 0, values: [0.33 ], selected: false }
@@ -76,7 +77,7 @@ export const synthesisSlice = createSlice({
             state.params.xParams = genericParams;
             state.params.yParams = synthesisParams[action.payload];
             state.params.zParams = effectParams;
-            synthesis.setType(action.payload);
+            sound.setType(action.payload);
         },
         setParam: (state, action: PayloadAction<{id: string, valuesI: number, value: number}>) => {
             const { id, valuesI, value } = action.payload;
@@ -85,8 +86,8 @@ export const synthesisSlice = createSlice({
             const param = params.find(p => p.id === id)
             param && (param.values[valuesI] = value);
 
-            id === 'bpm' && synthesis.setBpm(mapToRange(value, 0, 1, param?.min || 40, param?.max || 240));
-            synthesis.setParams(formatSynthParams(state));
+            // id === 'bpm' && synthesis.setBpm(mapToRange(value, 0, 1, param?.min || 40, param?.max || 240));
+            sound.mutate(formatSynthParams(state));
         },
         toggleSelectedParam: (state, action: PayloadAction<string>) => {
             const id = action.payload
@@ -111,7 +112,7 @@ export const synthesisSlice = createSlice({
         },
         setQubit: (state, action: PayloadAction<Coordinates>) => {
             state.qubit = action.payload;
-            synthesis.setParams(formatSynthParams(state));
+            sound.mutate(formatSynthParams(state));
         },
         setQubitAxis: (state, action: PayloadAction<{axis: any, value: number}>) => {
             if(state.disabled) return;
@@ -119,17 +120,17 @@ export const synthesisSlice = createSlice({
             axis === 'x' && (state.qubit.x = value);
             axis === 'y' && (state.qubit.y = value);
             axis === 'z' && (state.qubit.z = value);
-            synthesis.setParams(formatSynthParams(state));
+            sound.mutate(formatSynthParams(state));
         },
         incrementQubitBy: (state, action: PayloadAction<Coordinates>) => {
             const { x, y, z } = action.payload;
             state.qubit.x += x
             state.qubit.y += y
             state.qubit.z += z
-            synthesis.setParams(formatSynthParams(state));
+            sound.mutate(formatSynthParams(state));
         },
-        play: (state) => synthesis.play(formatSynthParams(state)),
-        stop: () => synthesis.stop(),
+        play: (state) => sound.on(formatSynthParams(state)),
+        stop: () => sound.off(),
         trigger: (state, action: PayloadAction<{time: number, dur: number}>) => {
             const { time, dur } = action.payload;
             synthesis.trigger(formatSynthParams(state), dur, time)
@@ -142,16 +143,16 @@ export const synthesisSlice = createSlice({
                 param.values = param.values.map(() => Math.random())
             })
 
-            synthesis.setParams(formatSynthParams(state));
+            sound.mutate(formatSynthParams(state));
         },
         loadState: (state, action: PayloadAction<SynthesisState>) => {
             const { synth, params } = action.payload;
             
             state.synth = synth;
-            synthesis.setType(synth);
+            sound.setType(synth);
             
             state.params = params;
-            synthesis.setParams(formatSynthParams(state));
+            // synthesis.setParams(formatSynthParams(state));
         },
         setDisabled: (state, action: PayloadAction<boolean>) => {
             state.disabled = action.payload;

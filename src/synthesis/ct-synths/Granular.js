@@ -1,4 +1,4 @@
-import { GrainPlayer, context, Signal, Clock, Transport } from "tone";
+import { GrainPlayer, context, Signal, Clock, Transport, now } from "tone";
 import BaseSynth from "./BaseSynth";
 import { beatsToSeconds } from "./utils/tone";
 
@@ -55,6 +55,22 @@ class Granular extends BaseSynth {
         this.envelope.triggerAttackRelease(duration, this.time, this.amplitude)
         
         this.endTime = time + duration + 0.1
+        this.dispose(this.endTime)
+    }
+
+
+    on(params = {}, time) {
+        this.time = time
+        this.setParams(params)
+        
+        this.synth.start(this.time, this.#begin)
+        this.envelope.triggerAttack(time, this.amplitude)
+    }
+
+    off() {
+        this.envelope.triggerRelease()
+        this.endTime = now() + this.envelope.release + 0.05
+        this.synth.stop(this.endTime)
         this.dispose(this.endTime)
     }
 
