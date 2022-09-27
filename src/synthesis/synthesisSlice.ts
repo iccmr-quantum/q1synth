@@ -59,9 +59,6 @@ const initialState: SynthesisState = {
             { type: 'decay', id: 'modd', min: 0, max: 1, step: 0, values: [0.2], selected: false},
             { type: 'sustain', id: 'mods', min: 0, max: 1, step: 0, values: [0.5], selected: false},
             { type: 'release', id: 'modr', min: 0, max: 4, step: 0, values: [1], selected: false }
-        ],
-        globalParams: [
-            { type: 'bpm', id: 'bpm', min: 40, max: 240, step: 0, values: [0.33 ], selected: false }
         ]
     },
     sample: 0
@@ -160,7 +157,6 @@ export const getYParams = (state: RootState) => state.synthesis.params.yParams;
 export const getZParams = (state: RootState) => state.synthesis.params.zParams;
 export const getEnvParams = (state: RootState) => state.synthesis.params.envParams;
 export const getModEnvParams = (state: RootState) => state.synthesis.params.modEnvParams;
-export const getGlobalParams = (state: RootState) => state.synthesis.params.globalParams;
 export const getQubit = (state: RootState) => state.synthesis.qubit;
 export const getDisabled = (state: RootState) => state.synthesis.disabled;
 export const getState = (state: RootState) : SynthesisState => {

@@ -9,7 +9,7 @@ import { getMode, getTimes, setTime, getShouldRecord, setShouldRecord } from '..
 import { SynthType, synthTypes, setSynth, getDisabled } from '../../synthesis/synthesisSlice';
 import { getMidiInputs, setActiveInput, getActiveMidiInput } from '../../midi/midiSlice';
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
-import { getSynth, getEnvParams, getModEnvParams, getGlobalParams, setParam } from '../../synthesis/synthesisSlice';
+import { getSynth, getEnvParams, getModEnvParams, setParam } from '../../synthesis/synthesisSlice';
 import sound from '../../synthesis/sound';
 import styles from './SidePanel.module.css'
 
@@ -28,7 +28,6 @@ export function SidePanel() {
     const shouldRecord = useAppSelector(getShouldRecord)
     const envParams = useAppSelector(getEnvParams)
     const modEnvParams = useAppSelector(getModEnvParams)
-    const globalParams = useAppSelector(getGlobalParams)
     const synth = useAppSelector(getSynth)
 
     useEffect(() => {
@@ -129,13 +128,6 @@ export function SidePanel() {
                             onChange={handleChangeSample}
                         />   
                     }
-
-                    <SliderGroup 
-                        group="globalParams" 
-                        label={'Global'}
-                        params={globalParams} 
-                        onChange={handleParamChange} 
-                    />
 
                     <Presets />
                     <div className={styles.measureContainer}>
