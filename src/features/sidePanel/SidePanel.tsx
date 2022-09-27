@@ -6,7 +6,7 @@ import { Input } from '../input/Input';
 import { Button } from '../buttons/Button';
 import { Presets } from '../presets/Presets';
 import { getMode, getTimes, setTime, getShouldRecord, setShouldRecord } from '../../data/dataSlice';
-import { SynthType, synthTypes, setSynth, getDisabled } from '../../synthesis/synthesisSlice';
+import { SynthType, synthTypes, setSynth, getDisabled, setSample, getSample } from '../../synthesis/synthesisSlice';
 import { getMidiInputs, setActiveInput, getActiveMidiInput } from '../../midi/midiSlice';
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
 import { getSynth, getEnvParams, getModEnvParams, setParam } from '../../synthesis/synthesisSlice';
@@ -29,6 +29,7 @@ export function SidePanel() {
     const envParams = useAppSelector(getEnvParams)
     const modEnvParams = useAppSelector(getModEnvParams)
     const synth = useAppSelector(getSynth)
+    const sample = useAppSelector(getSample)
 
     useEffect(() => {
         const handleKeyDownRun = (e: KeyboardEvent) => {
@@ -74,7 +75,8 @@ export function SidePanel() {
 
     function handleChangeSample(e: React.ChangeEvent<HTMLSelectElement>) {
         const sampleI = e.target.value
-        sound.setBuffer(sampleI)
+        dispatch(setSample(+sampleI))
+        sound.setBuffer(+sampleI)
     }
 
     return (
@@ -126,6 +128,7 @@ export function SidePanel() {
                             title="Sample" 
                             options={sound.buffers.map((name: string, i: number) => ({id: i.toString(), label: name}))} 
                             onChange={handleChangeSample}
+                            value={sample.toString()}
                         />   
                     }
 

@@ -137,21 +137,29 @@ export const synthesisSlice = createSlice({
             sound.mutate(formatSynthParams(state));
         },
         loadState: (state, action: PayloadAction<SynthesisState>) => {
-            const { synth, params } = action.payload;
+            const { synth, params, sample } = action.payload;
             
             state.synth = synth;
             sound.setType(synth);
             
             state.params = params;
+            
+            state.sample = +sample;
+            sound.setBuffer(+sample)
+            
             sound.mutate(formatSynthParams(state));
         },
         setDisabled: (state, action: PayloadAction<boolean>) => {
             state.disabled = action.payload;
+        },
+        setSample: (state, action: PayloadAction<number>) => {
+            state.sample = action.payload;
         }
     }
 });
 
 export const getSynth = (state: RootState) => state.synthesis.synth;
+export const getSample = (state: RootState) => state.synthesis.sample;
 export const getXParams = (state: RootState) => state.synthesis.params.xParams;
 export const getYParams = (state: RootState) => state.synthesis.params.yParams;
 export const getZParams = (state: RootState) => state.synthesis.params.zParams;
@@ -175,7 +183,8 @@ export const {
     loadState,
     setDisabled,
     toggleSelectedParam,
-    moveSelectedParams
+    moveSelectedParams,
+    setSample
 } = synthesisSlice.actions;
 
 /**
