@@ -104,8 +104,9 @@ export function SidePanel() {
                     >Config</span>
                     <Select 
                         title="Instrument" 
-                        options={synthTypes.map((type) => ({id: type, label: type, active: synth === type}))}
+                        options={synthTypes.map((type) => ({id: type, label: type}))}
                         onChange={handleChangeSynth}
+                        value={synth}
                     />                    
 
                     <SliderGroup group="envParams" label="Envelope" params={envParams} onChange={handleParamChange} />

@@ -18,14 +18,13 @@ export function Select({options, title, value, onChange} : selectProps) {
             <select 
                 className={styles.select}
                 onChange={e => onChange(e)}
-                defaultValue={value}
+                value={value}
             >
-                { options && options.map(({id, label, active}) => (
+                { options && options.map(({id, label}) => (
                     <option 
                         key={id} 
                         className={styles.option}
                         value={id}
-                        selected={active} 
                     >{label}</option>
                 )) }
             </select>
