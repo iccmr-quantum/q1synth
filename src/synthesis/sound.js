@@ -27,6 +27,7 @@ const sound = () => {
             synth && synth.mutate(formatMutationParams(ps), immediate(), 0.05)
         },
         setType: (type) => synthType = type,
+        setBuffer: (i) => buffer = i,
         buffers: samples
     }
 }

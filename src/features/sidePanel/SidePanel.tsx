@@ -10,7 +10,7 @@ import { SynthType, synthTypes, setSynth, getDisabled } from '../../synthesis/sy
 import { getMidiInputs, setActiveInput, getActiveMidiInput } from '../../midi/midiSlice';
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
 import { getSynth, getEnvParams, getModEnvParams, getGlobalParams, setParam } from '../../synthesis/synthesisSlice';
-import synthesis from '../../synthesis/synthesis';
+import sound from '../../synthesis/sound';
 import styles from './SidePanel.module.css'
 
 export function SidePanel() {
@@ -75,7 +75,7 @@ export function SidePanel() {
 
     function handleChangeSample(e: React.ChangeEvent<HTMLSelectElement>) {
         const sampleI = e.target.value
-        synthesis.setBuffer(sampleI)
+        sound.setBuffer(sampleI)
     }
 
     return (
@@ -124,7 +124,7 @@ export function SidePanel() {
                         synth === 'granular' &&
                         <Select 
                             title="Sample" 
-                            options={synthesis.buffers.map((name: string, i: number) => ({id: i.toString(), label: name}))} 
+                            options={sound.buffers.map((name: string, i: number) => ({id: i.toString(), label: name}))} 
                             onChange={handleChangeSample}
                         />   
                     }

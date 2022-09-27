@@ -152,7 +152,7 @@ export const synthesisSlice = createSlice({
             sound.setType(synth);
             
             state.params = params;
-            // synthesis.setParams(formatSynthParams(state));
+            sound.mutate(formatSynthParams(state));
         },
         setDisabled: (state, action: PayloadAction<boolean>) => {
             state.disabled = action.payload;
