@@ -77,6 +77,7 @@ export function Controller() {
     }
     
     useEffect(() => {
+        console.log(document.getElementById('config')?.click())
         midiIsEnabled 
             && midiInput
             && WebMidi.getInputById(midiInput).addListener('controlchange', e => {
@@ -94,6 +95,7 @@ export function Controller() {
                 if(id === 'play') return playButtonRef?.click()
                 if(id === 'measure') return measureButtonRef?.click()
                 if(id === 'randomise') return dispatch(randomise());
+                if(id === 'config') return document.getElementById('config')?.click()
             });
         
             oscSocket.on('message', (message: {address: string, args: {type: string, value: number}[]}) => {

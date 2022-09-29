@@ -103,6 +103,7 @@ export function SidePanel() {
             {mode === 'advanced' && 
                 <div className={`${styles.sidePanel__content} ${active === 1 && styles.contentActive}`}>
                     <span 
+                        id="config"
                         className={`${styles.toggle} ${styles.toggle1} ${active === 1 && styles.toggleActive}`}
                         onClick={() => handleHideShow(1)}
                     >Config</span>

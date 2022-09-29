@@ -68,6 +68,7 @@ export const midiMap = (cc: number) : {id: string, valuesI?: number | undefined}
         54: {id: 'play'},
         55: {id: 'measure'},
         56: {id: 'randomise'},
+        57: {id: 'config'},
         
     }
     return map[cc] || {id: 'error'}
