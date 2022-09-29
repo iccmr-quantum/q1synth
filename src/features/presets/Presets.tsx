@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getPresetNumber, setPreset } from '../../data/dataSlice';
 import { getState, loadState, getDisabled } from '../../synthesis/synthesisSlice';
 import { getMidiStatus, getActiveMidiInput } from '../../midi/midiSlice'
 import { WebMidi } from 'webmidi';
@@ -10,7 +9,7 @@ import styles from './Presets.module.css'
 
 export function Presets() {
     const dispatch = useAppDispatch()
-    const activePreset = useAppSelector(getPresetNumber)
+    const [activePreset, setActivePreset] = useState(0)
     const disabled = useAppSelector(getDisabled)
     const appState = useAppSelector(getState)
     const midiIsEnabled = useAppSelector(getMidiStatus)
@@ -27,13 +26,13 @@ export function Presets() {
         const newStored = {...stored, [i]: appState}
         setStored(newStored)
         localStorage.setItem('q1synth', JSON.stringify(newStored))
-        dispatch(setPreset(i))
+        setActivePreset(i)
     }
 
     const handleLoad = (i: number) => {
         const local = localStorage.getItem('q1synth') || "{}"
         const presets = JSON.parse(local)
-        presets[i] && dispatch(setPreset(i));
+        presets[i] && setActivePreset(i);
         presets[i] && dispatch(loadState(presets[i]));
     }
 
