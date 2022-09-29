@@ -7,24 +7,14 @@ import { WebMidi } from 'webmidi';
 import { midiMap } from '../../midi/midiMap'
 import { oscSocket } from '../../osc/socket';
 
-
-import {  
-    getIsFullScreen, 
-    getMintData, 
-    getMode,
-    getTime,
-    getDestination,
-    getShouldRecord,
-} from '../../data/dataSlice';
-import { getXParams, getYParams, getZParams, setParam, play, stop, getQubit, randomise, setQubitAxis, getDisabled, setDisabled } from '../../synthesis/synthesisSlice';
+import { getIsFullScreen, getMintData, getMode, getDestination, getShouldRecord } from '../../data/dataSlice';
+import { getXParams, getYParams, getZParams, setParam, play, stop, getQubit, randomise, setQubitAxis, getDisabled, setDisabled, getMeasureTime } from '../../synthesis/synthesisSlice';
 import { getBackend, getIsCollapsing, getQasmStatus } from '../../qasm/qasmSlice';
 import { getMidiStatus, getActiveMidiInput } from '../../midi/midiSlice'
-
 import { handleMeasure, MeasureArgs } from '../../qasm/measure';
-import styles from './Controller.module.css';
 import { mapToRange } from '../../functions/utils';
+import styles from './Controller.module.css';
 
-// TODO: replace this
 const appId = new URLSearchParams(window.location.href).get('id') || '0';
 
 export function Controller() {
@@ -35,7 +25,7 @@ export function Controller() {
     const xParams = useAppSelector(getXParams)
     const yParams = useAppSelector(getYParams)
     const zParams = useAppSelector(getZParams)
-    const dur = useAppSelector(getTime)
+    const dur = useAppSelector(getMeasureTime)
     const storedDestination = useAppSelector(getDestination)
     const useQasm = useAppSelector(getQasmStatus)
     const backend = useAppSelector(getBackend)

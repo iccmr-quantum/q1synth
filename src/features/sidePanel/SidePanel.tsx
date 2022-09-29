@@ -5,8 +5,8 @@ import { Select } from '../select/Select';
 import { Input } from '../input/Input';
 import { Button } from '../buttons/Button';
 import { Presets } from '../presets/Presets';
-import { getMode, getTimes, setTime, getShouldRecord, setShouldRecord } from '../../data/dataSlice';
-import { SynthType, synthTypes, setSynth, getDisabled, setSample, getSample, getSamples } from '../../synthesis/synthesisSlice';
+import { getMode, getShouldRecord, setShouldRecord } from '../../data/dataSlice';
+import { SynthType, synthTypes, setSynth, getDisabled, setSample, getSample, getSamples, getMeasureTime, setMeasureTime } from '../../synthesis/synthesisSlice';
 import { getMidiInputs, setActiveInput, getActiveMidiInput } from '../../midi/midiSlice';
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
 import { getSynth, getEnvParams, getModEnvParams, setParam } from '../../synthesis/synthesisSlice';
@@ -15,7 +15,7 @@ import styles from './SidePanel.module.css'
 
 export function SidePanel() {
     const dispatch = useAppDispatch()
-    const times = useAppSelector(getTimes)
+    const measureTime = useAppSelector(getMeasureTime)
     const mode = useAppSelector(getMode)
     const disabled = useAppSelector(getDisabled)
     const midiInputs = useAppSelector(getMidiInputs)
@@ -48,8 +48,8 @@ export function SidePanel() {
         }
     }, []);
 
-    function handleButtonOnClick(e: MouseEvent<HTMLButtonElement>, button: string) {
-        (button === 'one' || button === 'five' || button === 'ten') && dispatch(setTime({button}))
+    function handleTimeOnClick(e: MouseEvent<HTMLButtonElement>, time: string) {
+        dispatch(setMeasureTime(+time))
     }
 
     function handleHideShow(tab: number) {
@@ -154,13 +154,13 @@ export function SidePanel() {
                         </label>
                     </div>
                     <div className={styles.buttons}>
-                        {Object.entries(times).map(([time, isActive]) => (
+                        {[1,5,10].map((seconds, i) => (
                             <Button 
-                                name={time} 
-                                isActive={isActive}
+                                key={i}
+                                name={seconds.toString()} 
+                                isActive={seconds === measureTime}
                                 disabled={disabled}  
-                                onClick={handleButtonOnClick}
-                                key={time}
+                                onClick={handleTimeOnClick}
                             />
                         ))}
                     </div>

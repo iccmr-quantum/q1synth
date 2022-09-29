@@ -3,7 +3,6 @@ import { RootState } from '../app/store';
 import { synthesisParams, genericParams, effectParams } from './params';
 import { blendBetweenValues, mapToRange, roundToNearestX } from '../functions/utils';
 import sound from './sound';
-const origin = window.location.origin
 
 // These should remain in sync
 export type SynthType = 'fm' | 'granular' | 'subtractive'
@@ -29,9 +28,8 @@ export interface SynthesisState {
     synth: SynthType
     disabled: boolean
     qubit: Coordinates
-    params: {
-        [key: string]: Param[]
-    }
+    params: {[key: string]: Param[]}
+    measureTime: number
     sample: number
     samples: string[]
 }
@@ -46,6 +44,7 @@ const initialState: SynthesisState = {
         y: 0,
         z: 0
     },
+    measureTime: 5,
     params: {
         xParams: genericParams,
         yParams: synthesisParams[initialSynth],
@@ -166,6 +165,9 @@ export const synthesisSlice = createSlice({
         },
         updateSamples: (state, action: PayloadAction<string[]>) => {
             state.samples = [...state.samples, ...action.payload];
+        },
+        setMeasureTime: (state, action: PayloadAction<number>) => {
+            state.measureTime = action.payload;
         }
     }
 });
@@ -180,6 +182,7 @@ export const getEnvParams = (state: RootState) => state.synthesis.params.envPara
 export const getModEnvParams = (state: RootState) => state.synthesis.params.modEnvParams;
 export const getQubit = (state: RootState) => state.synthesis.qubit;
 export const getDisabled = (state: RootState) => state.synthesis.disabled;
+export const getMeasureTime = (state: RootState) => state.synthesis.measureTime;
 export const getState = (state: RootState) : SynthesisState => {
     return {...state.synthesis}
 }
@@ -198,7 +201,8 @@ export const {
     toggleSelectedParam,
     moveSelectedParams,
     setSample,
-    updateSamples
+    updateSamples,
+    setMeasureTime
 } = synthesisSlice.actions;
 
 /**
@@ -242,8 +246,6 @@ function formatSynthParams(state: SynthesisState) {
         ...params.modEnvParams.map(p => ({id: p.id, value: p.values[0]})),
     ];
 
-    console.log(flattened)
-    
     return Object.values(flattened).reduce((obj, {id, value}) => {
         return { 
             ...obj, 
