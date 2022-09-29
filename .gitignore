@@ -12,8 +12,7 @@
 /build
 
 # Samples
-/public/samples
-!/public/samples/IBM_Refrigerators.wav
+# /public/samples/
 # misc
 .DS_Store
 .env.local
