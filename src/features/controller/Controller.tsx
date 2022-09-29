@@ -1,6 +1,3 @@
-// TODO: Measure and MIDI
-// TODO: Prune Controls, Sliders, etc.
-
 import { useState, useEffect } from 'react'
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Button } from '../buttons/Button';
@@ -8,6 +5,8 @@ import { Qubit } from '../qubit/Qubit';
 import { SliderGroup } from '../sliderGroup/SliderGroup';
 import { WebMidi } from 'webmidi';
 import { midiMap } from '../../midi/midiMap'
+import { oscSocket } from '../../osc/socket';
+
 
 import {  
     getIsFullScreen, 
@@ -24,6 +23,9 @@ import { getMidiStatus, getActiveMidiInput } from '../../midi/midiSlice'
 import { handleMeasure, MeasureArgs } from '../../qasm/measure';
 import styles from './Controller.module.css';
 import { mapToRange } from '../../functions/utils';
+
+// TODO: replace this
+const appId = new URLSearchParams(window.location.href).get('id') || '0';
 
 export function Controller() {
     const dispatch = useAppDispatch()
@@ -47,6 +49,7 @@ export function Controller() {
     const [measureButtonRef, setMeasureButtonRef] = useState<HTMLButtonElement | null>()
     const [playButtonRef, setPlayButtonRef] = useState<HTMLButtonElement | null>()
     const [isPlaying, setIsPlaying] = useState(false)
+    const [destination, setDestination] = useState(-1)
 
     function handleParamChange(id: string, valuesI: number, value: number) {
         dispatch(setParam({id, valuesI, value}))
@@ -58,8 +61,8 @@ export function Controller() {
     }
 
     function handleMeasureClick() {
-        const { x, y, z } = qubit
         dispatch(setDisabled(true))
+        const { x, y, z } = qubit
 
         const measureArgs: MeasureArgs = {
             x: x * 180,
@@ -68,6 +71,7 @@ export function Controller() {
             dur,
             mode,
             isFullScreen,
+            destination: destination > -1 ? destination : null,
             storedDestination,
             useQasm,
             mintData,
@@ -79,6 +83,7 @@ export function Controller() {
         isPlaying && dispatch(stop())
         setIsPlaying(false)
         handleMeasure(measureArgs)
+        setDestination(-1)
     }
     
     useEffect(() => {
@@ -100,6 +105,20 @@ export function Controller() {
                 if(id === 'measure') return measureButtonRef?.click()
                 if(id === 'randomise') return dispatch(randomise());
             });
+        
+            oscSocket.on('message', (message: {address: string, args: {type: string, value: number}[]}) => {
+                const {address, args} = message
+                const id = address.split('/')[2]
+                const action = address.split('/')[3]
+                if(+id !== +appId || action !== 'meas') return
+            
+                const destination: number = (+args[0]?.value || 0);
+            
+                if([0,1].includes(destination)) {
+                    setDestination(destination)
+                    measureButtonRef?.click()
+                }
+            })
     }, [midiIsEnabled, midiInput])
     
     return (

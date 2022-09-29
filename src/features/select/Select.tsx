@@ -12,7 +12,6 @@ interface selectProps {
 }
 
 export function Select({options, title, value, onChange} : selectProps) {
-    console.log(value)
     return (
         <div className={styles.container}>
             { title && <h2>{ title }</h2> }

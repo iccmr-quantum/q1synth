@@ -19,6 +19,7 @@ export interface MeasureArgs {
     dur: number
     mode: Mode
     isFullScreen: boolean
+    destination: number | null
     storedDestination: number
     useQasm: boolean
     mintData: DataState
@@ -71,16 +72,18 @@ function measure(
 }
 
 export async function handleMeasure(args: MeasureArgs) {
-    const { x, y, z, dur, mode, isFullScreen, storedDestination, useQasm, mintData, backend, shouldRecord, dispatch } = args
+    const { x, y, z, dur, mode, isFullScreen, destination, storedDestination, useQasm, mintData, backend, shouldRecord, dispatch } = args
     
     !isFullScreen && dispatch(toggleIsFullScreen());
 
     dispatch(setIsMeasuring(true))
     dispatch(clearQasmResponses())
 
-    const xDestination = mode === 'presentation' 
-        ? storedDestination
-        : await measure(x, y, z, useQasm, backend) * (x < 0 ? -180 : 180)
+    const xDestination = destination !== null
+        ? destination * 180
+        : mode === 'presentation' 
+            ? storedDestination
+            : await measure(x, y, z, useQasm, backend) * (x < 0 ? -180 : 180)
 
     const yDestination = (y < 0 ? 0 : -0)
     const zDestination = (z < 0 ? 0 : -0)

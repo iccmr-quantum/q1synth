@@ -1,6 +1,6 @@
 import osc from 'osc'
 
-const oscSocket = new osc.WebSocketPort({
+export const oscSocket = new osc.WebSocketPort({
     url: "ws://localhost:8080",
     metadata: true
 });
@@ -25,9 +25,3 @@ export function sendXyz(x: number, y: number, z: number, id: string) {
         ]
     })
 }
-
-oscSocket.on('message', (message: {address: string, args: any[]}) => {
-    const {address, args} = message
-    const id = address.split('/')[2]
-    // see screenshot on desktop
-})
