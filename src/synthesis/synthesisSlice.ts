@@ -147,15 +147,14 @@ export const synthesisSlice = createSlice({
             sound.mutate(formatSynthParams(state));
         },
         loadState: (state, action: PayloadAction<SynthesisState>) => {
-            const { synth, params, sample } = action.payload;
+            const { synth, params, sample, samples } = action.payload;
             
             state.synth = synth;
             sound.setType(synth);
             
             state.params = params;
             
-            state.sample = +sample;
-            sound.setBuffer(+sample)
+            sound.setBuffer(samples[sample])
             
             sound.mutate(formatSynthParams(state));
         },
