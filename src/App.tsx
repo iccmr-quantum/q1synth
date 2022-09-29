@@ -51,6 +51,10 @@ function App() {
         useQasm && connectSocQasm(handleQasmConnection, dispatch);
         
         ensembleMode && connectOsc();
+
+        fetch(origin + '/samples/samples.json').then(res => res.json()).then(data => {
+            console.log(data)
+        })
     }, [dispatch])
 
     // fullscreen handling

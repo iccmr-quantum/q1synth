@@ -3,6 +3,7 @@ import { RootState } from '../app/store';
 import { synthesisParams, genericParams, effectParams } from './params';
 import { blendBetweenValues, mapToRange, roundToNearestX } from '../functions/utils';
 import sound from './sound';
+const origin = window.location.origin
 
 // These should remain in sync
 export type SynthType = 'fm' | 'granular' | 'subtractive'
@@ -32,6 +33,7 @@ export interface SynthesisState {
         [key: string]: Param[]
     }
     sample: number
+    samples: string[]
 }
 
 const initialSynth = 'fm'
@@ -61,7 +63,16 @@ const initialState: SynthesisState = {
             { type: 'release', id: 'modr', min: 0, max: 4, step: 0, values: [1], selected: false }
         ]
     },
-    sample: 0
+    sample: 0,
+    samples: [
+        'https://tonejs.github.io/audio/berklee/arpeggio3crazy.mp3',
+        'https://tonejs.github.io/audio/berklee/taps_1c.mp3',
+        'https://tonejs.github.io/audio/berklee/tinkle3.mp3',
+        'https://tonejs.github.io/audio/berklee/tapping1.mp3',
+        'https://tonejs.github.io/audio/berklee/gong_1.mp3',
+        'https://tonejs.github.io/audio/berklee/gurgling_theremin_1.mp3',
+        origin + '/samples/IBM_Refrigerators.wav',
+    ]
 };
 
 export const synthesisSlice = createSlice({
@@ -160,6 +171,7 @@ export const synthesisSlice = createSlice({
 
 export const getSynth = (state: RootState) => state.synthesis.synth;
 export const getSample = (state: RootState) => state.synthesis.sample;
+export const getSamples = (state: RootState) => state.synthesis.samples;
 export const getXParams = (state: RootState) => state.synthesis.params.xParams;
 export const getYParams = (state: RootState) => state.synthesis.params.yParams;
 export const getZParams = (state: RootState) => state.synthesis.params.zParams;

@@ -9,7 +9,7 @@ function compile(array) {
         } else {
             const [_, ext] = name.split(".");
             return ['wav', 'aif', 'mp3'].includes(ext) 
-                ? path 
+                ? path.slice(6) // chop off 'public'
                 : false;
         }
     }).filter(path => path)
