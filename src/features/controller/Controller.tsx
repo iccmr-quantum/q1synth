@@ -77,7 +77,6 @@ export function Controller() {
     }
     
     useEffect(() => {
-        console.log(document.getElementById('config')?.click())
         midiIsEnabled 
             && midiInput
             && WebMidi.getInputById(midiInput).addListener('controlchange', e => {

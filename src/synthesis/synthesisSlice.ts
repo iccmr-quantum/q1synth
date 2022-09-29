@@ -154,6 +154,7 @@ export const synthesisSlice = createSlice({
             state.params = params;
             state.measureTime = measureTime || 5;
             
+            state.sample = sample;
             samples[sample] && sound.setBuffer(samples[sample]);
             
             sound.mutate(formatSynthParams(state));
