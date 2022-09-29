@@ -3,12 +3,14 @@ import { delay, reverb } from "./global"
 import { getSynthByType, formatMutationParams } from "./utils"
 
 const sound = () => {
+    let isPlaying = false
     let synth = null
     let params = {n: 48, reverb: 0, delay: 0, pan: 0}
     let synthType = 'fm'
     let buffer = new ToneAudioBuffer('https://tonejs.github.io/audio/berklee/arpeggio3crazy.mp3')
 
     function on(ps) {
+        isPlaying = true
         params = ps
         synth = getSynthByType(synthType, params, buffer)
         synth.connect(delay)
@@ -18,7 +20,8 @@ const sound = () => {
     }
 
     function off() {
-        synth.off()
+        isPlaying = false
+        synth && synth.off()
         synth = null
     }
 
@@ -33,9 +36,10 @@ const sound = () => {
         setType: (type) => synthType = type,
         setBuffer: (url) => buffer.load(url) 
             .then(() => {
-                console.log('buffer loaded')
-                off()
-                on(params)
+                if (isPlaying) {
+                    off()
+                    on(params)
+                }
             })
     }
 }

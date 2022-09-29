@@ -50,7 +50,6 @@
     padding: 2em;
     min-height: calc(100% - 4em);
     border-left: 2px solid white;
-    height: calc(100vh - 4em);
 }
 
 .contentActive {
