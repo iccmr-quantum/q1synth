@@ -46,15 +46,15 @@ export const midiMap = (cc: number) : {id: string, valuesI?: number | undefined}
         36: {id: 'hicut', valuesI: 1},
         37: {id: 'locut', valuesI: 1},
         // env
-        38: {id: 'attack'},
-        39: {id: 'decay'},
-        40: {id: 'sustain'},
-        41: {id: 'release'},
+        38: {id: 'a'},
+        39: {id: 'd'},
+        40: {id: 's'},
+        41: {id: 'r'},
         // modEnv
-        42: {id: 'attack'},
-        43: {id: 'decay'},
-        44: {id: 'sustain'},
-        45: {id: 'release'},
+        42: {id: 'moda'},
+        43: {id: 'modd'},
+        44: {id: 'mods'},
+        45: {id: 'modr'},
         // TODO: presets
         46: {id: '0'},
         47: {id: '1'},
