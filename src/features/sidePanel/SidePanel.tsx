@@ -75,9 +75,11 @@ export function SidePanel() {
     }
 
     function handleChangeSample(e: React.ChangeEvent<HTMLSelectElement>) {
-        const sampleI = e.target.value
-        dispatch(setSample(+sampleI))
-        sound.setBuffer(+sampleI)
+        const sampleI = +e.target.value
+        const url = samples[sampleI]
+        
+        dispatch(setSample(sampleI))
+        sound.setBuffer(url)
     }
 
     return (

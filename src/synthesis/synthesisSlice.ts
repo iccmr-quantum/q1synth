@@ -70,8 +70,7 @@ const initialState: SynthesisState = {
         'https://tonejs.github.io/audio/berklee/tinkle3.mp3',
         'https://tonejs.github.io/audio/berklee/tapping1.mp3',
         'https://tonejs.github.io/audio/berklee/gong_1.mp3',
-        'https://tonejs.github.io/audio/berklee/gurgling_theremin_1.mp3',
-        origin + '/samples/IBM_Refrigerators.wav',
+        'https://tonejs.github.io/audio/berklee/gurgling_theremin_1.mp3'
     ]
 };
 

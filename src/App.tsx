@@ -55,7 +55,7 @@ function App() {
         fetch(origin + '/samples/samples.json')
             .then(res => res.json())
             .then(data => {
-                dispatch(updateSamples(data))
+                dispatch(updateSamples(data.map((url: string) => origin + url)))
             })
     }, [dispatch])
 
