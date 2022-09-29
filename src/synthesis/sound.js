@@ -10,6 +10,7 @@ const sound = () => {
     let buffer = new ToneAudioBuffer('https://tonejs.github.io/audio/berklee/arpeggio3crazy.mp3')
 
     function on(ps) {
+        console.log(ps)
         isPlaying = true
         params = ps
         synth = getSynthByType(synthType, params, buffer)
@@ -31,6 +32,7 @@ const sound = () => {
         mutate: (ps) => {
             reverb.wet.rampTo(ps.reverb, 0.1)
             delay.feedback.rampTo(ps.delay, 0.1)
+            synth.setParams({oct: ps.oct})
             synth && synth.mutate(formatMutationParams(ps), immediate(), 0.05)
         },
         setType: (type) => synthType = type,

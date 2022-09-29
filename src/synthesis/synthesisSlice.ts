@@ -241,6 +241,8 @@ function formatSynthParams(state: SynthesisState) {
         ...params.envParams.map(p => ({id: p.id, value: p.values[0]})),
         ...params.modEnvParams.map(p => ({id: p.id, value: p.values[0]})),
     ];
+
+    console.log(flattened)
     
     return Object.values(flattened).reduce((obj, {id, value}) => {
         return { 
