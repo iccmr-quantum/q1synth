@@ -10,9 +10,9 @@ export const midiMap = (cc: number) : {id: string, valuesI?: number | undefined}
         2: {id: 'y'},
         3: {id: 'z'},
         // left sliders
-        4: {id: 'note', valuesI: 0},
-        5: {id: 'gain', valuesI: 0},
-        6: {id: 'octave', valuesI: 0},
+        4: {id: 'n', valuesI: 0}, // note
+        5: {id: 'amp', valuesI: 0}, 
+        6: {id: 'oct', valuesI: 0}, // octave
         7: {id: 'rate', valuesI: 0},
         8: {id: 'size', valuesI: 0},
         9: {id: 'overlap', valuesI: 0},
@@ -28,9 +28,9 @@ export const midiMap = (cc: number) : {id: string, valuesI?: number | undefined}
         19: {id: 'hicut', valuesI: 0},
         20: {id: 'locut', valuesI: 0},
         // right sliders
-        21: {id: 'note', valuesI: 1},
-        22: {id: 'gain', valuesI: 1},
-        23: {id: 'octave', valuesI: 1},
+        21: {id: 'n', valuesI: 1}, // note
+        22: {id: 'amp', valuesI: 1}, 
+        23: {id: 'oct', valuesI: 1}, // octave
         24: {id: 'rate', valuesI: 1},
         25: {id: 'size', valuesI: 1},
         26: {id: 'overlap', valuesI: 1},
