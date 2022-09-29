@@ -11,7 +11,7 @@ import {
     getMode,
     setMode,
 } from './data/dataSlice';
-import { randomise, getQubit } from './synthesis/synthesisSlice';
+import { randomise, getQubit, updateSamples } from './synthesis/synthesisSlice';
 import { setUseQasm, setQasmStatus, getIsMeasuring } from './qasm/qasmSlice';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import './App.css';
@@ -52,9 +52,11 @@ function App() {
         
         ensembleMode && connectOsc();
 
-        fetch(origin + '/samples/samples.json').then(res => res.json()).then(data => {
-            console.log(data)
-        })
+        fetch(origin + '/samples/samples.json')
+            .then(res => res.json())
+            .then(data => {
+                dispatch(updateSamples(data))
+            })
     }, [dispatch])
 
     // fullscreen handling

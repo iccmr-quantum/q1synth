@@ -1,4 +1,4 @@
-import { immediate, ToneAudioBuffer } from "tone"
+import { immediate } from "tone"
 import { buffers, delay, samples, reverb } from "./global"
 import { getSynthByType, formatMutationParams } from "./utils"
 

@@ -165,6 +165,9 @@ export const synthesisSlice = createSlice({
         },
         setSample: (state, action: PayloadAction<number>) => {
             state.sample = action.payload;
+        },
+        updateSamples: (state, action: PayloadAction<string[]>) => {
+            state.samples = [...state.samples, ...action.payload];
         }
     }
 });
@@ -196,7 +199,8 @@ export const {
     setDisabled,
     toggleSelectedParam,
     moveSelectedParams,
-    setSample
+    setSample,
+    updateSamples
 } = synthesisSlice.actions;
 
 /**
