@@ -12,7 +12,7 @@
 /build
 
 # Samples
-# /public/samples/
+/public/samples/
 # misc
 .DS_Store
 .env.local
