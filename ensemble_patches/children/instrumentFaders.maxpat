@@ -40,30 +40,6 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
-					"id" : "obj-64",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 802.270787759373661, 428.000037550925867, 33.0, 22.0 ],
-					"text" : "front"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-62",
-					"maxclass" : "newobj",
-					"numinlets" : 2,
-					"numoutlets" : 2,
-					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 802.270787759373661, 397.133403976757791, 66.0, 22.0 ],
-					"text" : "route open"
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"align" : 1,
 					"arrow" : 0,
 					"bgcolor" : [ 0.815686274509804, 0.815686274509804, 0.815686274509804, 1.0 ],
@@ -151,7 +127,7 @@
 					"patching_rect" : [ 400.844001067181409, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 172.400000000000006, 425.0, 29.0, 21.0 ],
+					"presentation_rect" : [ 172.400000000000006, 106.006233686581425, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[8]"
@@ -183,7 +159,7 @@
 					"patching_rect" : [ 370.981502181539952, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 89.799999999999955, 425.0, 29.0, 21.0 ],
+					"presentation_rect" : [ 172.400000000000006, 425.345821448912375, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[7]"
@@ -215,7 +191,7 @@
 					"patching_rect" : [ 340.819002022345956, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 193.200000000000045, 288.0, 29.0, 21.0 ],
+					"presentation_rect" : [ 91.200000000000045, 425.345821448912375, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[6]"
@@ -247,7 +223,7 @@
 					"patching_rect" : [ 310.656501863151846, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 131.600000000000023, 288.0, 29.0, 21.0 ],
+					"presentation_rect" : [ 192.200000000000045, 288.0, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[5]"
@@ -279,7 +255,7 @@
 					"patching_rect" : [ 280.494001703957736, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 70.479175524661969, 288.0, 29.0, 21.0 ],
+					"presentation_rect" : [ 132.479175524661969, 288.0, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[4]"
@@ -311,7 +287,7 @@
 					"patching_rect" : [ 250.331501544763711, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 162.139587762330962, 229.0, 29.0, 21.0 ],
+					"presentation_rect" : [ 69.139587762330962, 288.0, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[3]"
@@ -343,7 +319,7 @@
 					"patching_rect" : [ 220.169001385569658, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 172.400000000000006, 106.006233686581425, 29.0, 21.0 ],
+					"presentation_rect" : [ 162.400000000000006, 229.006233686581425, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[2]"
@@ -439,7 +415,7 @@
 					"patching_rect" : [ 641.844001067181352, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 510.460412237669061, 425.0, 29.0, 21.0 ],
+					"presentation_rect" : [ 510.460412237669061, 106.006233686581425, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[16]"
@@ -471,7 +447,7 @@
 					"patching_rect" : [ 611.981502181540009, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 430.460412237669061, 425.0, 29.0, 21.0 ],
+					"presentation_rect" : [ 512.060412237669084, 425.345821448912375, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[15]"
@@ -503,7 +479,7 @@
 					"patching_rect" : [ 581.819002022346012, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 531.860412237669152, 288.0, 29.0, 21.0 ],
+					"presentation_rect" : [ 429.860412237669152, 425.345821448912375, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[14]"
@@ -535,7 +511,7 @@
 					"patching_rect" : [ 551.656501863151789, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 471.260412237669016, 288.0, 29.0, 21.0 ],
+					"presentation_rect" : [ 531.860412237669038, 288.0, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[13]"
@@ -567,7 +543,7 @@
 					"patching_rect" : [ 521.494001703957792, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 408.799999999999955, 288.0, 29.0, 21.0 ],
+					"presentation_rect" : [ 470.799999999999955, 288.0, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[12]"
@@ -599,7 +575,7 @@
 					"patching_rect" : [ 491.331501544763626, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 501.460412237668947, 229.0, 29.0, 21.0 ],
+					"presentation_rect" : [ 408.460412237668947, 288.0, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[11]"
@@ -631,10 +607,34 @@
 					"patching_rect" : [ 461.169001385569629, 145.0, 29.0, 21.0 ],
 					"pattrmode" : 1,
 					"presentation" : 1,
-					"presentation_rect" : [ 510.460412237669061, 106.006233686581425, 29.0, 21.0 ],
+					"presentation_rect" : [ 500.460412237669061, 229.006233686581425, 29.0, 21.0 ],
 					"textcolor" : [ 0.16078431372549, 0.16078431372549, 0.16078431372549, 1.0 ],
 					"textjustification" : 1,
 					"varname" : "CCinput[10]"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-64",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 802.270787759373661, 428.000037550925867, 33.0, 22.0 ],
+					"text" : "front"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-62",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 802.270787759373661, 397.133403976757791, 66.0, 22.0 ],
+					"text" : "route open"
 				}
 
 			}
@@ -1493,24 +1493,24 @@
 					"outlettype" : [ "", "", "", "" ],
 					"patching_rect" : [ 850.108287600179551, 157.0, 56.0, 22.0 ],
 					"restore" : 					{
-						"CCinput[10]" : [ "1" ],
-						"CCinput[11]" : [ "1" ],
-						"CCinput[12]" : [ "1" ],
-						"CCinput[13]" : [ "1" ],
-						"CCinput[14]" : [ "1" ],
-						"CCinput[15]" : [ "1" ],
-						"CCinput[16]" : [ "1" ],
+						"CCinput[10]" : [ "25" ],
+						"CCinput[11]" : [ "26" ],
+						"CCinput[12]" : [ "27" ],
+						"CCinput[13]" : [ "28" ],
+						"CCinput[14]" : [ "29" ],
+						"CCinput[15]" : [ "30" ],
+						"CCinput[16]" : [ "31" ],
 						"CCinput[1]" : [ "7" ],
 						"CCinput[1]again" : [ "7" ],
-						"CCinput[2]" : [ "1" ],
-						"CCinput[3]" : [ "1" ],
-						"CCinput[4]" : [ "1" ],
-						"CCinput[5]" : [ "1" ],
-						"CCinput[6]" : [ "1" ],
-						"CCinput[7]" : [ "1" ],
-						"CCinput[8]" : [ "1" ],
-						"CCinput[9]" : [ "1" ],
-						"CCinput[9]again" : [ "1" ]
+						"CCinput[2]" : [ "8" ],
+						"CCinput[3]" : [ "9" ],
+						"CCinput[4]" : [ "10" ],
+						"CCinput[5]" : [ "11" ],
+						"CCinput[6]" : [ "12" ],
+						"CCinput[7]" : [ "13" ],
+						"CCinput[8]" : [ "14" ],
+						"CCinput[9]" : [ "24" ],
+						"CCinput[9]again" : [ "24" ]
 					}
 ,
 					"text" : "autopattr",
