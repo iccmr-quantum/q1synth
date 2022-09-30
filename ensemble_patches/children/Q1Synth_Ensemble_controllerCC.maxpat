@@ -1172,7 +1172,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 1286.067810773849487, 466.295747328084644, 189.0, 22.0 ],
+					"patching_rect" : [ 1278.067810773849487, 466.295747328084644, 189.0, 22.0 ],
 					"text" : "pattrstorage q1synthMIDImapping"
 				}
 
@@ -1993,7 +1993,7 @@
 					"fontname" : "Arial",
 					"fontsize" : 13.0,
 					"id" : "obj-293",
-					"items" : [ "Microsoft GS Wavetable Synth", ",", "Midi Fighter Twister" ],
+					"items" : [ "Microsoft GS Wavetable Synth", ",", "Midi Fighter Twister", ",", "WidiBud" ],
 					"labelclick" : 1,
 					"maxclass" : "umenu",
 					"numinlets" : 1,
@@ -2130,7 +2130,7 @@
 					"fontname" : "Arial",
 					"fontsize" : 13.0,
 					"id" : "obj-284",
-					"items" : [ "Microsoft GS Wavetable Synth", ",", "Midi Fighter Twister" ],
+					"items" : [ "Microsoft GS Wavetable Synth", ",", "Midi Fighter Twister", ",", "WidiBud" ],
 					"labelclick" : 1,
 					"maxclass" : "umenu",
 					"numinlets" : 1,
@@ -2172,7 +2172,7 @@
 					"fontname" : "Arial",
 					"fontsize" : 13.0,
 					"id" : "obj-287",
-					"items" : [ "Microsoft GS Wavetable Synth", ",", "Midi Fighter Twister" ],
+					"items" : [ "Microsoft GS Wavetable Synth", ",", "Midi Fighter Twister", ",", "WidiBud" ],
 					"labelclick" : 1,
 					"maxclass" : "umenu",
 					"numinlets" : 1,
@@ -2624,7 +2624,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-5", 0 ],
-					"midpoints" : [ 1295.567810773849487, 492.0, 1290.0, 492.0, 1290.0, 618.0, 1352.470751239725814, 618.0 ],
+					"midpoints" : [ 1287.567810773849487, 492.0, 1290.0, 492.0, 1290.0, 618.0, 1352.470751239725814, 618.0 ],
 					"source" : [ "obj-10", 0 ]
 				}
 
@@ -2663,7 +2663,16 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-10", 0 ],
-					"midpoints" : [ 1295.567810773849487, 459.0, 1295.567810773849487, 459.0 ],
+					"midpoints" : [ 1295.567810773849487, 459.0, 1287.567810773849487, 459.0 ],
+					"order" : 1,
+					"source" : [ "obj-12", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-164", 0 ],
+					"order" : 0,
 					"source" : [ "obj-12", 0 ]
 				}
 
@@ -3527,7 +3536,7 @@
 				"implicit" : 1
 			}
 , 			{
-				"name" : "q1synthMIDImapping.json",
+				"name" : "q1synthMIDIcustomMapping.json",
 				"bootpath" : "~/Documents/GitHub/q1synth/ensemble_patches/children",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
