@@ -63,7 +63,10 @@
 					"presetBangs::CCinput[8]" : [ "46" ],
 					"playstopBangs::CCinput[1]" : [ "54" ],
 					"playstopBangs::CCinput[2]" : [ "55" ],
-					"playstopBangs::CCinput[3]" : [ "56" ]
+					"playstopBangs::CCinput[3]" : [ "56" ],
+					"ringFaders::CCinput[11]" : [ "3" ],
+					"ringFaders::CCinput[12]" : [ "2" ],
+					"ringFaders::CCinput[6]" : [ "1" ]
 				}
 
 			}
@@ -129,7 +132,10 @@
 					"presetBangs::CCinput[8]" : [ "46" ],
 					"playstopBangs::CCinput[1]" : [ "54" ],
 					"playstopBangs::CCinput[2]" : [ "55" ],
-					"playstopBangs::CCinput[3]" : [ "56" ]
+					"playstopBangs::CCinput[3]" : [ "56" ],
+					"ringFaders::CCinput[11]" : [  ],
+					"ringFaders::CCinput[12]" : [  ],
+					"ringFaders::CCinput[6]" : [  ]
 				}
 
 			}
@@ -195,7 +201,10 @@
 					"presetBangs::CCinput[8]" : [ "46" ],
 					"playstopBangs::CCinput[1]" : [ "54" ],
 					"playstopBangs::CCinput[2]" : [ "55" ],
-					"playstopBangs::CCinput[3]" : [ "56" ]
+					"playstopBangs::CCinput[3]" : [ "56" ],
+					"ringFaders::CCinput[11]" : [  ],
+					"ringFaders::CCinput[12]" : [  ],
+					"ringFaders::CCinput[6]" : [  ]
 				}
 
 			}
