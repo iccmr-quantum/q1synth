@@ -59,7 +59,7 @@ export const midiMap = (cc: number) : {id: string, valuesI?: number | undefined}
         46: {id: '0'},
         47: {id: '1'},
         48: {id: '2'},
-        49: {id: '4'},
+        49: {id: '3'},
         50: {id: '4'},
         51: {id: '5'},
         52: {id: '6'},
