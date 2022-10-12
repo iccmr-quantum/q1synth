@@ -91,7 +91,7 @@ export const synthesisSlice = createSlice({
             const param = params.find(p => p.id === id)
             param && (param.values[valuesI] = value);
 
-            sound.mutate(formatSynthParams(state));
+            sound.mutate(formatSynthParams(state.params, state.qubit));
         },
         toggleSelectedParam: (state, action: PayloadAction<string>) => {
             const id = action.payload
@@ -116,7 +116,7 @@ export const synthesisSlice = createSlice({
         },
         setQubit: (state, action: PayloadAction<Coordinates>) => {
             state.qubit = action.payload;
-            sound.mutate(formatSynthParams(state));
+            sound.mutate(formatSynthParams(state.params, state.qubit));
         },
         setQubitAxis: (state, action: PayloadAction<{axis: any, value: number}>) => {
             if(state.disabled) return;
@@ -124,16 +124,15 @@ export const synthesisSlice = createSlice({
             axis === 'x' && (state.qubit.x = value);
             axis === 'y' && (state.qubit.y = value);
             axis === 'z' && (state.qubit.z = value);
-            sound.mutate(formatSynthParams(state));
+            sound.mutate(formatSynthParams(state.params, state.qubit));
         },
         incrementQubitBy: (state, action: PayloadAction<Coordinates>) => {
             const { x, y, z } = action.payload;
             state.qubit.x += x
             state.qubit.y += y
             state.qubit.z += z
-            sound.mutate(formatSynthParams(state));
         },
-        play: (state) => sound.on(formatSynthParams(state)),
+        play: (state) => sound.on(formatSynthParams(state.params, state.qubit)),
         stop: () => sound.off(),
         randomise: (state) => {
             const { xParams, yParams, zParams, envParams, modEnvParams } = state.params;
@@ -143,7 +142,16 @@ export const synthesisSlice = createSlice({
                 param.values = param.values.map(() => Math.random())
             })
 
-            sound.mutate(formatSynthParams(state));
+            sound.mutate(formatSynthParams(state.params, state.qubit));
+        },
+        collapseSynth: (state, action: PayloadAction<Coordinates>) => {
+            const { x, y, z } = action.payload;
+            console.log(x, y, z)
+            sound.collapse(
+                formatSynthParams(state.params, state.qubit),
+                formatSynthParams(state.params, action.payload),
+                state.measureTime
+            )
         },
         loadState: (state, action: PayloadAction<SynthesisState>) => {
             const { synth, params, sample, samples, measureTime } = action.payload;
@@ -157,7 +165,7 @@ export const synthesisSlice = createSlice({
             state.sample = sample;
             samples[sample] && sound.setBuffer(samples[sample]);
             
-            sound.mutate(formatSynthParams(state));
+            sound.mutate(formatSynthParams(state.params, state.qubit));
         },
         setDisabled: (state, action: PayloadAction<boolean>) => {
             state.disabled = action.payload;
@@ -197,6 +205,7 @@ export const {
     incrementQubitBy,
     play,
     stop,
+    collapseSynth,
     randomise,
     loadState,
     setDisabled,
@@ -235,8 +244,8 @@ function calculateParamValue(param: Param, angle: number) {
 /**
  * Format synth params into the shape required by CtSynths package
 **/
-function formatSynthParams(state: SynthesisState) {
-    const { params, qubit } = state;
+function formatSynthParams(params: {[key: string]: Param[]}, qubit: Coordinates) {
+    // TODO: these should be calculated via matrices
     const x = mapToRange(qubit.x, -1, 1, 0, 360);
     const y = mapToRange(qubit.y, -1, 1, 0, 360);
     const z = mapToRange(qubit.z, -1, 1, 0, 360);

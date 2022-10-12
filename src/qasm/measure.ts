@@ -9,7 +9,7 @@ import {
     Mode
 } from '../data/dataSlice';
 
-import { incrementQubitBy, stop, play, setDisabled } from '../synthesis/synthesisSlice';
+import { incrementQubitBy, stop, play, setDisabled, collapseSynth } from '../synthesis/synthesisSlice';
 import { sendQasm, receiveQasm } from './socket';
 
 export interface MeasureArgs {
@@ -87,6 +87,7 @@ export async function handleMeasure(args: MeasureArgs) {
 
     const yDestination = (y < 0 ? 0 : -0)
     const zDestination = (z < 0 ? 0 : -0)
+    const destinationCoordinates = {x: xDestination/180, y: yDestination, z: zDestination}
 
     dispatch(setIsMeasuring(false))
     dispatch(setIsCollapsing(true))
@@ -103,7 +104,7 @@ export async function handleMeasure(args: MeasureArgs) {
         }, time);
     }, "128n");
 
-    dispatch(play());
+    dispatch(collapseSynth(destinationCoordinates));
     Tone.Transport.start('+0.1').stop(`+${dur + 0.1}`);
     
     Tone.Transport.once('stop', () => {
