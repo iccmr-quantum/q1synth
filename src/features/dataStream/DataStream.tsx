@@ -6,6 +6,7 @@ import { degreesToRadians as dtr } from '../../functions/utils';
 import styles from './DataStream.module.css';
 
 export function DataStream() {
+    // TODO: x, y, z should be calculated via matrices
     const qubit = useAppSelector(getQubit)
     const [data, setData] = useState<Coordinates[]>([])
     
