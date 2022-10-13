@@ -95,6 +95,7 @@ export function Controller() {
                 if(id === 'measure') return measureButtonRef?.click()
                 if(id === 'randomise') return dispatch(randomise());
                 if(id === 'config') return document.getElementById('config')?.click()
+                if(id === 'volume') return dispatch(setParam({id, valuesI: valuesI || 0, value: +value}))
             });
         
             oscSocket.on('message', (message: {address: string, args: {type: string, value: number}[]}) => {

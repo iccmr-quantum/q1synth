@@ -31,7 +31,6 @@ export interface SynthesisState {
     qubit: Coordinates
     params: {[key: string]: Param[]}
     measureTime: number
-    volume: number
     sample: number
     samples: string[]
 }
@@ -47,7 +46,6 @@ const initialState: SynthesisState = {
         z: 0
     },
     measureTime: 5,
-    volume: 1,
     params: {
         xParams: genericParams,
         yParams: synthesisParams[initialSynth],
@@ -63,7 +61,11 @@ const initialState: SynthesisState = {
             { type: 'decay', id: 'modd', min: 0, max: 1, step: 0, values: [0.2], selected: false},
             { type: 'sustain', id: 'mods', min: 0, max: 1, step: 0, values: [0.5], selected: false},
             { type: 'release', id: 'modr', min: 0, max: 4, step: 0, values: [1], selected: false }
+        ],
+        globalParams: [
+            { type: 'volume', id: 'volume', min: 0, max: 4, step: 0, values: [0.5], selected: false}
         ]
+
     },
     sample: 0,
     samples: [
@@ -93,6 +95,8 @@ export const synthesisSlice = createSlice({
             
             const param = params.find(p => p.id === id)
             param && (param.values[valuesI] = value);
+
+            param?.id === 'volume' && gain.gain.rampTo(value, 0.1);
 
             sound.mutate(formatSynthParams(state.params, state.qubit));
         },
@@ -160,7 +164,10 @@ export const synthesisSlice = createSlice({
             state.synth = synth;
             sound.setType(synth);
             
-            state.params = params;
+            state.params = {
+                ...state.params,
+                ...params
+            }
             state.measureTime = measureTime || 5;
             
             state.sample = sample;
@@ -179,11 +186,6 @@ export const synthesisSlice = createSlice({
         },
         setMeasureTime: (state, action: PayloadAction<number>) => {
             state.measureTime = action.payload;
-        },
-        setVolume: (state, action: PayloadAction<number>) => {
-            const volume = action.payload;
-            state.volume = volume;
-            gain.gain.rampTo(volume, 0.1);
         }
     }
 });
@@ -194,12 +196,12 @@ export const getSamples = (state: RootState) => state.synthesis.samples;
 export const getXParams = (state: RootState) => state.synthesis.params.xParams;
 export const getYParams = (state: RootState) => state.synthesis.params.yParams;
 export const getZParams = (state: RootState) => state.synthesis.params.zParams;
+export const getGlobalParams = (state: RootState) => state.synthesis.params.globalParams;
 export const getEnvParams = (state: RootState) => state.synthesis.params.envParams;
 export const getModEnvParams = (state: RootState) => state.synthesis.params.modEnvParams;
 export const getQubit = (state: RootState) => state.synthesis.qubit;
 export const getDisabled = (state: RootState) => state.synthesis.disabled;
 export const getMeasureTime = (state: RootState) => state.synthesis.measureTime;
-export const getVolume = (state: RootState) => state.synthesis.volume;
 export const getState = (state: RootState) : SynthesisState => {
     return {...state.synthesis}
 }
@@ -220,8 +222,7 @@ export const {
     moveSelectedParams,
     setSample,
     updateSamples,
-    setMeasureTime,
-    setVolume
+    setMeasureTime
 } = synthesisSlice.actions;
 
 /**
