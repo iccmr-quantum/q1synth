@@ -145,8 +145,6 @@ export const synthesisSlice = createSlice({
             sound.mutate(formatSynthParams(state.params, state.qubit));
         },
         collapseSynth: (state, action: PayloadAction<Coordinates>) => {
-            const { x, y, z } = action.payload;
-            console.log(x, y, z)
             sound.collapse(
                 formatSynthParams(state.params, state.qubit),
                 formatSynthParams(state.params, action.payload),

@@ -105,7 +105,7 @@ export async function handleMeasure(args: MeasureArgs) {
     }, "128n");
 
     dispatch(collapseSynth(destinationCoordinates));
-    Tone.Transport.start('+0.1').stop(`+${dur + 0.1}`);
+    Tone.Transport.start('+0.01').stop(`+${dur + 0.01}`);
     
     Tone.Transport.once('stop', () => {
         Tone.Transport.clear(loopID)

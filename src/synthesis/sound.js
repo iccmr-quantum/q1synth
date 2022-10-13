@@ -35,14 +35,13 @@ const sound = () => {
             synth && synth.mutate(formatMutationParams(ps), immediate(), lag)
         },
         collapse: (startPs, endPs, lag) => {
-            console.log(startPs, endPs)
             isPlaying = true
             synth = getSynthByType(synthType, startPs, buffer)
             synth.connect(delay)
             reverb.wet.rampTo(endPs.reverb, lag)
             delay.feedback.rampTo(endPs.delay, lag)
             synth.on(startPs, immediate() + 0.05)
-            synth.mutate(formatMutationParams(endPs), immediate() + 0.5, lag)
+            synth.mutate(formatMutationParams(endPs), immediate() + 0.1, lag)
         },
         setType: (type) => synthType = type,
         setBuffer: (url) => buffer.load(url) 
