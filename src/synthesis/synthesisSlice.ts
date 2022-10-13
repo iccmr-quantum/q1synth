@@ -3,6 +3,7 @@ import { RootState } from '../app/store';
 import { synthesisParams, genericParams, effectParams } from './params';
 import { blendBetweenValues, mapToRange, roundToNearestX } from '../functions/utils';
 import sound from './sound';
+import { gain } from './global';
 
 // These should remain in sync
 export type SynthType = 'fm' | 'granular' | 'subtractive'
@@ -30,6 +31,7 @@ export interface SynthesisState {
     qubit: Coordinates
     params: {[key: string]: Param[]}
     measureTime: number
+    volume: number
     sample: number
     samples: string[]
 }
@@ -45,6 +47,7 @@ const initialState: SynthesisState = {
         z: 0
     },
     measureTime: 5,
+    volume: 1,
     params: {
         xParams: genericParams,
         yParams: synthesisParams[initialSynth],
@@ -176,6 +179,11 @@ export const synthesisSlice = createSlice({
         },
         setMeasureTime: (state, action: PayloadAction<number>) => {
             state.measureTime = action.payload;
+        },
+        setVolume: (state, action: PayloadAction<number>) => {
+            const volume = action.payload;
+            state.volume = volume;
+            gain.gain.rampTo(volume, 0.1);
         }
     }
 });
@@ -191,6 +199,7 @@ export const getModEnvParams = (state: RootState) => state.synthesis.params.modE
 export const getQubit = (state: RootState) => state.synthesis.qubit;
 export const getDisabled = (state: RootState) => state.synthesis.disabled;
 export const getMeasureTime = (state: RootState) => state.synthesis.measureTime;
+export const getVolume = (state: RootState) => state.synthesis.volume;
 export const getState = (state: RootState) : SynthesisState => {
     return {...state.synthesis}
 }
@@ -211,7 +220,8 @@ export const {
     moveSelectedParams,
     setSample,
     updateSamples,
-    setMeasureTime
+    setMeasureTime,
+    setVolume
 } = synthesisSlice.actions;
 
 /**
