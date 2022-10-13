@@ -6,7 +6,7 @@ import { Input } from '../input/Input';
 import { Button } from '../buttons/Button';
 import { Presets } from '../presets/Presets';
 import { getMode, getShouldRecord, setShouldRecord } from '../../data/dataSlice';
-import { SynthType, synthTypes, setSynth, getDisabled, setSample, getSample, getSamples, getMeasureTime, setMeasureTime } from '../../synthesis/synthesisSlice';
+import { SynthType, synthTypes, setSynth, getDisabled, setSample, getSample, getSamples, getMeasureTime, setMeasureTime, getGlobalParams } from '../../synthesis/synthesisSlice';
 import { getMidiInputs, setActiveInput, getActiveMidiInput } from '../../midi/midiSlice';
 import { getUseQasm, getBackend, setBackend } from '../../qasm/qasmSlice';
 import { getSynth, getEnvParams, getModEnvParams, setParam } from '../../synthesis/synthesisSlice';
@@ -28,6 +28,7 @@ export function SidePanel() {
     const shouldRecord = useAppSelector(getShouldRecord)
     const envParams = useAppSelector(getEnvParams)
     const modEnvParams = useAppSelector(getModEnvParams)
+    const globalParams = useAppSelector(getGlobalParams)
     const synth = useAppSelector(getSynth)
     const sample = useAppSelector(getSample)
     const samples = useAppSelector(getSamples)
@@ -125,6 +126,8 @@ export function SidePanel() {
                             onChange={handleParamChange} 
                         />
                     }
+
+                    <SliderGroup group="globalParams" label="Global" params={globalParams} onChange={handleParamChange} />
                     
                     {
                         synth === 'granular' &&
