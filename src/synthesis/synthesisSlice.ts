@@ -166,7 +166,10 @@ export const synthesisSlice = createSlice({
             
             state.params = {
                 ...state.params,
-                ...params
+                ...params,
+                globalParams: [
+                    ...state.params.globalParams,
+                ]
             }
             state.measureTime = measureTime || 5;
             
