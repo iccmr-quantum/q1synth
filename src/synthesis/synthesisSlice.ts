@@ -96,7 +96,7 @@ export const synthesisSlice = createSlice({
             const param = params.find(p => p.id === id)
             param && (param.values[valuesI] = value);
 
-            param?.id === 'volume' && gain.gain.rampTo(value, 0.1);
+            param?.id === 'volume' && gain.gain.rampTo(mapToRange(value, 0, 1, 0, 4), 0.1);
 
             sound.mutate(formatSynthParams(state.params, state.qubit));
         },
