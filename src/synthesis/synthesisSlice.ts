@@ -142,8 +142,8 @@ export const synthesisSlice = createSlice({
         play: (state) => sound.on(formatSynthParams(state.params, state.qubit)),
         stop: () => sound.off(),
         randomise: (state) => {
-            const { xParams, yParams, zParams, envParams, modEnvParams } = state.params;
-            [...xParams, ...yParams, ...zParams, ...envParams, ...modEnvParams].forEach((param: Param) => {
+            const { xParams, yParams, zParams } = state.params;
+            [...xParams, ...yParams, ...zParams].forEach((param: Param) => {
                 if(['hicut', 'locut', 'gain'].includes(param.type)) return;
 
                 param.values = param.values.map(() => Math.random())
