@@ -21,7 +21,7 @@ const sound = () => {
 
     function off() {
         isPlaying = false
-        synth && synth.off()
+        synth && synth.off(immediate())
         synth = null
     }
 

@@ -43,7 +43,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "osc-udp": "node src/osc/socket-to-udp.js",
-    "start-ensemble": "concurrently \"yarn start\" \"yarn osc-udp\""
+    "start-ensemble": "concurrently \"serve -s build -l 3000\" \"yarn osc-udp\""
   },
   "eslintConfig": {
     "extends": "react-app"

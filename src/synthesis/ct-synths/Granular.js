@@ -67,9 +67,9 @@ class Granular extends BaseSynth {
         this.envelope.triggerAttack(time, this.amplitude)
     }
 
-    off() {
+    off(time) {
         this.envelope.triggerRelease()
-        this.endTime = now() + this.envelope.release + 0.05
+        this.endTime = time + this.envelope.release + 0.05
         this.synth.stop(this.endTime)
         this.dispose(this.endTime)
     }

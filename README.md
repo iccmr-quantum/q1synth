@@ -27,7 +27,8 @@ Control change messages are mapped to the controls, as laid out in the file `src
 
 ## Ensemble Mode
 * Build local version of the app (see above)
-* Rather than use `yarn start` use `yarn start-ensemble`
+* `yarn build` to bundle assets
+* `yarn start-ensemble` to serve bundle and send osc
 * Open [http://localhost:3000?ensemble=true&id=someID](http://localhost:3000?ensemble=true&id=0) to run app in ensemble mode.
 
 This transmits the x, y, and z position of the qubit over osc. See `/src/osc/socket-to-udp.js` for details of the osc port.
