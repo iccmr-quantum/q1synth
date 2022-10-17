@@ -61,7 +61,7 @@ class Granular extends BaseSynth {
 
     on(params = {}, time) {
         this.time = time
-        this.setParams(params)
+        this.setParams(this.#formatParams(params))
         
         this.synth.start(this.time, this.#begin)
         this.envelope.triggerAttack(time, this.amplitude)
