@@ -11,8 +11,8 @@ Rotate the qubit to interpolate between different synthesis parameters on each a
 ## Local Setup
 * clone this repo and navigate to directory root
 * `nvm use` - use node version manager to switch to correct node version
-* `yarn` - install node packages
-* `yarn start` - spin up the app
+* `yarn` or `npm i`- install node packages
+* `yarn start` or `npm run start` - spin up the app
 
 ## Measurement
 By default, qubit measurement is simply handled by a local, weighted coin toss function. To connect to a QASM simulator or a real quantum computer, you will need to set up a local python server running a socket/qasm script. See ICCMR's [socket-qasm](https://github.com/iccmr-quantum/SOC-Qasm) implementation.
@@ -27,8 +27,8 @@ Control change messages are mapped to the controls, as laid out in the file `src
 
 ## Ensemble Mode
 * Build local version of the app (see above)
-* `yarn build` to bundle assets
-* `yarn start-ensemble` to serve bundle and send osc
+* `yarn build` or `npm run build` to bundle assets
+* `yarn start-ensemble` or `npm run start-ensemble` to serve bundle and send osc
 * Open [http://localhost:3000?ensemble=true&id=someID](http://localhost:3000?ensemble=true&id=0) to run app in ensemble mode.
 
 This transmits the x, y, and z position of the qubit over osc. See `/src/osc/socket-to-udp.js` for details of the osc port.
